@@ -23,3 +23,5 @@ export class Ledger {
     return { ok: true, length: entries.length, head: prev };
   }
 }
+/** True if a signed checkpoint's head is present at its claimed position in this chain. */
+export function chainMatchesCheckpoint(entries, cp) { return entries.length >= cp.length && entries[cp.length - 1]?.hash === cp.head; }

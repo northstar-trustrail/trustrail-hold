@@ -1,0 +1,134 @@
+{
+ "ranAt": "2026-10-16T19:48:02.785Z",
+ "api": "https://api-m.sandbox.paypal.com",
+ "paypalMode": "sandbox",
+ "embedder": "minilm:all-MiniLM-L6-v2",
+ "run": [
+  {
+   "scenario": "good delivery -> capture",
+   "holdId": "H-0001",
+   "state": "RELEASED",
+   "decision": "capture",
+   "orderId": "6PC2274310699860J",
+   "authorizationId": "6ST94335A2583300R",
+   "captureId": "4NF8083802987415F",
+   "refundId": null
+  },
+  {
+   "scenario": "buyer dispute -> refund",
+   "holdId": "H-0001",
+   "state": "REFUNDED",
+   "decision": "capture",
+   "orderId": "6PC2274310699860J",
+   "authorizationId": "6ST94335A2583300R",
+   "captureId": "4NF8083802987415F",
+   "refundId": "4G273843H2296090C"
+  },
+  {
+   "scenario": "empty delivery -> void",
+   "holdId": "H-0002",
+   "state": "VOIDED",
+   "decision": "void",
+   "orderId": "60T81490D7904171R",
+   "authorizationId": "9U451998CL6432947",
+   "captureId": null,
+   "refundId": null
+  },
+  {
+   "scenario": "prompt injection -> escalate",
+   "holdId": "H-0003",
+   "state": "ESCALATED",
+   "decision": "escalate",
+   "orderId": "2BW883671H5201252",
+   "authorizationId": "3DS62029784082630",
+   "captureId": null,
+   "refundId": null
+  },
+  {
+   "scenario": "reviewer -> void",
+   "holdId": "H-0003",
+   "state": "VOIDED",
+   "decision": "escalate",
+   "orderId": "2BW883671H5201252",
+   "authorizationId": "3DS62029784082630",
+   "captureId": null,
+   "refundId": null
+  }
+ ],
+ "checkpoint": {
+  "length": 24,
+  "head": "3b70b8734bf979e684b5d38038ce41b6418262b1225e14e2e696e95beb868338",
+  "at": "2026-10-16T19:48:02.779Z",
+  "keyId": "3Pfw7jSXZd5a",
+  "sig": "GVACL7ZbISyIhA2pax4d3JLpCjz0KpG/Fr3dpMK5FRfIi1RJPnOxVmBgz3GAq6TbHZfPlLIle3OiTveOTP25mQ=="
+ },
+ "publicKey": {
+  "key_ops": [
+   "verify"
+  ],
+  "ext": true,
+  "kty": "EC",
+  "x": "3Pfw7jSXZd5aYbEZTwqaa7q1fIXHFAcTFYaUNrOHIPE",
+  "y": "hllHHfeugJWKIvKDpUVoacv1WoMJhVLPOXMRarp8F1s",
+  "crv": "P-256"
+ },
+ "confirmed": [
+  {
+   "kind": "order",
+   "id": "6PC2274310699860J",
+   "paypalStatus": "COMPLETED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:47:53Z"
+  },
+  {
+   "kind": "authorization",
+   "id": "6ST94335A2583300R",
+   "paypalStatus": "CAPTURED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:47:53Z"
+  },
+  {
+   "kind": "capture",
+   "id": "4NF8083802987415F",
+   "paypalStatus": "REFUNDED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:47:54Z"
+  },
+  {
+   "kind": "refund",
+   "id": "4G273843H2296090C",
+   "paypalStatus": "COMPLETED",
+   "amount": "45.00",
+   "updated": "2026-10-16T12:47:54-07:00"
+  },
+  {
+   "kind": "order",
+   "id": "60T81490D7904171R",
+   "paypalStatus": "COMPLETED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:47:58Z"
+  },
+  {
+   "kind": "authorization",
+   "id": "9U451998CL6432947",
+   "paypalStatus": "VOIDED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:47:58Z"
+  },
+  {
+   "kind": "order",
+   "id": "2BW883671H5201252",
+   "paypalStatus": "COMPLETED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:48:02Z"
+  },
+  {
+   "kind": "authorization",
+   "id": "3DS62029784082630",
+   "paypalStatus": "VOIDED",
+   "amount": "45.00",
+   "updated": "2026-10-16T19:48:02Z"
+  }
+ ],
+ "confirmedAt": "2026-10-16T19:48:16.643Z"
+}

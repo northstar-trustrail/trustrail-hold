@@ -1,0 +1,1 @@
+export const DEMO = { agent: { id: 'research-agent', role: 'buyer_agent', org: 'acme-labs' }, buyer: { id: 'acme-buyer', role: 'buyer', org: 'acme-labs' }, seller: { id: 'briefsmith', role: 'seller' }, reviewer: { id: 'acme-reviewer', role: 'reviewer' }, auditor: { id: 'auditor', role: 'auditor' } };

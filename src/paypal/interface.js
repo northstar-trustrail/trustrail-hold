@@ -1,5 +1,5 @@
 /**
- * PayPalClient: the only surface the escrow engine uses. Both adapters return
+ * PayPalClient: the only surface the Settlement service uses. Both adapters return
  * the same shapes as PayPal REST (Orders v2 + Payments v2).
  *   createAuthorizeOrder({ holdId, amount, currency, description, merchantId, returnUrl, cancelUrl }) -> { id, status, approveUrl }
  *   getOrder(orderId) -> order JSON

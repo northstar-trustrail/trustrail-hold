@@ -1,26 +1,34 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Trustrail Hold: AI-verified escrow for agent purchases on PayPal</title>
+<title>Trustrail: AI agents buy research briefs on PayPal authorization holds</title>
 <link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css">
 <script src="vendor/ag-grid-community.min.js"></script>
 </head><body>
 <header>
-  <div class="brand"><img src="logo.svg" alt=""><div><h1>Trustrail Hold</h1><p>Agents can spend. Sellers get paid. Only when the work is verified.</p></div></div>
+  <div class="brand"><img src="logo.svg" alt=""><div><h1>Trustrail</h1><p>AI agents buy research briefs within approved budgets. PayPal holds the payment as an authorization; evidence-based checks decide <b>capture</b>, <b>void</b>, or <b>ask a human</b>.</p></div></div>
   <div class="badges" id="badges"></div>
 </header>
+<div id="status" class="statusbar" hidden></div>
 <section class="stats" id="stats"></section>
 <main>
   <section class="card" id="agent">
-    <h2><span class="n">1</span> Agent asks to buy</h2>
+    <h2><span class="n">1</span> Buyer agent orders a brief <span class="role">role: buyer_agent</span></h2>
     <div class="presets" id="presets"></div>
-    <textarea id="req" rows="4"></textarea>
-    <button id="propose" class="primary">Propose purchase</button>
-    <p class="hint">The agent can only <b>propose</b>. Policy decides; PayPal holds the money (intent <code>AUTHORIZE</code>), it does not move.</p>
+    <div id="intentview"></div>
+    <button id="propose" class="primary">Propose order (structured intent)</button>
+    <p class="hint">The agent can only <b>propose</b>. The intent is schema-validated, criteria are frozen and hashed, policy runs, then PayPal places an <b>authorization hold</b> (Orders v2 <code>intent=AUTHORIZE</code>). No money moves yet.</p>
   </section>
-  <section class="card" id="detail"><h2><span class="n">2</span> Hold</h2><div id="holdview" class="empty">Propose a purchase to open a hold.</div></section>
+  <section class="card" id="detail"><h2><span class="n">2</span> Hold</h2><div id="holdview" class="empty">Propose an order to open a hold.</div></section>
 </main>
-<section class="card wide"><div class="gridhead"><h2>Holds</h2><span class="sub">AG Grid · click a row to open</span></div><div id="holdsGrid" class="grid"></div></section>
-<section class="card wide"><div class="gridhead"><h2>Proof-of-payment ledger</h2><span class="sub" id="chain"></span><button id="verifyChain">Verify chain</button><button id="csv">Export CSV</button></div><div id="ledgerGrid" class="grid"></div></section>
+<section class="card wide">
+  <div class="gridhead"><h2>Review queue</h2><span class="sub">AG Grid · holds waiting on a human (role: reviewer / buyer)</span>
+    <button id="askReview" title="Read-only, rule-based query over the grid data">Ask: “Which holds need review today?”</button></div>
+  <div id="answer" class="answer" hidden></div>
+  <div id="queueGrid" class="grid short"></div>
+</section>
+<section class="card wide"><div class="gridhead"><h2>Holds</h2><span class="sub">AG Grid · custom widgets: held value, PayPal authorization expiry + 3-day honor period, criteria passed · click a row to drill down</span></div><div id="holdsGrid" class="grid"></div></section>
+<section class="card wide"><div class="gridhead"><h2>Criteria drill-down</h2><span class="sub" id="drillTitle">select a hold</span></div><div id="critGrid" class="grid short"></div></section>
+<section class="card wide"><div class="gridhead"><h2>Receipt ledger</h2><span class="sub" id="chain"></span><button id="verifyChain">Verify chain + signed checkpoint</button><button id="csv">Export CSV</button></div><div id="ledgerGrid" class="grid"></div></section>
 <footer>Northstar Trustrail · MIT · PayPal sandbox only, no real money · <a href="https://github.com/northstar-trustrail/trustrail-hold">source</a></footer>
 <script type="module" src="app.js"></script>
 </body></html>

@@ -1,5 +1,5 @@
 :root{--bg:#f4f6fb;--ink:#0b1f3a;--mut:#5b6b82;--line:#dfe5ef;--ok:#14895f;--warn:#b7791f;--bad:#c0392b;--info:#1f5fbf;--card:#fff}
-*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
 header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:var(--ink);color:#fff}
 .brand{display:flex;gap:14px;align-items:center}.brand img{width:46px;height:46px}.brand h1{margin:0;font-size:24px}.brand p{margin:2px 0 0;color:#b9c6da;font-size:14px}
 .badges span{display:inline-block;margin-left:8px;padding:4px 10px;border-radius:99px;background:#163357;color:#cfe;font-size:13px}
@@ -27,3 +27,15 @@ footer{text-align:center;color:var(--mut);font-size:13px;padding:10px 0 26px}
 code{background:#eef2f8;padding:1px 5px;border-radius:5px}
 @media(max-width:900px){main{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
 .alert.good{background:#dff3ea;color:#0d5c40}
+.statusbar{margin:12px 28px 0;padding:10px 14px;border-radius:10px;background:#e3edfc;color:#1f5fbf}
+.role{float:right;font-size:12px;font-weight:600;color:var(--mut);background:#eef2f8;border-radius:99px;padding:3px 9px}
+.grid.short{height:210px}.answer{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:#eef6ff;font-size:14px}
+.bar{position:relative;height:18px;border-radius:5px;background:#eef2f8;margin-top:11px;overflow:hidden}.bar i{position:absolute;inset:0 auto 0 0;border-radius:5px}.bar b{position:relative;font-size:11.5px;padding-left:6px;line-height:18px}
+.bar .honor{position:absolute;top:0;bottom:0;width:2px;background:#0b1f3a}
+.chip{display:inline-block;font:12px ui-monospace,monospace;background:#eef2f8;border-radius:5px;padding:0 6px;margin-right:4px}
+pre.intent{background:#f7f9fc;border-radius:10px;padding:10px;font-size:12.5px;max-height:220px;overflow:auto;margin:8px 0}
+.v-pass{color:var(--ok);font-weight:700}.v-fail{color:var(--bad);font-weight:700}.v-uncertain{color:var(--warn);font-weight:700}
+.s-VERIFYING,.s-PROPOSED{background:#eee;color:#444}
+.cell-btn{font-size:12px;padding:2px 8px;margin:0 4px 0 0}
+.bar{line-height:18px;margin:10px 0 0}.bar b{line-height:18px;white-space:nowrap}
+.cell-btn{line-height:1.2;padding:4px 9px;margin:0 4px 0 0;vertical-align:middle}

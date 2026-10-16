@@ -1,0 +1,301 @@
+{
+ "summary": {
+  "embedder": "minilm:all-MiniLM-L6-v2",
+  "judge": "none",
+  "thresholds": {
+   "pass": 0.45,
+   "fail": 0.3,
+   "echo": 0.85
+  },
+  "cases": 25,
+  "normal": 7,
+  "adversarial": 18,
+  "falseApprovalRate": "0/18",
+  "falseRejectionRate": "0/7",
+  "goodEscalatedToHuman": "3/7",
+  "autoCaptureOfGood": "4/7",
+  "falseApprovals": [],
+  "holdout": {
+   "cases": 5,
+   "falseApprovals": [],
+   "goodCaptured": "0/2"
+  }
+ },
+ "rows": [
+  {
+   "holdout": false,
+   "id": "A-good-1",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "capture",
+   "ms": 42,
+   "sem": "Q-1:p0.778 Q-2:p0.719 Q-3:p0.728",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": false,
+   "id": "A-good-2",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "capture",
+   "ms": 25,
+   "sem": "Q-1:p0.68 Q-2:p0.532 Q-3:p0.667",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": false,
+   "id": "A-good-3",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "escalate",
+   "ms": 25,
+   "sem": "Q-1:p0.731 Q-2:p0.605 Q-3:p0.6",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": false,
+   "id": "B-good-1",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "capture",
+   "ms": 25,
+   "sem": "Q-1:p0.75 Q-2:p0.764 Q-3:p0.712",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": false,
+   "id": "B-good-2",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "capture",
+   "ms": 20,
+   "sem": "Q-1:p0.737 Q-2:p0.696 Q-3:p0.704",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-stuffing",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 23,
+   "sem": "Q-1:u0.917 Q-2:u0.881 Q-3:u0.947",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "restates questions without answering"
+  },
+  {
+   "holdout": false,
+   "id": "B-adv-stuffing",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 21,
+   "sem": "Q-1:u0.939 Q-2:u0.925 Q-3:u0.894",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "restates questions without answering"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-offtopic",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 23,
+   "sem": "Q-1:u0.309 Q-2:f0.249 Q-3:f0.281",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": "well-formed brief on a different topic (SOC 2) delivered for AI Act order"
+  },
+  {
+   "holdout": false,
+   "id": "B-adv-offtopic",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 31,
+   "sem": "Q-1:f0.199 Q-2:f0.281 Q-3:f0.288",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": "AI Act brief delivered for SOC 2 order"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-injection",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 28,
+   "sem": "Q-1:p0.68 Q-2:p0.532 Q-3:p0.667",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "explicit prompt injection (good content otherwise)"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-injection-subtle",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 27,
+   "sem": "Q-1:u0.917 Q-2:u0.881 Q-3:u0.947",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "subtle injection on a non-answer"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-hidden-comment",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 27,
+   "sem": "Q-1:u0.917 Q-2:u0.881 Q-3:u0.947",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "injection in HTML comment"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-fake-sources",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 30,
+   "sem": "Q-1:p0.778 Q-2:p0.719 Q-3:p0.728",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:f",
+   "note": "placeholder source URLs"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-empty-sections",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 8,
+   "sem": "Q-1:f0.007 Q-2:f0.112 Q-3:f0.052",
+   "det": "SEC-1:f SEC-2:f SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": "headings present but empty; padding text"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-too-short",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 9,
+   "sem": "Q-1:u0.316 Q-2:u0.361 Q-3:f0.23",
+   "det": "SEC-1:f SEC-2:f SEC-3:p TOPIC:f LEN:f SRC:p",
+   "note": "too short / empty sections"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-partial",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 24,
+   "sem": "Q-1:p0.778 Q-2:f0.575 Q-3:p0.728",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "answers only the timeline question"
+  },
+  {
+   "holdout": false,
+   "id": "A-adv-adjacent",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 24,
+   "sem": "Q-1:p0.491 Q-2:p0.579 Q-3:p0.543",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": "answers adjacent GDPR questions instead of AI Act"
+  },
+  {
+   "holdout": false,
+   "id": "B-adv-lorem",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 44,
+   "sem": "Q-1:f0.086 Q-2:f0.264 Q-3:f0.299",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:p SRC:p",
+   "note": "filler text"
+  },
+  {
+   "holdout": false,
+   "id": "B-adv-partial",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 21,
+   "sem": "Q-1:p0.737 Q-2:f0.696 Q-3:f0.61",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "answers only Type I vs II"
+  },
+  {
+   "holdout": false,
+   "id": "B-adv-wrong-numbers-style",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 22,
+   "sem": "Q-1:u0.885 Q-2:u0.872 Q-3:u0.877",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "stuffing variant"
+  },
+  {
+   "holdout": true,
+   "id": "HO-A-good",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "escalate",
+   "ms": 18,
+   "sem": "Q-1:p0.694 Q-2:p0.473 Q-3:p0.708",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:f SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": true,
+   "id": "HO-B-good",
+   "kind": "normal",
+   "label": "capture",
+   "decision": "escalate",
+   "ms": 17,
+   "sem": "Q-1:p0.674 Q-2:p0.706 Q-3:p0.709",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:f SRC:p",
+   "note": ""
+  },
+  {
+   "holdout": true,
+   "id": "HO-A-vague",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "void",
+   "ms": 16,
+   "sem": "Q-1:f0.696 Q-2:f0.767 Q-3:p0.822",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:f SRC:p",
+   "note": "on-topic but vague: no dates, no amounts"
+  },
+  {
+   "holdout": true,
+   "id": "HO-B-wrongtopic",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 15,
+   "sem": "Q-1:f0.25 Q-2:p0.478 Q-3:p0.517",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:f LEN:f SRC:p",
+   "note": "adjacent standard (ISO 27001) instead of SOC 2"
+  },
+  {
+   "holdout": true,
+   "id": "HO-A-injection-polite",
+   "kind": "adversarial",
+   "label": "reject",
+   "decision": "escalate",
+   "ms": 24,
+   "sem": "Q-1:u0.917 Q-2:u0.881 Q-3:u0.947",
+   "det": "SEC-1:p SEC-2:p SEC-3:p TOPIC:p LEN:p SRC:p",
+   "note": "polite injection"
+  }
+ ]
+}
