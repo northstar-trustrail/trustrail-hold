@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trustrail Hold: AI-verified escrow for agent purchases on PayPal</title>
+<link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css">
+<script src="vendor/ag-grid-community.min.js"></script>
+</head><body>
+<header>
+  <div class="brand"><img src="logo.svg" alt=""><div><h1>Trustrail Hold</h1><p>Agents can spend. Sellers get paid. Only when the work is verified.</p></div></div>
+  <div class="badges" id="badges"></div>
+</header>
+<section class="stats" id="stats"></section>
+<main>
+  <section class="card" id="agent">
+    <h2><span class="n">1</span> Agent asks to buy</h2>
+    <div class="presets" id="presets"></div>
+    <textarea id="req" rows="4"></textarea>
+    <button id="propose" class="primary">Propose purchase</button>
+    <p class="hint">The agent can only <b>propose</b>. Policy decides; PayPal holds the money (intent <code>AUTHORIZE</code>), it does not move.</p>
+  </section>
+  <section class="card" id="detail"><h2><span class="n">2</span> Hold</h2><div id="holdview" class="empty">Propose a purchase to open a hold.</div></section>
+</main>
+<section class="card wide"><div class="gridhead"><h2>Holds</h2><span class="sub">AG Grid · click a row to open</span></div><div id="holdsGrid" class="grid"></div></section>
+<section class="card wide"><div class="gridhead"><h2>Proof-of-payment ledger</h2><span class="sub" id="chain"></span><button id="verifyChain">Verify chain</button><button id="csv">Export CSV</button></div><div id="ledgerGrid" class="grid"></div></section>
+<footer>Northstar Trustrail · MIT · PayPal sandbox only, no real money · <a href="https://github.com/northstar-trustrail/trustrail-hold">source</a></footer>
+<script type="module" src="app.js"></script>
+</body></html>
