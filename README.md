@@ -4,7 +4,7 @@
 Your AI agent can spend money. A seller only gets paid once an AI verifier confirms the work matches what was ordered. Until then PayPal holds the funds as an *authorization*, so no money moves.
 
 ▶ **Live demo (runs in your browser, no install):** https://northstar-trustrail.github.io/trustrail-hold/
-▶ **Video (under 3 min):** _YouTube link in the Devpost submission_
+▶ **Video (2:55):** https://northstar-trustrail.github.io/trustrail-hold/trustrail-hold-demo.mp4 (YouTube link in the Devpost submission)
 
 ![Trustrail Hold dashboard](docs/screenshot.png)
 
