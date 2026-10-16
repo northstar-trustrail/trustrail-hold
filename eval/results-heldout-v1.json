@@ -1,0 +1,924 @@
+{
+  "comparisonToLexical": {
+    "status": "not-measured",
+    "reason": "MiniLM unavailable; no model scores substituted"
+  },
+  "protocol": {
+    "version": "heldout-v1",
+    "thresholdConfig": "2026-10-16.v1",
+    "authoredAfterThresholdFreeze": true,
+    "tuningTopics": [
+      "EU AI Act",
+      "SOC 2 Type II"
+    ],
+    "topicsNeverUsedForTuning": [
+      "DNS TTL cache behavior",
+      "Lunar phases and sunlight",
+      "Gregorian leap year rules",
+      "PNG lossless image compression"
+    ],
+    "limitations": "Self-authored challenge set, not independent validation. Never tune thresholds on these cases."
+  },
+  "datasetSha256": "4324af70685380eb87f23ff7072a24f9de0bc5745117b03e60e71845029e4107",
+  "config": {
+    "version": "2026-10-16.v1",
+    "retrieval": {
+      "pass": 0.45,
+      "fail": 0.3,
+      "echo": 0.85
+    },
+    "source": {
+      "support": 0.55,
+      "timeoutMs": 5000,
+      "maxBytes": 262144,
+      "maxSources": 20,
+      "maxClaims": 40
+    }
+  },
+  "miniLM": {
+    "available": false,
+    "error": "Cannot find package '@huggingface/transformers' imported from C:\\Users\\Owner\\trustrail-work\\src\\ai\\embed.js"
+  },
+  "systems": [
+    {
+      "name": "lexical-fallback (not AI)",
+      "sourceCheck": false,
+      "summary": {
+        "cases": 20,
+        "falseApproval": {
+          "count": 0,
+          "total": 16,
+          "rate": 0
+        },
+        "goodAutoApproval": {
+          "count": 0,
+          "total": 4,
+          "rate": 0
+        },
+        "escalation": {
+          "count": 13,
+          "total": 20,
+          "rate": 0.65
+        },
+        "goodWronglyVoided": {
+          "count": 0,
+          "total": 4,
+          "rate": 0
+        },
+        "falseApprovalIds": []
+      },
+      "rows": [
+        {
+          "id": "H1-DNS-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.365,
+              "rationale": "best passage similarity 0.36 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.273,
+              "rationale": "best passage similarity 0.27 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.352,
+              "rationale": "best passage similarity 0.35 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.263,
+              "rationale": "best passage similarity 0.26 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.367,
+              "rationale": "best passage similarity 0.37 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.274,
+              "rationale": "best passage similarity 0.27 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "fail",
+              "rationale": "never mentions DNS TTL outside the source list"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.043,
+              "rationale": "best passage similarity 0.04 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.046,
+              "rationale": "best passage similarity 0.05 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.122,
+              "rationale": "best passage similarity 0.12 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.13,
+              "rationale": "best passage similarity 0.13 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.413,
+              "rationale": "best passage similarity 0.41 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.498,
+              "rationale": "best passage similarity 0.50 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 70 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.413,
+              "rationale": "best passage similarity 0.41 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.485,
+              "rationale": "best passage similarity 0.48 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.413,
+              "rationale": "best passage similarity 0.41 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.498,
+              "rationale": "best passage similarity 0.50 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.183,
+              "rationale": "best passage similarity 0.18 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.209,
+              "rationale": "best passage similarity 0.21 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.316,
+              "rationale": "best passage similarity 0.32 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.295,
+              "rationale": "best passage similarity 0.30 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 74 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.415,
+              "rationale": "best passage similarity 0.42 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.357,
+              "rationale": "best passage similarity 0.36 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 75 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.408,
+              "rationale": "best passage similarity 0.41 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.376,
+              "rationale": "best passage similarity 0.38 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 73 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "130 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.417,
+              "rationale": "best passage similarity 0.42 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.332,
+              "rationale": "best passage similarity 0.33 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 62 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.127,
+              "rationale": "best passage similarity 0.13 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.067,
+              "rationale": "best passage similarity 0.07 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 65 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.26,
+              "rationale": "best passage similarity 0.26 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.104,
+              "rationale": "best passage similarity 0.10 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.29,
+              "rationale": "best passage similarity 0.29 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.345,
+              "rationale": "best passage similarity 0.35 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.278,
+              "rationale": "best passage similarity 0.28 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.33,
+              "rationale": "best passage similarity 0.33 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.295,
+              "rationale": "best passage similarity 0.29 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "uncertain",
+              "score": 0.351,
+              "rationale": "best passage similarity 0.35 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.047,
+              "rationale": "best passage similarity 0.05 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.044,
+              "rationale": "best passage similarity 0.04 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "void",
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.191,
+              "rationale": "best passage similarity 0.19 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.088,
+              "rationale": "best passage similarity 0.09 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

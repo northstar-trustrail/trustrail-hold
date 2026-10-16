@@ -46,7 +46,7 @@ seller ──deliver(markdown brief)──► evidence hash ──► verifier (
 | LLM judge (optional) | Pluggable: any OpenAI-compatible endpoint (`AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY`), or local Qwen2.5-0.5B (`TRUSTRAIL_JUDGE=local`) | yours |
 | Intent parsing | Agents send **structured JSON** (MCP schema). Natural-language parsing via LLM is optional, and its output must pass the same schema. If the amount isn't stated in the request, the order is rejected (anti-hallucination). | |
 
-The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks: 0/18 false approvals on our (small, self-written) set, and 4/7 good briefs auto-captured, compared with 0/7 for the non-AI lexical baseline.
+The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks. The old 25-case development results informed tuning and do not establish held-out performance. The new 20-case held-out run measured the lexical baseline at 0/16 false approvals and 0/4 good-work auto-approvals; MiniLM was unavailable in that environment. See [EVAL.md](EVAL.md) for failures and reproduction.
 
 ## Security model
 | Role | Can | Cannot |
@@ -115,7 +115,7 @@ Requires Node 20+.
 ```bash
 npm install            # optional dep: @huggingface/transformers (MiniLM); without it the lexical fallback is used and labeled
 npm test               # unit, payment recovery, REST, and MCP tests
-npm run eval           # labeled eval -> false-approval rate
+npm run eval           # frozen held-out eval, metrics, baseline comparison
 npm start              # http://localhost:8787 with mock PayPal and demo tokens (demo-agent, demo-buyer, demo-seller, demo-reviewer, demo-auditor)
 ```
 To use the real sandbox, take an app's Client ID and Secret from https://developer.paypal.com/dashboard/applications/sandbox:

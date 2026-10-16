@@ -1,0 +1,484 @@
+{
+  "protocol": {
+    "version": "heldout-v1",
+    "thresholdConfig": "2026-10-16.v1",
+    "authoredAfterThresholdFreeze": true,
+    "tuningTopics": [
+      "EU AI Act",
+      "SOC 2 Type II"
+    ],
+    "topicsNeverUsedForTuning": [
+      "DNS TTL cache behavior",
+      "Lunar phases and sunlight",
+      "Gregorian leap year rules",
+      "PNG lossless image compression"
+    ],
+    "limitations": "Self-authored challenge set, not independent validation. Never tune thresholds on these cases."
+  },
+  "specs": {
+    "DNS": {
+      "kind": "research_brief",
+      "requiredSections": [
+        "Findings",
+        "Implications"
+      ],
+      "minSources": 1,
+      "minDistinctDomains": 1,
+      "minWords": 100,
+      "maxWords": 600,
+      "amount": 35,
+      "currency": "USD",
+      "sellerId": "briefsmith",
+      "deliverWithinHours": 24,
+      "topic": "DNS TTL cache behavior",
+      "questions": [
+        "What does DNS TTL control for cached records?",
+        "What happens to cached records with a zero TTL?"
+      ]
+    },
+    "LUNAR": {
+      "kind": "research_brief",
+      "requiredSections": [
+        "Findings",
+        "Implications"
+      ],
+      "minSources": 1,
+      "minDistinctDomains": 1,
+      "minWords": 100,
+      "maxWords": 600,
+      "amount": 35,
+      "currency": "USD",
+      "sellerId": "briefsmith",
+      "deliverWithinHours": 24,
+      "topic": "Lunar phases and sunlight",
+      "questions": [
+        "What causes the visible lunar phases?",
+        "How long is the lunar cycle from new moon to new moon?"
+      ]
+    },
+    "CALENDAR": {
+      "kind": "research_brief",
+      "requiredSections": [
+        "Findings",
+        "Implications"
+      ],
+      "minSources": 1,
+      "minDistinctDomains": 1,
+      "minWords": 100,
+      "maxWords": 600,
+      "amount": 35,
+      "currency": "USD",
+      "sellerId": "briefsmith",
+      "deliverWithinHours": 24,
+      "topic": "Gregorian leap year rules",
+      "questions": [
+        "Which divisibility rules determine a Gregorian leap year?",
+        "Why was 2000 a leap year but 1900 was not?"
+      ]
+    },
+    "PNG": {
+      "kind": "research_brief",
+      "requiredSections": [
+        "Findings",
+        "Implications"
+      ],
+      "minSources": 1,
+      "minDistinctDomains": 1,
+      "minWords": 100,
+      "maxWords": 600,
+      "amount": 35,
+      "currency": "USD",
+      "sellerId": "briefsmith",
+      "deliverWithinHours": 24,
+      "topic": "PNG lossless image compression",
+      "questions": [
+        "Does PNG compression discard image information?",
+        "How does PNG represent partial pixel transparency?"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "H1-DNS-good",
+      "spec": "DNS",
+      "kind": "good",
+      "label": "capture",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nDNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again. A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests. For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner. Source: https://www.rfc-editor.org/rfc/rfc1035\n\n# Implications\n\nA resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely. When planning a record change, the operator should consider copies that were cached under the old lifetime. Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+        "sources": [
+          {
+            "url": "https://www.rfc-editor.org/rfc/rfc1035",
+            "title": "DNS TTL cache behavior"
+          }
+        ]
+      },
+      "note": "Compliant factual brief; both sections exceed 25 words and body exceeds 100 words."
+    },
+    {
+      "id": "H1-DNS-fabricated-citation",
+      "spec": "DNS",
+      "kind": "fabricated-citation",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nDNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again. A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests. For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner. Source: https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper\n\n# Implications\n\nA resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely. When planning a record change, the operator should consider copies that were cached under the old lifetime. Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+        "sources": [
+          {
+            "url": "https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper",
+            "title": "DNS TTL cache behavior"
+          }
+        ]
+      },
+      "note": "Correct-looking prose cites an invented document path on a legitimate domain."
+    },
+    {
+      "id": "H1-DNS-factual-error",
+      "spec": "DNS",
+      "kind": "factual-error",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nDNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again. A record with a zero TTL is usable for the current transaction but remains valid in the cache indefinitely for later requests. For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner. Source: https://www.rfc-editor.org/rfc/rfc1035\n\n# Implications\n\nA resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely. When planning a record change, the operator should consider copies that were cached under the old lifetime. Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+        "sources": [
+          {
+            "url": "https://www.rfc-editor.org/rfc/rfc1035",
+            "title": "DNS TTL cache behavior"
+          }
+        ]
+      },
+      "note": "A plausible factual error changes one key assertion; all formatting and citations remain valid."
+    },
+    {
+      "id": "H1-DNS-off-topic",
+      "spec": "DNS",
+      "kind": "off-topic",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor.  Source: https://www.rfc-editor.org/rfc/rfc1035\n\n# Implications\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor. ",
+        "sources": [
+          {
+            "url": "https://www.rfc-editor.org/rfc/rfc1035",
+            "title": "DNS TTL cache behavior"
+          }
+        ]
+      },
+      "note": "Baking prose uses requested headings and a real but unrelated source."
+    },
+    {
+      "id": "H1-DNS-padding",
+      "spec": "DNS",
+      "kind": "padding",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nDNS TTL cache behavior. The requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.  Source: https://www.rfc-editor.org/rfc/rfc1035\n\n# Implications\n\nThe requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material. ",
+        "sources": [
+          {
+            "url": "https://www.rfc-editor.org/rfc/rfc1035",
+            "title": "DNS TTL cache behavior"
+          }
+        ]
+      },
+      "note": "Length and headings pass, but the report supplies no substantive answer."
+    },
+    {
+      "id": "H1-LUNAR-good",
+      "spec": "LUNAR",
+      "kind": "good",
+      "label": "capture",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nLunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet. Ordinary phases are not produced by Earth casting its shadow on the Moon. The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars. Source: https://science.nasa.gov/moon/moon-phases/\n\n# Implications\n\nA calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars. During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry. An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+        "sources": [
+          {
+            "url": "https://science.nasa.gov/moon/moon-phases/",
+            "title": "Lunar phases and sunlight"
+          }
+        ]
+      },
+      "note": "Compliant factual brief; both sections exceed 25 words and body exceeds 100 words."
+    },
+    {
+      "id": "H1-LUNAR-fabricated-citation",
+      "spec": "LUNAR",
+      "kind": "fabricated-citation",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nLunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet. Ordinary phases are not produced by Earth casting its shadow on the Moon. The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars. Source: https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper\n\n# Implications\n\nA calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars. During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry. An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+        "sources": [
+          {
+            "url": "https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper",
+            "title": "Lunar phases and sunlight"
+          }
+        ]
+      },
+      "note": "Correct-looking prose cites an invented document path on a legitimate domain."
+    },
+    {
+      "id": "H1-LUNAR-factual-error",
+      "spec": "LUNAR",
+      "kind": "factual-error",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nLunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet. Ordinary phases are not produced by Earth casting its shadow on the Moon. The repeating interval from one new moon to the next averages about 19.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars. Source: https://science.nasa.gov/moon/moon-phases/\n\n# Implications\n\nA calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars. During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry. An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+        "sources": [
+          {
+            "url": "https://science.nasa.gov/moon/moon-phases/",
+            "title": "Lunar phases and sunlight"
+          }
+        ]
+      },
+      "note": "A plausible factual error changes one key assertion; all formatting and citations remain valid."
+    },
+    {
+      "id": "H1-LUNAR-off-topic",
+      "spec": "LUNAR",
+      "kind": "off-topic",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor.  Source: https://science.nasa.gov/moon/moon-phases/\n\n# Implications\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor. ",
+        "sources": [
+          {
+            "url": "https://science.nasa.gov/moon/moon-phases/",
+            "title": "Lunar phases and sunlight"
+          }
+        ]
+      },
+      "note": "Baking prose uses requested headings and a real but unrelated source."
+    },
+    {
+      "id": "H1-LUNAR-padding",
+      "spec": "LUNAR",
+      "kind": "padding",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nLunar phases and sunlight. The requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.  Source: https://science.nasa.gov/moon/moon-phases/\n\n# Implications\n\nThe requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material. ",
+        "sources": [
+          {
+            "url": "https://science.nasa.gov/moon/moon-phases/",
+            "title": "Lunar phases and sunlight"
+          }
+        ]
+      },
+      "note": "Length and headings pass, but the report supplies no substantive answer."
+    },
+    {
+      "id": "H1-CALENDAR-good",
+      "spec": "CALENDAR",
+      "kind": "good",
+      "label": "capture",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nGregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred. The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four. This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year. Source: https://aa.usno.navy.mil/faq/leap_years\n\n# Implications\n\nCalendar software should implement the complete divisibility test rather than only checking whether a year divides by four. A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule. The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+        "sources": [
+          {
+            "url": "https://aa.usno.navy.mil/faq/leap_years",
+            "title": "Gregorian leap year rules"
+          }
+        ]
+      },
+      "note": "Compliant factual brief; both sections exceed 25 words and body exceeds 100 words."
+    },
+    {
+      "id": "H1-CALENDAR-fabricated-citation",
+      "spec": "CALENDAR",
+      "kind": "fabricated-citation",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nGregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred. The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four. This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year. Source: https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper\n\n# Implications\n\nCalendar software should implement the complete divisibility test rather than only checking whether a year divides by four. A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule. The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+        "sources": [
+          {
+            "url": "https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper",
+            "title": "Gregorian leap year rules"
+          }
+        ]
+      },
+      "note": "Correct-looking prose cites an invented document path on a legitimate domain."
+    },
+    {
+      "id": "H1-CALENDAR-factual-error",
+      "spec": "CALENDAR",
+      "kind": "factual-error",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nGregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred. The year 2000 qualified because it was divisible by 400, whereas 1900 also qualified even though it was divisible by four. This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year. Source: https://aa.usno.navy.mil/faq/leap_years\n\n# Implications\n\nCalendar software should implement the complete divisibility test rather than only checking whether a year divides by four. A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule. The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+        "sources": [
+          {
+            "url": "https://aa.usno.navy.mil/faq/leap_years",
+            "title": "Gregorian leap year rules"
+          }
+        ]
+      },
+      "note": "A plausible factual error changes one key assertion; all formatting and citations remain valid."
+    },
+    {
+      "id": "H1-CALENDAR-off-topic",
+      "spec": "CALENDAR",
+      "kind": "off-topic",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor.  Source: https://aa.usno.navy.mil/faq/leap_years\n\n# Implications\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor. ",
+        "sources": [
+          {
+            "url": "https://aa.usno.navy.mil/faq/leap_years",
+            "title": "Gregorian leap year rules"
+          }
+        ]
+      },
+      "note": "Baking prose uses requested headings and a real but unrelated source."
+    },
+    {
+      "id": "H1-CALENDAR-padding",
+      "spec": "CALENDAR",
+      "kind": "padding",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nGregorian leap year rules. The requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.  Source: https://aa.usno.navy.mil/faq/leap_years\n\n# Implications\n\nThe requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material. ",
+        "sources": [
+          {
+            "url": "https://aa.usno.navy.mil/faq/leap_years",
+            "title": "Gregorian leap year rules"
+          }
+        ]
+      },
+      "note": "Length and headings pass, but the report supplies no substantive answer."
+    },
+    {
+      "id": "H1-PNG-good",
+      "spec": "PNG",
+      "kind": "good",
+      "label": "capture",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nPNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file. PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice. This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values. Source: https://www.w3.org/TR/png-3/\n\n# Implications\n\nA graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing. Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless. When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+        "sources": [
+          {
+            "url": "https://www.w3.org/TR/png-3/",
+            "title": "PNG lossless image compression"
+          }
+        ]
+      },
+      "note": "Compliant factual brief; both sections exceed 25 words and body exceeds 100 words."
+    },
+    {
+      "id": "H1-PNG-fabricated-citation",
+      "spec": "PNG",
+      "kind": "fabricated-citation",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nPNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file. PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice. This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values. Source: https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper\n\n# Implications\n\nA graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing. Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless. When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+        "sources": [
+          {
+            "url": "https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper",
+            "title": "PNG lossless image compression"
+          }
+        ]
+      },
+      "note": "Correct-looking prose cites an invented document path on a legitimate domain."
+    },
+    {
+      "id": "H1-PNG-factual-error",
+      "spec": "PNG",
+      "kind": "factual-error",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nPNG compression is lossless: decoding discards some encoded sample values to reduce image information to obtain a smaller file. PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice. This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values. Source: https://www.w3.org/TR/png-3/\n\n# Implications\n\nA graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing. Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless. When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+        "sources": [
+          {
+            "url": "https://www.w3.org/TR/png-3/",
+            "title": "PNG lossless image compression"
+          }
+        ]
+      },
+      "note": "A plausible factual error changes one key assertion; all formatting and citations remain valid."
+    },
+    {
+      "id": "H1-PNG-off-topic",
+      "spec": "PNG",
+      "kind": "off-topic",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor.  Source: https://www.w3.org/TR/png-3/\n\n# Implications\n\nA sourdough starter contains a community of yeasts and bacteria living in flour and water. Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule. Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active. A clean container with room for expansion makes the daily routine easier to monitor. ",
+        "sources": [
+          {
+            "url": "https://www.w3.org/TR/png-3/",
+            "title": "PNG lossless image compression"
+          }
+        ]
+      },
+      "note": "Baking prose uses requested headings and a real but unrelated source."
+    },
+    {
+      "id": "H1-PNG-padding",
+      "spec": "PNG",
+      "kind": "padding",
+      "label": "reject",
+      "holdout": true,
+      "evidence": {
+        "body": "# Findings\n\nPNG lossless image compression. The requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.  Source: https://www.w3.org/TR/png-3/\n\n# Implications\n\nThe requested topic deserves careful consideration by every interested reader. This report presents an organized perspective with clear headings and a professional structure. Several important aspects require additional investigation before any reliable conclusion can be drawn. Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material. ",
+        "sources": [
+          {
+            "url": "https://www.w3.org/TR/png-3/",
+            "title": "PNG lossless image compression"
+          }
+        ]
+      },
+      "note": "Length and headings pass, but the report supplies no substantive answer."
+    }
+  ],
+  "sourceFixtures": {
+    "https://www.rfc-editor.org/rfc/rfc1035": {
+      "status": 200,
+      "text": "Zero TTL does not permit reuse beyond the current transaction. Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again.",
+      "provenance": "Authored factual summary for deterministic offline transport; not a live fetch or quoted page."
+    },
+    "https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper": {
+      "status": 404,
+      "text": "Not found",
+      "provenance": "Synthetic unreachable citation response, not a live observation."
+    },
+    "https://science.nasa.gov/moon/moon-phases/": {
+      "status": 200,
+      "text": "The lunar phase cycle from new moon to new moon lasts about 29.5 days. Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases.",
+      "provenance": "Authored factual summary for deterministic offline transport; not a live fetch or quoted page."
+    },
+    "https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper": {
+      "status": 404,
+      "text": "Not found",
+      "provenance": "Synthetic unreachable citation response, not a live observation."
+    },
+    "https://aa.usno.navy.mil/faq/leap_years": {
+      "status": 200,
+      "text": "Gregorian years divisible by four are leap years, except centuries not divisible by 400. The year 2000 was a leap year because it divides by 400. The year 1900 was not a leap year because it does not divide by 400.",
+      "provenance": "Authored factual summary for deterministic offline transport; not a live fetch or quoted page."
+    },
+    "https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper": {
+      "status": 404,
+      "text": "Not found",
+      "provenance": "Synthetic unreachable citation response, not a live observation."
+    },
+    "https://www.w3.org/TR/png-3/": {
+      "status": 200,
+      "text": "PNG is a lossless image format: compression preserves encoded sample values. An optional alpha channel represents partial pixel transparency and opacity. Editing or quantization before encoding is separate from lossless PNG compression.",
+      "provenance": "Authored factual summary for deterministic offline transport; not a live fetch or quoted page."
+    },
+    "https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper": {
+      "status": 404,
+      "text": "Not found",
+      "provenance": "Synthetic unreachable citation response, not a live observation."
+    }
+  }
+}

@@ -16,10 +16,11 @@
     "test": "node --test \"test/*.test.js\"",
     "build:pages": "node scripts/build-pages.js",
     "eval": "node eval/run.js",
-    "eval:llm": "TRUSTRAIL_JUDGE=local node eval/run.js",
+    "eval:llm": "node eval/run-dev.js --local-judge",
     "verify-proof": "node scripts/verify-proof.js",
     "sandbox:lifecycle": "node scripts/sandbox-lifecycle.js",
-    "sandbox:confirm": "node scripts/sandbox-confirm.js"
+    "sandbox:confirm": "node scripts/sandbox-confirm.js",
+    "eval:dev": "node eval/run-dev.js"
   },
   "optionalDependencies": {
     "@huggingface/transformers": "^3.7.0"

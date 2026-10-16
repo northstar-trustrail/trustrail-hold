@@ -4,7 +4,8 @@ import { scanInjection } from './guard.js';
 import { cosine } from './embed.js';
 import { sha256Hex, canon } from '../core/hash.js';
 
-export const THRESHOLDS = { pass: 0.45, fail: 0.30, echo: 0.85 }; // calibrated on eval/cases.json with MiniLM (see EVAL.md)
+import { VERIFIER_CONFIG } from './verifier-config.js';
+export const THRESHOLDS = VERIFIER_CONFIG.retrieval;
 
 // Expected answer type (classic QA heuristic): a real answer to "when / how long / how much" contains a date, duration or amount.
 const ANSWER_TYPES = [
