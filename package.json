@@ -1,0 +1,16 @@
+{
+  "name": "trustrail-hold",
+  "version": "0.1.0",
+  "description": "AI-verified escrow for agent purchases on PayPal (Orders v2 AUTHORIZE -> capture/void).",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "bin": { "trustrail-mcp": "src/mcp.js" },
+  "scripts": {
+    "start": "node src/server.js",
+    "mcp": "node src/mcp.js",
+    "test": "node --test test/",
+    "demo:cli": "node scripts/cli-demo.js",
+    "build:pages": "node scripts/build-pages.js"
+  }
+}
