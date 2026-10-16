@@ -18,17 +18,23 @@ export class RestPayPal {
     if (requestId) headers['PayPal-Request-Id'] = requestId; // idempotency
     const r = await this.fetch(`${this.base}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
     const text = await r.text(); const j = text ? JSON.parse(text) : {};
-    if (!r.ok) { const e = new Error(`PayPal ${method} ${path} -> ${r.status} ${j.name || ''} ${j.message || ''}`.trim()); e.status = r.status; e.debugId = j.debug_id; e.details = j.details; throw e; }
+    if (!r.ok) { const e = new Error(`PayPal ${method} ${path} -> ${r.status} ${j.name || ''} ${(j.details || []).map(d => d.issue).join(',') || j.message || ''}`.trim()); e.status = r.status; e.debugId = j.debug_id; e.details = j.details; throw e; }
     return j;
   }
-  async createAuthorizeOrder({ holdId, amount, currency = 'USD', description, merchantId, returnUrl, cancelUrl }) {
+  async createAuthorizeOrder({ holdId, amount, currency = 'USD', description, merchantId, returnUrl, cancelUrl, sandboxCard }) {
+    const source = sandboxCard
+      // Sandbox-only shortcut for unattended demos: a PayPal sandbox test card authorizes without a buyer login.
+      ? { card: { number: sandboxCard.number, expiry: sandboxCard.expiry, security_code: sandboxCard.cvv, name: 'Sandbox Buyer' } }
+      : { paypal: { experience_context: { brand_name: 'Trustrail', user_action: 'CONTINUE', shipping_preference: 'NO_SHIPPING', return_url: returnUrl, cancel_url: cancelUrl } } };
+    if (sandboxCard && !this.base.includes('sandbox')) throw new Error('sandbox test cards are only allowed against the sandbox API');
     const o = await this.call('POST', '/v2/checkout/orders', {
       intent: 'AUTHORIZE',
       purchase_units: [{ reference_id: holdId, custom_id: holdId, description: String(description).slice(0, 127), soft_descriptor: 'TRUSTRAIL',
         amount: { currency_code: currency, value: Number(amount).toFixed(2) } }],
-      payment_source: { paypal: { experience_context: { brand_name: 'Trustrail Hold', user_action: 'CONTINUE', shipping_preference: 'NO_SHIPPING', return_url: returnUrl, cancel_url: cancelUrl } } },
-    }, `create-${holdId}`);
-    return { id: o.id, status: o.status, approveUrl: approveLink(o), merchantId };
+      payment_source: source,
+    }, `create-${holdId}-${this.nonce ||= Date.now().toString(36)}`);
+    const auth = o.purchase_units?.[0]?.payments?.authorizations?.[0];
+    return { id: o.id, status: o.status, approveUrl: approveLink(o), merchantId, authorization: auth ? { authorizationId: auth.id, status: auth.status, expiresAt: auth.expiration_time } : null };
   }
   getOrder(orderId) { return this.call('GET', `/v2/checkout/orders/${orderId}`); }
   async authorizeOrder(orderId) { return parseAuthorizeResponse(await this.call('POST', `/v2/checkout/orders/${orderId}/authorize`, {}, `auth-${orderId}`)); }
