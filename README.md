@@ -48,6 +48,12 @@ seller ──deliver(markdown brief)──► evidence hash ──► verifier (
 
 The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks. The old 25-case development results informed tuning and do not establish held-out performance. The new 20-case held-out run measured the lexical baseline at 0/16 false approvals and 0/4 good-work auto-approvals; MiniLM was unavailable in that environment. See [EVAL.md](EVAL.md) for failures and reproduction.
 
+## Optional citation support checks
+
+Set `TRUSTRAIL_SOURCE_CHECK=1` on the Node server to fetch cited public HTTP(S) pages and compare key claim sentences with fetched passages using MiniLM. The check records source URLs, resolution errors, supporting passages, and similarity scores in `verdict.sourceCheck`. Otherwise approvable work escalates when a URL fails, a claim lacks local citation support, the model is unavailable, or a limit is exceeded. A definite void remains a void.
+
+Each request has a 5-second timeout, a 256 KiB cap, at most three redirects, no credentials, and public-address DNS validation pinned to the connection. Only plain text and HTML are supported. The frozen config caps sources at 20 and key claims at 40. The browser-only demo leaves this server transport off. Source checking establishes retrieval support, not truth or logical entailment; contradicting passages may still have high similarity. The evaluation reports source checks with offline authored fixtures separately from live fetching.
+
 ## Security model
 | Role | Can | Cannot |
 |---|---|---|

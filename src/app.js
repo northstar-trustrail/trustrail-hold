@@ -5,6 +5,8 @@ import { MiniLMEmbedder, LexicalEmbedder } from './ai/embed.js';
 import { OpenAICompatJudge, LocalQwenJudge } from './ai/judge.js';
 import { Signer } from './core/checkpoint.js';
 import fs from 'node:fs';
+import { SourceChecker } from './ai/source-check.js';
+import { fetchPublicSource } from './ai/source-fetch.js';
 import { FileStore } from './core/store.js';
 
 export function paypalFromEnv(env) {
@@ -30,6 +32,7 @@ export async function buildService(env = process.env) {
   };
   const judge = judgeFromEnv(env);
   return HoldService.create({ paypal: paypalFromEnv(env), embedder, judge, intentLlm: judge?.complete ? judge : null, signer, checkpointSink,
+    sourceChecker: env.TRUSTRAIL_SOURCE_CHECK === '1' ? new SourceChecker({ fetchSource: fetchPublicSource }) : null,
     store: new FileStore(env.TRUSTRAIL_STORE || './data/trustrail.json'),
     sandboxCard: env.TRUSTRAIL_SANDBOX_CARD ? { number: env.TRUSTRAIL_SANDBOX_CARD, expiry: env.TRUSTRAIL_SANDBOX_CARD_EXPIRY || '2030-12', cvv: '123' } : null,
     policy: env.TRUSTRAIL_POLICY ? JSON.parse(env.TRUSTRAIL_POLICY) : {}, baseUrl: env.PUBLIC_URL || `http://localhost:${env.PORT || 8787}` });

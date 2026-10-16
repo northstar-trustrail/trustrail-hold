@@ -12,7 +12,7 @@ const actorOf = req => TOKENS[(req.headers.authorization || '').replace(/^Bearer
 const SYSTEM = { id: 'sweeper', role: 'system' };
 
 const routes = [
-  ['GET', /^\/api\/config$/, () => ({ paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
+  ['GET', /^\/api\/config$/, () => ({ sourceCheck: !!svc.sourceChecker, paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
   ['GET', /^\/api\/me$/, (a) => a],
   ['GET', /^\/api\/holds$/, (a) => svc.list(a)],
   ['POST', /^\/api\/holds$/, (a, m, b) => svc.propose(a, b)],
