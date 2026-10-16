@@ -15,7 +15,7 @@ const presets = specs => ({
 });
 const FLOW = ['Intent + policy', 'Authorization hold', 'Delivered', 'Verdict', 'Settled'];
 function steps(h) {
-  const s = h.state; const i = { DENIED: 0, AWAITING_HUMAN: 0, PROPOSED: 0, AWAITING_PAYER: 1, HELD: 2, VERIFYING: 3, ESCALATED: 3, RELEASED: 5, REFUNDED: 5, VOIDED: h.verdict ? 5 : 2 }[s];
+  const s = h.state; const i = { DENIED: 0, AWAITING_HUMAN: 0, PROPOSED: 0, AWAITING_PAYER: 1, HELD: 2, VERIFYING: 3, ESCALATED: 3, CAPTURE_PENDING: 4, REFUND_PENDING: 4, RECONCILIATION_REQUIRED: 4, RELEASED: 5, REFUNDED: 5, VOIDED: h.verdict ? 5 : 2 }[s];
   const fail = ['DENIED', 'VOIDED', 'REFUNDED'].includes(s);
   return FLOW.map((n, k) => `<div class="${k < i ? 'done' : k === i ? (fail ? 'fail' : 'cur') : ''}">${n}${k === 4 && i === 5 ? (s === 'RELEASED' ? ' ✓ captured' : s === 'REFUNDED' ? ' ↺ refunded' : ' ✕ voided') : ''}</div>`).join('');
 }
@@ -55,7 +55,7 @@ async function refresh(openId) {
   grids.ledger.setGridOption('rowData', ledger.map(e => ({ ...e, ref: e.captureId || e.refundId || e.authorizationId || e.orderId || e.decision || e.evidenceHash?.slice(0, 16) || (e.reasons || e.errors || []).join('; ') || e.criteriaHash?.slice(0, 16) || '' })));
   $('#chain').textContent = `${ledger.length} receipts · head ${ledger.length ? ledger.at(-1).hash.slice(0, 16) + '…' : 'GENESIS'}`;
   const sum = st => holds.filter(h => st.includes(h.state)).reduce((s, h) => s + h.amount, 0);
-  $('#stats').innerHTML = [[money(sum(['HELD', 'ESCALATED', 'AWAITING_PAYER'])), 'authorized, not captured'], [money(sum(['RELEASED'])), 'captured to sellers'], [money(sum(['VOIDED', 'REFUNDED'])), 'released back to buyers'],
+  $('#stats').innerHTML = [[money(sum(['HELD', 'ESCALATED', 'AWAITING_PAYER'])), 'authorized, not captured'], [money(sum(['RELEASED'])), 'captured to merchant'], [money(sum(['VOIDED', 'REFUNDED'])), 'released back to buyers'],
     [holds.filter(h => ['ESCALATED', 'AWAITING_HUMAN'].includes(h.state)).length, 'waiting on a human'], [holds.filter(h => h.verdict?.injection?.suspicious).length, 'injection attempts caught']].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('');
   if (openId) current = openId; if (current) renderHold(holds.find(h => h.id === current));
 }
@@ -80,7 +80,7 @@ function renderHold(h) {
   } else if (h.state === 'HELD') { a.append('Funds are authorized on the buyer\'s PayPal. Seller (briefsmith) delivers: '); for (const [id, label, cls] of DELIVERIES) a.append(act(label, cls || '', () => api.deliver(h.id, api.cases.cases.find(c => c.id === id).evidence))); }
   else if (h.state === 'ESCALATED') a.append('Reviewer: ', act('Capture', 'ok', () => api.resolve(h.id, 'capture', 'reviewed manually')), act('Void hold', 'bad', () => api.resolve(h.id, 'void', 'evidence rejected')));
   else if (h.state === 'RELEASED') a.append('Captured. Buyer dispute: ', act('Refund', '', () => api.refund(h.id)));
-  else a.append('Final state. ');
+  else a.append(['CAPTURE_PENDING', 'REFUND_PENDING', 'RECONCILIATION_REQUIRED'].includes(h.state) ? 'Payment status unconfirmed. Reconciliation retains the reservation and blocks duplicate settlement. ' : 'Final state. ');
   if (h.receipts?.length) a.append(act('Download signed proof', '', async () => { const p = await api.proof(h.id); const u = URL.createObjectURL(new Blob([JSON.stringify(p, null, 2)], { type: 'application/json' })); Object.assign(document.createElement('a'), { href: u, download: `trustrail-proof-${h.id}.json` }).click(); return h; }));
 }
 (async () => {

@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node src/server.js",
     "mcp": "node src/mcp.js",
-    "test": "node --test \"test/*.test.js\"",
+    "test": "node scripts/test.js",
     "build:pages": "node scripts/build-pages.js",
     "eval": "node eval/run.js",
     "eval:llm": "node eval/run-dev.js --local-judge",

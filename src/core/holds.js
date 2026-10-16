@@ -24,6 +24,7 @@ export class HoldService {
     s.checkpoints = new Checkpointer({ signer: opts.signer || await Signer.create(saved?.signingKey), every: opts.checkpointEvery ?? 5, sink: opts.checkpointSink });
     if (saved) {
       if (saved.paypalMode !== s.paypalMode) throw new Error('store PayPal mode mismatch');
+      if (saved.signingKey && (saved.signingKey.x !== s.checkpoints.signer.pubJwk.x || saved.signingKey.y !== s.checkpoints.signer.pubJwk.y)) throw new Error('store signing key mismatch');
       s.holds = new Map(saved.holds); s.seq = saved.seq;
       s.reservations = new Map(saved.reservations); s.webhookIds = new Set(saved.webhookIds);
       s.settlement.operations = new Map(saved.operations); s.settlement.done = new Map(saved.guards);
@@ -96,7 +97,8 @@ export class HoldService {
     return h;
   }
   async #placed(h, a) {
-    Object.assign(h.paypal, { authorizationId: a.authorizationId, authStatus: a.status, authExpiresAt: a.expiresAt || new Date(this.clock() + AUTH_VALID_DAYS * 864e5).toISOString(), honorEndsAt: new Date(this.clock() + HONOR_DAYS * 864e5).toISOString() });
+    // Conservative fallback clocks start at proposal; recovery never extends them.
+    Object.assign(h.paypal, { authorizationId: a.authorizationId, authStatus: a.status, authExpiresAt: a.expiresAt || h.paypal.authExpiresAt || new Date(Date.parse(h.createdAt) + AUTH_VALID_DAYS * 864e5).toISOString(), honorEndsAt: h.paypal.honorEndsAt || new Date(Date.parse(h.createdAt) + HONOR_DAYS * 864e5).toISOString() });
     if (a.status !== 'CREATED') { h.state = 'RECONCILIATION_REQUIRED'; await this.log(h, 'paypal.authorization_unconfirmed', { status: a.status }); return h; }
     h.state = 'HELD'; await this.log(h, 'paypal.authorized', { authorizationId: a.authorizationId, status: a.status, expiresAt: h.paypal.authExpiresAt }); return h;
   }
@@ -157,12 +159,12 @@ export class HoldService {
       if (op.state === 'APPLIED') continue;
       const h = this.holds.get(op.holdId); if (!h) continue;
       // Successful create/authorize responses have already been applied during normal flow.
-      if (op.kind === 'create' && h.paypal.orderId) { if (op.result?.authorization && !h.paypal.authorizationId) await this.#placed(h, op.result.authorization); op.state = 'APPLIED'; continue; }
-      if (op.kind === 'authorize' && h.paypal.authorizationId) { op.state = 'APPLIED'; continue; }
+      if (op.kind === 'create' && h.paypal.orderId && (!op.result?.authorization || h.paypal.authStatus === 'CREATED')) { op.state = 'APPLIED'; continue; }
+      if (op.kind === 'authorize' && h.paypal.authorizationId && h.paypal.authStatus === 'CREATED') { op.state = 'APPLIED'; continue; }
       try {
         const r = await this.settlement.lookup(h, op);
         if (!r) { h.state = 'RECONCILIATION_REQUIRED'; continue; }
-        if (op.kind === 'create') { h.paypal.orderId = r.id; h.paypal.approveUrl = r.approveUrl; h.state = 'AWAITING_PAYER'; if (r.authorization) await this.#placed(h, r.authorization); op.state = 'APPLIED'; }
+        if (op.kind === 'create') { h.paypal.orderId = r.id; h.paypal.approveUrl = r.approveUrl; h.state = 'AWAITING_PAYER'; if (r.authorization) await this.#placed(h, r.authorization); op.state = r.authorization && r.authorization.status !== 'CREATED' ? 'PENDING' : 'APPLIED'; }
         else if (op.kind === 'authorize') { await this.#placed(h, r); op.state = r.status === 'CREATED' ? 'APPLIED' : 'UNKNOWN'; }
         else await this.applyPayment(h, op.kind, r);
       } catch (e) { op.error = e.message; /* Keep pending state and reservation while PayPal is unavailable. */ }

@@ -14,15 +14,23 @@ test('MCP buyer-agent tools: propose/read only; server enforces permissions', { 
     srv.once('exit', code => reject(new Error(`server exited ${code}: ${errors}`)));
     srv.stdout.on('data', d => /Trustrail on/.test(d) && resolve());
   });
+  const page = await fetch(`http://localhost:${PORT}/operations.html`); assert.equal(page.status, 200); assert.match(await page.text(), /operationsGrid/);
+  assert.equal((await fetch(`http://localhost:${PORT}/src/core/operations.js`)).status, 200);
   const p = spawn(process.execPath, ['src/mcp.js'], { env }); t.after(() => p.kill());
   let buf = ''; const waiters = [];
   p.stdout.on('data', d => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const l = buf.slice(0, i); buf = buf.slice(i + 1); waiters.shift()(JSON.parse(l)); } });
   const rpc = (id, method, params) => new Promise(r => { waiters.push(r); p.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n'); });
   assert.equal((await rpc(1, 'initialize', {})).result.serverInfo.name, 'trustrail');
   const names = (await rpc(2, 'tools/list')).result.tools.map(t => t.name);
-  assert.deepEqual(names, ['propose_research_brief', 'get_hold', 'list_holds', 'get_proof']);
+  assert.deepEqual(names, ['build_expiring_review_view', 'propose_research_brief', 'get_hold', 'list_holds', 'get_proof']);
   const r = await rpc(3, 'tools/call', { name: 'propose_research_brief', arguments: { intent: SPEC } });
   const h = JSON.parse(r.result.content[0].text); assert.equal(h.state, 'AWAITING_PAYER'); assert.ok(h.criteriaHash);
+  const view = await rpc(4, 'tools/call', { name: 'build_expiring_review_view', arguments: { withinHours: 72 } });
+  const planned = JSON.parse(view.result.content[0].text);
+  assert.equal(planned.plan.workflow, 'expiring-unresolved-holds'); assert.equal(planned.summary.count, 1);
+  assert.deepEqual(planned.summary.holdIds, [h.holdId]);
+  const unsafe = await rpc(5, 'tools/call', { name: 'build_expiring_review_view', arguments: { withinHours: 24, decision: 'capture' } });
+  assert.equal(unsafe.result.isError, true);
   // Even calling the HTTP API directly with the agent's token cannot deliver, resolve, or refund.
   for (const path of ['deliver', 'resolve', 'refund']) {
     const res = await fetch(`http://localhost:${PORT}/api/holds/${h.holdId}/${path}`, { method: 'POST', headers: { Authorization: 'Bearer demo-agent', 'Content-Type': 'application/json' }, body: '{"body":"x","decision":"capture"}' });

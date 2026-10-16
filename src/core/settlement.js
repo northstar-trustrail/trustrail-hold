@@ -1,4 +1,4 @@
-﻿// Single-merchant model: the configured PayPal app's merchant receives all payments.
+// Single-merchant model: the configured PayPal app's merchant receives all payments.
 // sellerId identifies the deliverer, not a PayPal payee. This is not a marketplace.
 export class Settlement {
   constructor(paypal, persist = () => {}) {
@@ -40,11 +40,11 @@ export class Settlement {
     if (op.kind === 'create') {
       if (!op.result?.id) return null; // Unknown order ID needs operator reconciliation.
       const o = await p.getOrder(op.result.id);
-      return { ...op.result, status: o.status };
+      const a = o.purchase_units?.flatMap(u => u.payments?.authorizations || [])[0];
+      return { ...op.result, status: o.status, authorization: a ? { authorizationId: a.id, status: a.status, expiresAt: a.expiration_time } : null };
     }
     if (op.kind === 'authorize') {
-      const o = await p.getOrder(h.paypal.orderId);
-      const a = o.purchase_units?.flatMap(u => u.payments?.authorizations || [])[0];
+      const a = h.paypal.authorizationId ? await p.getAuthorization(h.paypal.authorizationId) : (await p.getOrder(h.paypal.orderId)).purchase_units?.flatMap(u => u.payments?.authorizations || [])[0];
       return a && { authorizationId: a.id, status: a.status, expiresAt: a.expiration_time };
     }
     if (op.kind === 'void') {

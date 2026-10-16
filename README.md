@@ -8,7 +8,7 @@ It does one job: **agents buying research briefs** that have required sections, 
 ▶ **Real PayPal sandbox run:** [`docs/sandbox-run.json`](docs/sandbox-run.json). It records real sandbox order, authorization, capture and refund IDs, each re-read from the PayPal API.
 ▶ **Verifier evaluation:** [`EVAL.md`](EVAL.md), including the false-approval rate on a labeled normal + adversarial set.
 
-![Trustrail dashboard](docs/screenshot.png)
+<img src="docs/screenshot.png" alt="Trustrail dashboard">
 
 ## The problem
 An agent that buys research for you is stuck between two bad options. It can pay up front and hope the seller delivers, or it can ask you to approve and check every purchase by hand. Trustrail adds a third: **the money is reserved but not taken until the delivery provably matches what was ordered.**
@@ -107,14 +107,18 @@ The dashboard uses AG Grid Community (MIT, vendored):
 - **Receipt ledger** grid: chain verification plus signed-checkpoint verification, and CSV export.
 - **“Which holds need review today?”**: a read-only, rule-based query that filters the grids and can't act.
 
-We didn't use AG Studio.
+Open `/operations.html` for the operations workspace: all unresolved exposure, live expiry countdowns, a review queue, selectable criteria with a linked evidence inspector, source support passages, and light/dark themes. Deep links accept `hold`, `criterion`, and `theme=dark`.
+
+The `build_expiring_review_view` MCP tool returns a versioned, validated Community filter/sort plan and a URL such as `/operations.html?workflow=expiring&hours=24`. The workspace runs the same read-only tool when you choose **Build review view**. It includes overdue unresolved holds and sorts by the earliest delivery, honor-period, or authorization clock. Agent tools have no settlement capability. Explicit app review controls call the existing permission-checked resolve/approval APIs.
+
+[AG Grid's AI Toolkit](https://www.ag-grid.com/javascript-data-grid/ai-toolkit/) is marked Enterprise and requires `AiToolkitModule`, which the vendored Community bundle does not provide. [AG Studio's Agent Framework](https://www.ag-grid.com/studio/javascript/ai/) belongs to the separate Studio package. This entry uses Community filters, sort state, custom renderers, and the Quartz theming API, with an application-owned MCP view tool. It does not claim a Studio integration or simulate an LLM. The view tool sends no hold data to an external model.
 
 ## MCP (buyer agent)
 ```jsonc
 { "mcpServers": { "trustrail": { "command": "node", "args": ["/path/to/trustrail-hold/src/mcp.js"],
   "env": { "TRUSTRAIL_URL": "http://localhost:8787", "TRUSTRAIL_TOKEN": "<buyer_agent token>" } } } }
 ```
-Tools: `propose_research_brief` (strict JSON schema), `get_hold`, `list_holds`, `get_proof`. The server enforces permissions by token, so a modified MCP client gains nothing.
+Tools: `build_expiring_review_view`, `propose_research_brief` (strict JSON schema), `get_hold`, `list_holds`, `get_proof`. The server enforces permissions by token, so a modified MCP client gains nothing.
 
 ## Run
 Requires Node 20+.

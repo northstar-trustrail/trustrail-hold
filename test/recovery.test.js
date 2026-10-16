@@ -131,3 +131,17 @@ test('restart recovers lost authorization and void responses using GET', async t
   const again = await restart(); assert.equal(again.holds.get(h.id).state, 'VOIDED');
   assert.equal(again.reservations.has(h.id), false);
 });
+
+
+test('pending authorization stays unconfirmed across restart until GET confirms CREATED', async t => {
+  let clock = Date.parse('2026-10-16T12:00:00Z');
+  const { svc, pp, restart } = await setup(t, { clock: () => clock }); let posts = 0;
+  const send = pp.authorizeOrder.bind(pp);
+  pp.authorizeOrder = async (...args) => { posts++; const r = await send(...args); pp.auths.get(r.authorizationId).status = 'PENDING'; return { ...r, status: 'PENDING' }; };
+  const h = await held(svc, pp); assert.equal(h.state, 'RECONCILIATION_REQUIRED');
+  const originalHonor = h.paypal.honorEndsAt; clock += 2 * 864e5;
+  const recovered = await restart(); assert.equal(recovered.holds.get(h.id).state, 'RECONCILIATION_REQUIRED');
+  assert.equal(recovered.holds.get(h.id).paypal.honorEndsAt, originalHonor);
+  pp.auths.get(h.paypal.authorizationId).status = 'CREATED'; await recovered.reconcile();
+  assert.equal(recovered.holds.get(h.id).state, 'HELD'); assert.equal(posts, 1);
+});
