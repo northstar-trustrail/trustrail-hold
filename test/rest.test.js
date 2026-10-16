@@ -18,7 +18,7 @@ test('RestPayPal speaks Orders v2 / Payments v2', async () => {
   const log = []; const pp = new RestPayPal({ clientId: 'id', clientSecret: 'sec', fetchImpl: fakeFetch(log) });
   const o = await pp.createAuthorizeOrder({ holdId: 'H-0001', amount: 40, description: 'report', returnUrl: 'http://x/r', cancelUrl: 'http://x/c' });
   assert.equal(o.approveUrl, 'https://www.sandbox.paypal.com/checkoutnow?token=5O190127TN364715T');
-  const body = JSON.parse(log[1].body); assert.equal(body.intent, 'AUTHORIZE'); assert.equal(body.purchase_units[0].amount.value, '40.00');
+  const body = JSON.parse(log[1].body); assert.equal(body.intent, 'AUTHORIZE'); assert.equal(body.purchase_units[0].payee, undefined, 'single merchant uses credential owner'); assert.equal(body.purchase_units[0].amount.value, '40.00');
   assert.match(log[1].headers['PayPal-Request-Id'], /^create-H-0001-/); assert.ok(body.payment_source.paypal.experience_context.return_url);
   assert.equal(log[0].headers.Authorization, 'Basic ' + btoa('id:sec'));
   const a = await pp.authorizeOrder(o.id); assert.equal(a.authorizationId, '0AW2184448108334S');
@@ -37,4 +37,19 @@ test('OpenAICompatJudge: sends untrusted-fenced prompt, parses schema', async ()
   const j = new OpenAICompatJudge({ baseUrl: 'http://llm/v1', model: 'm', fetchImpl });
   const r = await j.judge({ criterion: { params: { question: 'What are the fines?' } }, passages: [{ ref: 'S1.P1', text: 'up to 7%' }] });
   assert.equal(r.verdict, 'pass'); assert.match(sent.messages[1].content, /untrusted="true"/); assert.equal(sent.temperature, 0);
+});
+
+
+test('webhook signature verification uses PayPal verification endpoint and exact headers', async () => {
+  let sent;
+  const pp = new RestPayPal({ clientId: 'id', clientSecret: 'test', fetchImpl: async (url, init) => {
+    if (url.endsWith('/token')) return { ok: true, json: async () => ({ access_token: 'test', expires_in: 3600 }) };
+    sent = { url, ...JSON.parse(init.body) }; return { ok: true, text: async () => '{"verification_status":"SUCCESS"}' };
+  } });
+  const headers = Object.fromEntries(['auth-algo', 'cert-url', 'transmission-id', 'transmission-sig', 'transmission-time'].map(k => [`paypal-${k}`, k]));
+  assert.equal(await pp.verifyWebhook({}, {}, 'id'), false);
+  assert.equal(await pp.verifyWebhook(headers, { id: 'WH-1' }, 'configured-id'), true);
+  assert.ok(sent.url.endsWith('/v1/notifications/verify-webhook-signature'));
+  assert.equal(sent.webhook_id, 'configured-id'); assert.equal(sent.transmission_sig, 'transmission-sig');
+  assert.deepEqual(sent.webhook_event, { id: 'WH-1' });
 });

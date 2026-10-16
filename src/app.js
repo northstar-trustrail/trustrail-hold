@@ -5,6 +5,7 @@ import { MiniLMEmbedder, LexicalEmbedder } from './ai/embed.js';
 import { OpenAICompatJudge, LocalQwenJudge } from './ai/judge.js';
 import { Signer } from './core/checkpoint.js';
 import fs from 'node:fs';
+import { FileStore } from './core/store.js';
 
 export function paypalFromEnv(env) {
   return env.PAYPAL_CLIENT_ID && env.PAYPAL_CLIENT_SECRET
@@ -21,7 +22,7 @@ export function judgeFromEnv(env) {
 export async function buildService(env = process.env) {
   let embedder = env.TRUSTRAIL_EMBEDDER === 'lexical' ? new LexicalEmbedder() : new MiniLMEmbedder();
   if (embedder instanceof MiniLMEmbedder) { try { await embedder.load(); } catch (e) { console.error('MiniLM unavailable, using lexical fallback:', e.message); embedder = new LexicalEmbedder(); } }
-  const signer = await Signer.create(env.TRUSTRAIL_SIGNING_JWK ? JSON.parse(env.TRUSTRAIL_SIGNING_JWK) : undefined);
+  const signer = env.TRUSTRAIL_SIGNING_JWK ? await Signer.create(JSON.parse(env.TRUSTRAIL_SIGNING_JWK)) : undefined;
   const file = env.TRUSTRAIL_CHECKPOINT_FILE; const hook = env.TRUSTRAIL_CHECKPOINT_WEBHOOK;
   const checkpointSink = async cp => {
     if (file) fs.appendFileSync(file, JSON.stringify(cp) + '\n');
@@ -29,6 +30,7 @@ export async function buildService(env = process.env) {
   };
   const judge = judgeFromEnv(env);
   return HoldService.create({ paypal: paypalFromEnv(env), embedder, judge, intentLlm: judge?.complete ? judge : null, signer, checkpointSink,
+    store: new FileStore(env.TRUSTRAIL_STORE || './data/trustrail.json'),
     sandboxCard: env.TRUSTRAIL_SANDBOX_CARD ? { number: env.TRUSTRAIL_SANDBOX_CARD, expiry: env.TRUSTRAIL_SANDBOX_CARD_EXPIRY || '2030-12', cvv: '123' } : null,
     policy: env.TRUSTRAIL_POLICY ? JSON.parse(env.TRUSTRAIL_POLICY) : {}, baseUrl: env.PUBLIC_URL || `http://localhost:${env.PORT || 8787}` });
 }

@@ -3,6 +3,7 @@
 // the agent's own bearer token, so the agent can propose and read, and nothing else: it cannot approve,
 // deliver, resolve, capture, void, or refund. (Server-side permissions enforce this, not the tool list.)
 import readline from 'node:readline';
+import { pathToFileURL } from 'node:url';
 const BASE = (process.env.TRUSTRAIL_URL || 'http://localhost:8787').replace(/\/$/, '');
 const TOKEN = process.env.TRUSTRAIL_TOKEN || 'demo-agent';
 const INTENT = { type: 'object', additionalProperties: false, required: ['kind', 'topic', 'questions', 'minSources', 'minWords', 'maxWords', 'amount', 'currency', 'sellerId', 'deliverWithinHours'],
@@ -28,6 +29,6 @@ export async function handle({ id, method, params = {} }) {
   if (id === undefined) return null;
   return { jsonrpc: '2.0', id, error: { code: -32601, message: `method ${method} not found` } };
 }
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   readline.createInterface({ input: process.stdin }).on('line', async l => { let m; try { m = JSON.parse(l); } catch { return; } const r = await handle(m); if (r) process.stdout.write(JSON.stringify(r) + '\n'); });
 }

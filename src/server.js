@@ -29,6 +29,7 @@ const routes = [
 http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   try {
+    if (url.pathname === '/api/paypal/webhook' && req.method === 'POST') return send(res, 200, await svc.webhook(req.headers, await body(req), process.env.PAYPAL_WEBHOOK_ID));
     if (url.pathname === '/paypal/return') { // buyer approved on PayPal; PayPal's approval is the buyer's consent
       const h = svc.holds.get(url.searchParams.get('hold')); if (!h) return send(res, 404, { error: 'unknown hold' });
       await svc.authorize({ id: 'paypal-return', role: 'buyer', org: h.buyerId }, h.id); res.writeHead(302, { Location: `/#${h.id}` }); return res.end();
@@ -45,4 +46,6 @@ http.createServer(async (req, res) => {
     const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' }); res.end(data);
   } catch (e) { send(res, e.status || (e.code === 'ENOENT' ? 404 : 500), { error: e.message, debugId: e.debugId }); }
 }).listen(PORT, () => console.log(`Trustrail on http://localhost:${PORT} paypal=${svc.paypalMode} embedder=${svc.embedder.name} judge=${svc.judge?.name || 'none'}`));
-setInterval(() => svc.sweep(SYSTEM).catch(() => {}), 60_000).unref();
+setInterval(() => svc.reconcile().then(() => svc.sweep(SYSTEM)).catch(() => {}), 60_000).unref();
+
+for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => { svc.persist(); svc.store?.close(); process.exit(0); });

@@ -16,7 +16,7 @@ An agent that buys research for you is stuck between two bad options. It can pay
 ## What "hold" means here (not escrow)
 Trustrail is **not custodial escrow**, and nobody holds the money in an account.
 - The buyer approves a PayPal **authorization** (Orders v2 `intent=AUTHORIZE`). The funds stay in the buyer's account, reserved.
-- PayPal authorizations are valid for **29 days**. Capture is guaranteed only during the first **3 days (the "honor period")**, so Trustrail caps delivery deadlines at 72 h and shows both clocks in the grid.
+- PayPal authorizations are valid for **29 days**. Capture has the highest likelihood of success during the first **3 days (the "honor period")**, but is not guaranteed, so Trustrail caps delivery deadlines at 72 h and shows both clocks in the grid.
 - **Who controls capture:** the merchant app that created the order, i.e. Trustrail's `Settlement` service, using the operator's PayPal REST credentials. It captures or voids only for a verdict that is bound to the order's frozen criteria hash and the stored evidence hash, and only once per hold. The buyer agent, the seller and the verifier have no PayPal credentials and no way to capture.
 - If the delivery fails, the hold is **voided** and the buyer is never charged. After a capture, a buyer dispute triggers a **refund** (Payments v2).
 
@@ -63,6 +63,18 @@ Tested in `test/holds.test.js` and `test/mcp.test.js`:
 - **Settlement:** duplicate settlement (sequential and concurrent) is impossible; a hold whose stored evidence changed after the verdict can't be settled.
 - **Tamper evidence:** changing a receipt, a checkpoint or the signing key fails `verifyProof`.
 
+## Durable payment state
+
+The server persists holds, daily budget reservations, operation request IDs, settlement guards, receipts, checkpoints, and mock PayPal resources to `data/trustrail.json` (override with `TRUSTRAIL_STORE`). It writes and fsyncs a temporary file before atomic replacement. A process lock prevents two writers. Startup fails on a corrupt file rather than silently resetting it. Runtime data and keys are gitignored; credentials stay in environment variables.
+
+Money-changing operations persist their intent before the PayPal request. Only capture status `COMPLETED` marks a hold `RELEASED`; only refund status `COMPLETED` marks it `REFUNDED`. `PENDING` becomes `CAPTURE_PENDING` or `REFUND_PENDING`, with the budget reservation retained. Unknown or failed statuses require reconciliation. A timeout retains the guard, even if the operator asks for the opposite settlement action.
+
+Startup and a 60-second timer reconcile operations using GET order, authorization, capture, or refund. A lost capture response is recovered by its invoice ID on the order, then GET capture. A lost create response without an order ID remains unresolved for operator investigation. A lost refund response needs a verified webhook to discover its refund ID before GET refund; GET capture alone cannot prove which refund completed. No recovery path blindly repeats a POST.
+
+Register `POST /api/paypal/webhook` with PayPal and set `PAYPAL_WEBHOOK_ID` to that registration's ID. The endpoint sends PayPal's transmission headers and complete event to `/v1/notifications/verify-webhook-signature`. It rejects failed verification, persists event deduplication, and re-reads known pending payment resources before updating state. Subscribe to capture completed, pending, denied, and refunded events, plus refund pending and failed events. Webhook payload status alone never releases money.
+
+**Single-merchant model:** all PayPal payments go to the merchant that owns the configured REST app credentials. `sellerId` is the internal deliverer identity, not a PayPal merchant ID or payout destination. The adapter deliberately omits `payee`. Multi-seller payouts and marketplace onboarding are outside this prototype.
+
 ## PayPal integration
 | Step | API |
 |---|---|
@@ -102,7 +114,7 @@ Tools: `propose_research_brief` (strict JSON schema), `get_hold`, `list_holds`, 
 Requires Node 20+.
 ```bash
 npm install            # optional dep: @huggingface/transformers (MiniLM); without it the lexical fallback is used and labeled
-npm test               # 26 tests
+npm test               # unit, payment recovery, REST, and MCP tests
 npm run eval           # labeled eval -> false-approval rate
 npm start              # http://localhost:8787 with mock PayPal and demo tokens (demo-agent, demo-buyer, demo-seller, demo-reviewer, demo-auditor)
 ```
@@ -120,7 +132,7 @@ Other settings:
 - Policy: `TRUSTRAIL_POLICY`.
 
 ## Limitations
-- State is in memory: no database yet, and no PayPal webhooks yet.
+- The server uses one file-backed store and one writer process. The browser-only demo remains ephemeral. Back up the store directory and protect its evidence and signing key with OS file permissions.
 - The eval set is small and self-authored (see EVAL.md).
 - Semantic checks confirm a question is *addressed with the right kind of answer*. They don't check that the facts are *true*.
 - The demo tokens are public; this is a hackathon prototype on the PayPal sandbox only.
