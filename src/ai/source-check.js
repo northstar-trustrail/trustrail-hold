@@ -15,7 +15,14 @@ export const normText = s => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
 
 const STOP = new Set(['The', 'A', 'An', 'This', 'That', 'These', 'Those', 'It', 'Its', 'In', 'On', 'At', 'For', 'By', 'Of', 'And', 'But', 'Or', 'If', 'As', 'After', 'Before', 'During', 'Since', 'When', 'While', 'Although', 'Because', 'Following', 'Under', 'With', 'Without', 'Soon', 'Early', 'Later', 'Today', 'Anyone', 'Readers', 'Writers', 'Teams', 'Some', 'Many', 'Most', 'Each', 'Every', 'All', 'Both', 'Such', 'There', 'Their', 'They', 'We', 'Our', 'You', 'Your', 'He', 'She', 'His', 'Her', 'I', 'Note', 'For example', 'Source', 'Sources', 'Findings', 'Implications', 'However', 'Also', 'Then', 'Thus', 'Therefore']);
 /** Numbers as written facts: "3,600" -> "3600", "2.4" stays, years, ids like STS-31 -> "31". */
-export function numbersIn(s) { return [...clean(s).matchAll(/(?<![\w.])\d[\d,]*(?:\.\d+)?/g)].map(m => m[0].replace(/,(?=\d{3}\b)/g, '').replace(/[.,]$/, '')); }
+// Scale words and space-grouped thousands are normalized: "EUR 7.5 million" == "EUR 7 500 000", "35m" == "35 000 000".
+const SCALE = { thousand: 1e3, million: 1e6, m: 1e6, billion: 1e9, bn: 1e9 };
+const scaled = (n, unit) => String(Math.round(Number(n) * SCALE[unit.toLowerCase()]));
+export function numbersIn(s) {
+  const t = clean(s).replace(/(?<![\w.])(\d{1,3})((?:[ \u00a0\u202f]\d{3})+)(?![\d])/g, (_, a, b) => a + b.replace(/\D/g, ''))
+    .replace(/(?<![\w.])(\d+(?:\.\d+)?)(?:\s?(thousand|million|billion)|(m|bn))\b/gi, (_, n, word, glued) => scaled(n, word || glued)); // "2.4 m" (metres) is left alone
+  return [...t.matchAll(/(?<![\w.])\d[\d,]*(?:\.\d+)?/g)].map(m => m[0].replace(/,(?=\d{3}\b)/g, '').replace(/[.,]$/, ''));
+}
 /** Named entities: capitalized sequences (not a lone sentence-initial word), acronyms and identifiers. */
 export function entitiesIn(s) {
   const text = clean(s); const out = new Set();
@@ -87,8 +94,9 @@ export class SourceChecker {
         const windowNums = new Set(numbersIn(window));
         const missingNums = numbersIn(claim.text).filter(n => !windowNums.has(n));
         if (missingNums.length) problems.push(`number ${missingNums.join(', ')} not in the matching source passages`);
-        const docText = resolved.map(d => d.norm).join(' ');
-        const missingEnts = entitiesIn(claim.text).filter(e => !docText.includes(normText(e)));
+        const docText = resolved.map(d => d.norm).join(' '), given = normText(orderText);
+        // Terms the buyer's own order supplied (topic anchors, question wording) are context, not seller claims.
+        const missingEnts = entitiesIn(claim.text).filter(e => !docText.includes(normText(e)) && !given.includes(normText(e)));
         if (missingEnts.length) problems.push(`entity ${missingEnts.join(', ')} not found in cited sources`);
       }
       const supported = !problems.length;

@@ -130,3 +130,12 @@ test('eval fixture routes are explicit, loopback-only, and never relax the publi
     await assert.rejects(fetchPublicSource('http://127.0.0.1/', { testRoutes: fx.routes }), /not public/);
   } finally { await fx.close(); }
 });
+
+test('number formats normalize (millions, spaced thousands) and order-supplied terms need no source', async () => {
+  assert.deepEqual(numbersIn('EUR 35 000 000 or EUR 7.5 million or 35m'), ['35000000', '7500000', '35000000']);
+  const same = { name: 'minilm:unit-test-double', embed: async texts => texts.map(() => [1, 0]) };
+  const c = new SourceChecker({ fetchSource: async () => ({ status: 200, text: 'Fines reach EUR 35 000 000 or 7 % of turnover.' }) });
+  const body = '# Findings\n\nA small SaaS vendor can be fined up to EUR 35 million or 7% of turnover. Source: https://artificialintelligenceact.eu/article/99/';
+  assert.equal((await c.check({ body, sources: [] }, { embedder: same })).ok, false);
+  assert.equal((await c.check({ body, sources: [] }, { embedder: same, orderText: 'Which obligations apply to a small SaaS company?' })).ok, true);
+});
