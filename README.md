@@ -172,4 +172,4 @@ MIT © Northstar Trustrail
 
 ## Demo video
 
-[demo.mp4](https://northstar-trustrail.github.io/trustrail-hold/demo.mp4) (2:44, real PayPal sandbox IDs)
+[demo.mp4](https://northstar-trustrail.github.io/trustrail-hold/demo.mp4) (2:43, recorded on v0.3.1 against the real PayPal sandbox; cited pages replayed from saved snapshots, operations rows are labeled sample data)

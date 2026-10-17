@@ -1,7 +1,7 @@
 #!/bin/bash
 # Maintainer script: build dist/ (+ optional demo video) and add a new commit on gh-pages (no force push). Token via temp GIT_ASKPASS.
 set -e; cd "$(dirname "$0")/.."; ROOT=$PWD; node scripts/build-pages.js
-[ -f ../video/trustrail-demo-v3.mp4 ] && cp ../video/trustrail-demo-v3.mp4 dist/demo.mp4
+[ -f ../video/trustrail-demo-v4.mp4 ] && cp ../video/trustrail-demo-v4.mp4 dist/demo.mp4
 D=$(mktemp -d); git clone -q --branch gh-pages --single-branch https://github.com/northstar-trustrail/trustrail-hold.git "$D"
 find "$D" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +; cp -r dist/. "$D"/; cd "$D"; git add -A
 git diff --cached --quiet && { echo "nothing to deploy"; exit 0; }
