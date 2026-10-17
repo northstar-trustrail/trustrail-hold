@@ -151,7 +151,7 @@ export class HoldService {
     } else if (kind === 'refund') {
       h.paypal.refundId = r.refundId; h.paypal.refundStatus = r.status;
       h.state = r.status === 'COMPLETED' && r.refundId ? 'REFUNDED' : r.status === 'PENDING' ? 'REFUND_PENDING' : 'RECONCILIATION_REQUIRED';
-    } else h.state = r.status === 'VOIDED' ? 'VOIDED' : 'RECONCILIATION_REQUIRED';
+    } else { h.paypal.voidStatus = r.status; h.state = r.status === 'VOIDED' ? 'VOIDED' : 'RECONCILIATION_REQUIRED'; }
     if (['VOIDED', 'REFUNDED'].includes(h.state)) this.reservations.delete(h.id);
     const complete = ['RELEASED', 'REFUNDED', 'VOIDED'].includes(h.state);
     const op = this.settlement.operations.get(`${h.id}:${kind}`);

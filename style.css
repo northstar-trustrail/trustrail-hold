@@ -39,3 +39,7 @@ pre.intent{background:#f7f9fc;border-radius:10px;padding:10px;font-size:12.5px;m
 .cell-btn{font-size:12px;padding:2px 8px;margin:0 4px 0 0}
 .bar{line-height:18px;margin:10px 0 0}.bar b{line-height:18px;white-space:nowrap}
 .cell-btn{line-height:1.2;padding:4px 9px;margin:0 4px 0 0;vertical-align:middle}
+
+.srccheck{margin:8px 0;padding:8px 10px;border-radius:9px;background:#f7f9fc;font-size:13px}.srchead{font-weight:600;margin-bottom:4px}
+.claim{display:grid;grid-template-columns:18px 1fr;gap:0 6px;padding:3px 0;border-top:1px solid #e6ebf3}.claim small{grid-column:2;color:var(--mut)}.claim.ok b{color:#14895f}.claim.no b{color:#c0392b}.claim.no small{color:#8a1f12}
+.kv .st{font-size:12px;letter-spacing:.03em;margin-left:6px}
