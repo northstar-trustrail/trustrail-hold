@@ -1,6 +1,6 @@
 {
   "name": "trustrail-hold",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Agents buy research briefs within approved budgets: PayPal authorization holds + evidence-based delivery checks decide capture, void, or human review.",
   "type": "module",
   "license": "MIT",

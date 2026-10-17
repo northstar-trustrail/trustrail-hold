@@ -1,4 +1,4 @@
-# Trustrail
+# Trustrail (v0.3)
 
 **Trustrail lets AI agents buy digital work within approved budgets. PayPal authorization holds and evidence-based delivery checks decide whether to capture the payment, cancel the hold, or ask a human.**
 
@@ -6,7 +6,8 @@ It does one job: **agents buying research briefs** that have required sections, 
 
 ▶ **Live demo** (runs in your browser, no install; mock PayPal plus a real MiniLM model in-browser): https://northstar-trustrail.github.io/trustrail-hold/
 ▶ **Real PayPal sandbox run:** [`docs/sandbox-run.json`](docs/sandbox-run.json). It records real sandbox order, authorization, capture and refund IDs, each re-read from the PayPal API.
-▶ **Verifier evaluation:** [`EVAL.md`](EVAL.md), including the false-approval rate on a labeled normal + adversarial set.
+▶ **Verifier evaluation:** [`EVAL.md`](EVAL.md): false-approval, good-work approval and escalation rates on a 20-case held-out set, with and without source checking.
+▶ **Operations workspace (v0.3):** https://northstar-trustrail.github.io/trustrail-hold/operations.html (AG Grid Community review queue; `?workflow=expiring&hours=24` for the agent-planned view).
 
 <img src="docs/screenshot.png" alt="Trustrail dashboard">
 
@@ -46,7 +47,7 @@ seller ──deliver(markdown brief)──► evidence hash ──► verifier (
 | LLM judge (optional) | Pluggable: any OpenAI-compatible endpoint (`AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY`), or local Qwen2.5-0.5B (`TRUSTRAIL_JUDGE=local`) | yours |
 | Intent parsing | Agents send **structured JSON** (MCP schema). Natural-language parsing via LLM is optional, and its output must pass the same schema. If the amount isn't stated in the request, the order is rejected (anti-hallucination). | |
 
-The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks. The old 25-case development results informed tuning and do not establish held-out performance. The new 20-case held-out run measured the lexical baseline at 0/16 false approvals and 0/4 good-work auto-approvals; MiniLM was unavailable in that environment. See [EVAL.md](EVAL.md) for failures and reproduction.
+The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks. The old 25-case development results informed tuning and do not establish held-out performance. On the new 20-case held-out set, measured with MiniLM: **source checking off, 11/16 bad briefs were auto-approved** (fabricated citations, plausible factual errors and padding all retrieve as well as good work) and 4/4 good briefs were approved; **source checking on, 0/16 false approvals but also 0/4 good approvals** (85% escalation). The lexical baseline approved nothing (0/16, 0/4). In short: similarity retrieval is not a safe auto-capture rule by itself, and the source check is safe here only because it sends nearly everything to a human. Run the server with `TRUSTRAIL_SOURCE_CHECK=1` if you allow auto-capture. See [EVAL.md](EVAL.md) for failures and reproduction.
 
 ## Optional citation support checks
 

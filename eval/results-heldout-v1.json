@@ -1,8 +1,9 @@
 {
   "sourceMode": "offline-authored-fixtures",
   "comparisonToLexical": {
-    "status": "not-measured",
-    "reason": "MiniLM unavailable; no model scores substituted"
+    "falseApproval": 0.6875,
+    "goodAutoApproval": 1,
+    "escalation": -0.55
   },
   "protocol": {
     "version": "heldout-v1",
@@ -20,7 +21,7 @@
     ],
     "limitations": "Self-authored challenge set, not independent validation. Never tune thresholds on these cases."
   },
-  "datasetSha256": "4324af70685380eb87f23ff7072a24f9de0bc5745117b03e60e71845029e4107",
+  "datasetSha256": "104352abd8c610c8d2af28324389d9c5a1ae02908b2295230c800283f32b778a",
   "config": {
     "version": "2026-10-16.v1",
     "retrieval": {
@@ -37,8 +38,8 @@
     }
   },
   "miniLM": {
-    "available": false,
-    "error": "Cannot find package '@huggingface/transformers' imported from C:\\Users\\Owner\\trustrail-work\\src\\ai\\embed.js"
+    "available": true,
+    "error": null
   },
   "systems": [
     {
@@ -3292,6 +3293,3460 @@
               "verdict": "fail",
               "score": 0.088,
               "rationale": "best passage similarity 0.09 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "minilm:all-MiniLM-L6-v2",
+      "sourceCheck": false,
+      "summary": {
+        "cases": 20,
+        "falseApproval": {
+          "count": 11,
+          "total": 16,
+          "rate": 0.6875
+        },
+        "goodAutoApproval": {
+          "count": 4,
+          "total": 4,
+          "rate": 1
+        },
+        "escalation": {
+          "count": 2,
+          "total": 20,
+          "rate": 0.1
+        },
+        "goodWronglyVoided": {
+          "count": 0,
+          "total": 4,
+          "rate": 0
+        },
+        "falseApprovalIds": [
+          "H1-DNS-fabricated-citation",
+          "H1-DNS-factual-error",
+          "H1-DNS-padding",
+          "H1-LUNAR-fabricated-citation",
+          "H1-LUNAR-factual-error",
+          "H1-CALENDAR-fabricated-citation",
+          "H1-CALENDAR-factual-error",
+          "H1-CALENDAR-padding",
+          "H1-PNG-fabricated-citation",
+          "H1-PNG-factual-error",
+          "H1-PNG-padding"
+        ]
+      },
+      "rows": [
+        {
+          "id": "H1-DNS-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.73,
+              "rationale": "best passage similarity 0.73 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.618,
+              "rationale": "best passage similarity 0.62 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.718,
+              "rationale": "best passage similarity 0.72 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.609,
+              "rationale": "best passage similarity 0.61 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.718,
+              "rationale": "best passage similarity 0.72 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.607,
+              "rationale": "best passage similarity 0.61 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "fail",
+              "rationale": "never mentions DNS TTL outside the source list"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.109,
+              "rationale": "best passage similarity 0.11 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.103,
+              "rationale": "best passage similarity 0.10 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.8,
+              "rationale": "best passage similarity 0.80 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.541,
+              "rationale": "best passage similarity 0.54 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.642,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.577,
+              "rationale": "best passage similarity 0.58 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 70 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.639,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.572,
+              "rationale": "best passage similarity 0.57 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.647,
+              "rationale": "best passage similarity 0.65 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.572,
+              "rationale": "best passage similarity 0.57 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.355,
+              "rationale": "best passage similarity 0.35 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.251,
+              "rationale": "best passage similarity 0.25 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.685,
+              "rationale": "best passage similarity 0.68 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.488,
+              "rationale": "best passage similarity 0.49 (pass >= 0.45, fail < 0.3); question expects a duration but the matching passages contain none"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 74 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.753,
+              "rationale": "best passage similarity 0.75 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.704,
+              "rationale": "best passage similarity 0.70 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 75 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.734,
+              "rationale": "best passage similarity 0.73 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.711,
+              "rationale": "best passage similarity 0.71 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 73 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "130 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.761,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.695,
+              "rationale": "best passage similarity 0.70 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 62 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.05,
+              "rationale": "best passage similarity 0.05 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.061,
+              "rationale": "best passage similarity 0.06 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 65 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.742,
+              "rationale": "best passage similarity 0.74 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.511,
+              "rationale": "best passage similarity 0.51 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.765,
+              "rationale": "best passage similarity 0.77 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.649,
+              "rationale": "best passage similarity 0.65 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.761,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.638,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.759,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.626,
+              "rationale": "best passage similarity 0.63 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": -0.009,
+              "rationale": "best passage similarity -0.01 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.057,
+              "rationale": "best passage similarity 0.06 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "capture",
+          "sourceCheck": null,
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.707,
+              "rationale": "best passage similarity 0.71 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.504,
+              "rationale": "best passage similarity 0.50 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "minilm:all-MiniLM-L6-v2",
+      "sourceCheck": true,
+      "summary": {
+        "cases": 20,
+        "falseApproval": {
+          "count": 0,
+          "total": 16,
+          "rate": 0
+        },
+        "goodAutoApproval": {
+          "count": 0,
+          "total": 4,
+          "rate": 0
+        },
+        "escalation": {
+          "count": 17,
+          "total": 20,
+          "rate": 0.85
+        },
+        "goodWronglyVoided": {
+          "count": 0,
+          "total": 4,
+          "rate": 0
+        },
+        "falseApprovalIds": []
+      },
+      "rows": [
+        {
+          "id": "H1-DNS-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "host": "rfc-editor.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.7848366829322179,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.7375455638468736,
+                "passage": "Zero TTL does not permit reuse beyond the current transaction."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.4847957907631488,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.73,
+              "rationale": "best passage similarity 0.73 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.618,
+              "rationale": "best passage similarity 0.62 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper",
+                "host": "rfc-editor.org",
+                "ref": "SRC1",
+                "resolved": false,
+                "error": "HTTP 404"
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "SRC1: HTTP 404",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.718,
+              "rationale": "best passage similarity 0.72 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.609,
+              "rationale": "best passage similarity 0.61 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "host": "rfc-editor.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.7848366829322179,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A record with a zero TTL is usable for the current transaction but remains valid in the cache indefinitely for later requests.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.7454946106494698,
+                "passage": "Zero TTL does not permit reuse beyond the current transaction."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.4847957907631488,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 67 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "119 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.718,
+              "rationale": "best passage similarity 0.72 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.607,
+              "rationale": "best passage similarity 0.61 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "host": "rfc-editor.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.03139144840256227,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.09145764628439995,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.024166751450234863,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.14783195232289925,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "fail",
+              "rationale": "never mentions DNS TTL outside the source list"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.109,
+              "rationale": "best passage similarity 0.11 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.103,
+              "rationale": "best passage similarity 0.10 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-DNS-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "host": "rfc-editor.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.037016232143060254,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.011799580447511657,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.12085705295504603,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.rfc-editor.org/rfc/rfc1035",
+                "score": 0.07572921124503831,
+                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions DNS TTL"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.8,
+              "rationale": "best passage similarity 0.80 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.541,
+              "rationale": "best passage similarity 0.54 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "host": "science.nasa.gov",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.8097971699020385,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.7306755972567808,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.73072720035718,
+                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.642,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.577,
+              "rationale": "best passage similarity 0.58 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper",
+                "host": "science.nasa.gov",
+                "ref": "SRC1",
+                "resolved": false,
+                "error": "HTTP 404"
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "SRC1: HTTP 404",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 70 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.639,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.572,
+              "rationale": "best passage similarity 0.57 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "host": "science.nasa.gov",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.8097971699020385,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.7306755972567808,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The repeating interval from one new moon to the next averages about 19.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.7007506928745929,
+                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "127 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.647,
+              "rationale": "best passage similarity 0.65 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.572,
+              "rationale": "best passage similarity 0.57 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "host": "science.nasa.gov",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": -0.02543915191356188,
+                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": -0.027086703724282603,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.13318821392797586,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.0367592698607904,
+                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "uncertain",
+              "score": 0.355,
+              "rationale": "best passage similarity 0.35 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.251,
+              "rationale": "best passage similarity 0.25 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-LUNAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "host": "science.nasa.gov",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": -0.04427483506792623,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": -0.005928601834347572,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.0816653528382511,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.009186104219683331,
+                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.685,
+              "rationale": "best passage similarity 0.68 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.488,
+              "rationale": "best passage similarity 0.49 (pass >= 0.45, fail < 0.3); question expects a duration but the matching passages contain none"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "host": "aa.usno.navy.mil",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.7714107397975274,
+                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.7093614452130658,
+                "passage": "The year 1900 was not a leap year because it does not divide by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.5108636956143504,
+                "passage": "The year 1900 was not a leap year because it does not divide by 400."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 74 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.753,
+              "rationale": "best passage similarity 0.75 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.704,
+              "rationale": "best passage similarity 0.70 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper",
+                "host": "aa.usno.navy.mil",
+                "ref": "SRC1",
+                "resolved": false,
+                "error": "HTTP 404"
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "SRC1: HTTP 404",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 75 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "131 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.734,
+              "rationale": "best passage similarity 0.73 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.711,
+              "rationale": "best passage similarity 0.71 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "host": "aa.usno.navy.mil",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.7714107397975274,
+                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 also qualified even though it was divisible by four.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.7111355548426892,
+                "passage": "The year 2000 was a leap year because it divides by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.5108636956143504,
+                "passage": "The year 1900 was not a leap year because it does not divide by 400."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 73 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 62 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "130 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.761,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.695,
+              "rationale": "best passage similarity 0.70 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "host": "aa.usno.navy.mil",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": -0.06399924554300018,
+                "passage": "The year 2000 was a leap year because it divides by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.014396105300783637,
+                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": -0.047851089881913715,
+                "passage": "The year 1900 was not a leap year because it does not divide by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.013177900522091876,
+                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 62 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": 0.05,
+              "rationale": "best passage similarity 0.05 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.061,
+              "rationale": "best passage similarity 0.06 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-CALENDAR-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "host": "aa.usno.navy.mil",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.07310316757435002,
+                "passage": "The year 2000 was a leap year because it divides by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.022629627679011326,
+                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": -0.00378220018610439,
+                "passage": "The year 2000 was a leap year because it divides by 400."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.09765034729209358,
+                "passage": "The year 2000 was a leap year because it divides by 400."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 65 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.742,
+              "rationale": "best passage similarity 0.74 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.511,
+              "rationale": "best passage similarity 0.51 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-good",
+          "kind": "good",
+          "label": "capture",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.w3.org/TR/png-3/",
+                "host": "w3.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.906400918484255,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.7556361614231469,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.547835685486862,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.765,
+              "rationale": "best passage similarity 0.77 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.649,
+              "rationale": "best passage similarity 0.65 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-fabricated-citation",
+          "kind": "fabricated-citation",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper",
+                "host": "w3.org",
+                "ref": "SRC1",
+                "resolved": false,
+                "error": "HTTP 404"
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "SRC1: HTTP 404",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 69 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.761,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.638,
+              "rationale": "best passage similarity 0.64 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-factual-error",
+          "kind": "factual-error",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.w3.org/TR/png-3/",
+                "host": "w3.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "PNG compression is lossless: decoding discards some encoded sample values to reduce image information to obtain a smaller file.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.9020590154849273,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": true,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.7556361614231469,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.547835685486862,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 68 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 64 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "128 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.759,
+              "rationale": "best passage similarity 0.76 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.626,
+              "rationale": "best passage similarity 0.63 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-off-topic",
+          "kind": "off-topic",
+          "label": "reject",
+          "decision": "void",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.w3.org/TR/png-3/",
+                "host": "w3.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.010799551233474952,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.05378890501649266,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.17624084430646092,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.0877146966792197,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 61 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 56 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "113 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "fail",
+              "score": -0.009,
+              "rationale": "best passage similarity -0.01 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "fail",
+              "score": 0.057,
+              "rationale": "best passage similarity 0.06 (pass >= 0.45, fail < 0.3)"
+            }
+          ]
+        },
+        {
+          "id": "H1-PNG-padding",
+          "kind": "padding",
+          "label": "reject",
+          "decision": "escalate",
+          "sourceCheck": {
+            "enabled": true,
+            "ok": false,
+            "method": "MiniLM passage similarity",
+            "threshold": 0.55,
+            "documents": [
+              {
+                "url": "https://www.w3.org/TR/png-3/",
+                "host": "w3.org",
+                "ref": "SRC1",
+                "resolved": true
+              }
+            ],
+            "claims": [
+              {
+                "ref": "S1.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": -0.007475341995015466,
+                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.006242258706277409,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.09433861978207646,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S1.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [
+                  "SRC1"
+                ],
+                "supported": false,
+                "sourceRef": "SRC1",
+                "url": "https://www.w3.org/TR/png-3/",
+                "score": 0.05088261974110019,
+                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
+              },
+              {
+                "ref": "S2.P1",
+                "text": "The requested topic deserves careful consideration by every interested reader.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "This report presents an organized perspective with clear headings and a professional structure.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
+                "cited": [],
+                "supported": false
+              },
+              {
+                "ref": "S2.P1",
+                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
+                "cited": [],
+                "supported": false
+              }
+            ],
+            "issues": [
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S1.P1: unsupported claim (no matching passage)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)",
+              "S2.P1: unsupported claim (missing local citation)"
+            ]
+          },
+          "results": [
+            {
+              "id": "SEC-1",
+              "verdict": "pass",
+              "rationale": "section \"Findings\" has 64 words"
+            },
+            {
+              "id": "SEC-2",
+              "verdict": "pass",
+              "rationale": "section \"Implications\" has 55 words"
+            },
+            {
+              "id": "TOPIC",
+              "verdict": "pass",
+              "rationale": "mentions PNG"
+            },
+            {
+              "id": "LEN",
+              "verdict": "pass",
+              "rationale": "115 words, required 100-600"
+            },
+            {
+              "id": "SRC",
+              "verdict": "pass",
+              "rationale": "1 cited sources across 1 domains (need 1/1)"
+            },
+            {
+              "id": "Q-1",
+              "verdict": "pass",
+              "score": 0.707,
+              "rationale": "best passage similarity 0.71 (pass >= 0.45, fail < 0.3)"
+            },
+            {
+              "id": "Q-2",
+              "verdict": "pass",
+              "score": 0.504,
+              "rationale": "best passage similarity 0.50 (pass >= 0.45, fail < 0.3)"
             }
           ]
         }
