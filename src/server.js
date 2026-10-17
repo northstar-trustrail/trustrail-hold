@@ -7,12 +7,15 @@ const svc = await buildService(); const TOKENS = tokensFromEnv(process.env);
 const PORT = Number(process.env.PORT || 8787);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png', '.mp4': 'video/mp4' };
 const send = (res, code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); };
-const body = req => new Promise((ok, bad) => { let d = ''; req.on('data', c => { d += c; if (d.length > 2e5) bad(Object.assign(new Error('body too large'), { status: 413 })); }); req.on('end', () => { try { ok(d ? JSON.parse(d) : {}); } catch { bad(Object.assign(new Error('invalid JSON'), { status: 400 })); } }); });
+// Raw bytes are kept for PayPal webhook signature verification; JSON is parsed from the same bytes.
+const rawText = req => new Promise((ok, bad) => { const chunks = []; let n = 0; req.on('data', c => { n += c.length; if (n > 2e5) { bad(Object.assign(new Error('body too large'), { status: 413 })); req.destroy(); } else chunks.push(c); }); req.on('end', () => ok(Buffer.concat(chunks).toString('utf8'))); req.on('error', bad); });
+const parse = d => { try { return d ? JSON.parse(d) : {}; } catch { throw Object.assign(new Error('invalid JSON'), { status: 400 }); } };
+const body = async req => parse(await rawText(req));
 const actorOf = req => TOKENS[(req.headers.authorization || '').replace(/^Bearer\s+/i, '')] || null;
 const SYSTEM = { id: 'sweeper', role: 'system' };
 
 const routes = [
-  ['GET', /^\/api\/config$/, () => ({ sourceCheck: !!svc.sourceChecker, paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
+  ['GET', /^\/api\/config$/, () => ({ sourceCheck: svc.sourceChecker ? 'on (live public fetch)' : 'off (TRUSTRAIL_SOURCE_CHECK=0)', paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
   ['GET', /^\/api\/me$/, (a) => a],
   ['GET', /^\/api\/holds$/, (a) => svc.list(a)],
   ['POST', /^\/api\/holds$/, (a, m, b) => svc.propose(a, b)],
@@ -29,7 +32,7 @@ const routes = [
 http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://x');
   try {
-    if (url.pathname === '/api/paypal/webhook' && req.method === 'POST') return send(res, 200, await svc.webhook(req.headers, await body(req), process.env.PAYPAL_WEBHOOK_ID));
+    if (url.pathname === '/api/paypal/webhook' && req.method === 'POST') { const raw = await rawText(req); return send(res, 200, await svc.webhook(req.headers, parse(raw), process.env.PAYPAL_WEBHOOK_ID, raw)); }
     if (url.pathname === '/paypal/return') { // buyer approved on PayPal; PayPal's approval is the buyer's consent
       const h = svc.holds.get(url.searchParams.get('hold')); if (!h) return send(res, 404, { error: 'unknown hold' });
       await svc.authorize({ id: 'paypal-return', role: 'buyer', org: h.buyerId }, h.id); res.writeHead(302, { Location: `/#${h.id}` }); return res.end();

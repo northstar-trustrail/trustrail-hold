@@ -13,10 +13,10 @@ export class RestPayPal {
     const j = await r.json(); this.token = j.access_token; this.tokenExp = Date.now() + j.expires_in * 1000;
     return this.token;
   }
-  async call(method, path, body, requestId) {
+  async call(method, path, body, requestId, { rawBody = null } = {}) {
     const headers = { Authorization: `Bearer ${await this.accessToken()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' };
     if (requestId) headers['PayPal-Request-Id'] = requestId; // idempotency
-    const r = await this.fetch(`${this.base}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: AbortSignal.timeout(15000) });
+    const r = await this.fetch(`${this.base}${path}`, { method, headers, body: rawBody ?? (body ? JSON.stringify(body) : undefined), signal: AbortSignal.timeout(15000) });
     const text = await r.text(); const j = text ? JSON.parse(text) : {};
     if (!r.ok) { const e = new Error(`PayPal ${method} ${path} -> ${r.status} ${j.name || ''} ${(j.details || []).map(d => d.issue).join(',') || j.message || ''}`.trim()); e.status = r.status; e.debugId = j.debug_id; e.details = j.details; throw e; }
     return j;
@@ -41,10 +41,17 @@ export class RestPayPal {
   getAuthorization(id) { return this.call('GET', `/v2/payments/authorizations/${encodeURIComponent(id)}`); }
   getCapture(id) { return this.call('GET', `/v2/payments/captures/${encodeURIComponent(id)}`); }
   getRefund(id) { return this.call('GET', `/v2/payments/refunds/${encodeURIComponent(id)}`); }
-  async verifyWebhook(headers, event, webhookId) {
+  /**
+   * PayPal signs the exact bytes it sent. Re-serializing a parsed event can change them (key order, number
+   * formatting, escapes), so when the raw body is available it is spliced verbatim into the request as webhook_event.
+   */
+  async verifyWebhook(headers, event, webhookId, rawBody = null) {
     const fields = { auth_algo: headers['paypal-auth-algo'], cert_url: headers['paypal-cert-url'], transmission_id: headers['paypal-transmission-id'], transmission_sig: headers['paypal-transmission-sig'], transmission_time: headers['paypal-transmission-time'] };
     if (Object.values(fields).some(v => !v)) return false;
-    const r = await this.call('POST', '/v1/notifications/verify-webhook-signature', { ...fields, webhook_id: webhookId, webhook_event: event });
+    const path = '/v1/notifications/verify-webhook-signature';
+    let raw = null;
+    if (typeof rawBody === 'string') { JSON.parse(rawBody); raw = JSON.stringify({ ...fields, webhook_id: webhookId }).slice(0, -1) + ',"webhook_event":' + rawBody + '}'; }
+    const r = await this.call('POST', path, { ...fields, webhook_id: webhookId, webhook_event: event }, undefined, { rawBody: raw });
     return r.verification_status === 'SUCCESS';
   }
   getOrder(orderId) { return this.call('GET', `/v2/checkout/orders/${orderId}`); }

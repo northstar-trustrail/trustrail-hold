@@ -5,6 +5,9 @@ import fs from 'node:fs';
 import { buildService, DEMO_TOKENS } from '../src/app.js';
 if (!process.env.PAYPAL_CLIENT_ID) { console.error('set PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET'); process.exit(1); }
 process.env.TRUSTRAIL_SANDBOX_CARD ||= '4032039317984658';
+// This script exercises PayPal money movement. The build box cannot reach public citation hosts, so the
+// source check (on by default) would escalate every delivery; it is turned off here unless set explicitly.
+process.env.TRUSTRAIL_SOURCE_CHECK ??= '0';
 // Fresh store per run so a previous mock/sandbox snapshot is never mixed into the recorded IDs.
 process.env.TRUSTRAIL_STORE ||= `${process.env.TMPDIR || '/tmp'}/trustrail-sandbox-${Date.now()}.json`;
 const svc = await buildService(process.env); const A = DEMO_TOKENS;

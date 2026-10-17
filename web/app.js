@@ -7,7 +7,7 @@ const money = n => '$' + Number(n || 0).toFixed(2);
 const DAY = 864e5;
 let api, holds = [], current = null, grids = {};
 
-const DELIVERIES = [['A-good-1', 'Complete brief', 'ok'], ['A-adv-empty-sections', 'Empty sections'], ['A-adv-injection', 'Prompt injection'], ['A-adv-stuffing', 'Keyword stuffing'], ['A-adv-adjacent', 'Wrong topic (GDPR)']];
+const DELIVERIES = [['DEMO-A-source-faithful', 'Complete brief (figures as in sources)', 'ok'], ['A-good-1', 'Complete brief (paraphrased figures)'], ['A-adv-empty-sections', 'Empty sections'], ['A-adv-injection', 'Prompt injection'], ['A-adv-stuffing', 'Keyword stuffing'], ['A-adv-adjacent', 'Wrong topic (GDPR)']];
 const presets = specs => ({
   'AI Act brief · $45': specs.A, 'SOC 2 brief · $60': specs.B,
   'Big order · $150 (needs human)': { ...specs.A, amount: 150 }, 'Over cap · $900': { ...specs.A, amount: 900 },
@@ -85,7 +85,7 @@ function renderHold(h) {
 }
 (async () => {
   api = await connect(m => { $('#status').hidden = !m; $('#status').textContent = m; });
-  $('#badges').innerHTML = `<span>PayPal: ${api.cfg.paypal === 'mock' ? 'sandbox twin (mock)' : 'sandbox REST (live sandbox)'}</span><span>AI: ${esc(api.cfg.embedder)}${api.cfg.judge ? ' + ' + esc(api.cfg.judge) : ''}</span><span>Runs: ${api.cfg.backend}</span>`;
+  $('#badges').innerHTML = `<span>PayPal: ${api.cfg.paypal === 'mock' ? 'sandbox twin (mock)' : 'sandbox REST (live sandbox)'}</span><span>AI: ${esc(api.cfg.embedder)}${api.cfg.judge ? ' + ' + esc(api.cfg.judge) : ''}</span><span>Runs: ${api.cfg.backend}</span><span>Source check: ${esc(api.cfg.sourceCheck ?? 'off')}</span>`;
   const P = presets(api.cases.specs); let chosen = P['AI Act brief · $45'];
   const show = () => { $('#intentview').innerHTML = `<pre class="intent">${esc(JSON.stringify(chosen, null, 1))}</pre>`; };
   for (const [k, it] of Object.entries(P)) { const b = document.createElement('button'); b.textContent = k; b.onclick = () => { chosen = it; show(); }; $('#presets').append(b); }

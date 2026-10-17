@@ -32,7 +32,8 @@ export async function buildService(env = process.env) {
   };
   const judge = judgeFromEnv(env);
   return HoldService.create({ paypal: paypalFromEnv(env), embedder, judge, intentLlm: judge?.complete ? judge : null, signer, checkpointSink,
-    sourceChecker: env.TRUSTRAIL_SOURCE_CHECK === '1' ? new SourceChecker({ fetchSource: fetchPublicSource }) : null,
+    // Source checking is ON by default: auto-capture only when cited sources verify. TRUSTRAIL_SOURCE_CHECK=0 turns it off.
+    sourceChecker: env.TRUSTRAIL_SOURCE_CHECK === '0' ? null : new SourceChecker({ fetchSource: fetchPublicSource }),
     store: new FileStore(env.TRUSTRAIL_STORE || './data/trustrail.json'),
     sandboxCard: env.TRUSTRAIL_SANDBOX_CARD ? { number: env.TRUSTRAIL_SANDBOX_CARD, expiry: env.TRUSTRAIL_SANDBOX_CARD_EXPIRY || '2030-12', cvv: '123' } : null,
     policy: env.TRUSTRAIL_POLICY ? JSON.parse(env.TRUSTRAIL_POLICY) : {}, baseUrl: env.PUBLIC_URL || `http://localhost:${env.PORT || 8787}` });

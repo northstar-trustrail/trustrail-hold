@@ -52,4 +52,25 @@ test('webhook signature verification uses PayPal verification endpoint and exact
   assert.ok(sent.url.endsWith('/v1/notifications/verify-webhook-signature'));
   assert.equal(sent.webhook_id, 'configured-id'); assert.equal(sent.transmission_sig, 'transmission-sig');
   assert.deepEqual(sent.webhook_event, { id: 'WH-1' });
+  // Raw bytes are forwarded verbatim (number formatting and key order preserved), not re-serialized.
+  let rawSent; const pp2 = new RestPayPal({ clientId: 'id', clientSecret: 'test', fetchImpl: async (url, init) => {
+    if (url.endsWith('/token')) return { ok: true, json: async () => ({ access_token: 'test', expires_in: 3600 }) };
+    rawSent = init.body; return { ok: true, text: async () => '{"verification_status":"SUCCESS"}' };
+  } });
+  const raw = '{"resource":{"amount":{"value":"45.00"},"seq":1.50},"id":"WH-2"}';
+  assert.equal(await pp2.verifyWebhook(headers, JSON.parse(raw), 'configured-id', raw), true);
+  assert.ok(rawSent.endsWith(',"webhook_event":' + raw + '}'));
+  assert.equal(JSON.parse(rawSent).webhook_id, 'configured-id');
+  await assert.rejects(pp2.verifyWebhook(headers, {}, 'configured-id', '{not json'));
+});
+
+test('server build: source checking is on by default and TRUSTRAIL_SOURCE_CHECK=0 turns it off', async () => {
+  const { buildService } = await import('../src/app.js');
+  const fs = await import('node:fs'); const os = await import('node:os'); const path = await import('node:path');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trustrail-cfg-'));
+  for (const [flag, on] of [[undefined, true], ['1', true], ['0', false]]) {
+    const env = { TRUSTRAIL_EMBEDDER: 'lexical', TRUSTRAIL_STORE: path.join(dir, `s-${flag}.json`), ...(flag === undefined ? {} : { TRUSTRAIL_SOURCE_CHECK: flag }) };
+    const svc = await buildService(env); assert.equal(!!svc.sourceChecker, on, `flag ${flag}`); svc.store.close();
+  }
+  fs.rmSync(dir, { recursive: true });
 });
