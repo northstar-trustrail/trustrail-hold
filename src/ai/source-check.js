@@ -9,7 +9,7 @@ export function readableText(html) {
 }
 const splitSentences = text => text.split(/(?<=[.!?])\s+(?=["“(]?[A-Z0-9])/).map(s => s.trim()).filter(Boolean);
 // Strip URLs, citation markers and "Source:" labels so they are not mistaken for claims, numbers or entities.
-const clean = s => s.replace(/https?:\/\/[^\s)\]]+/g, ' ').replace(/\[\d+\]/g, ' ').replace(/\b(Sources?|References?):\s*$/i, ' ').replace(/\s+/g, ' ').trim();
+const clean = s => s.replace(/^\s*(?:[-*\u2022]|\d+[.)])\s+/, '').replace(/https?:\/\/[^\s)\]]+/g, ' ').replace(/\[\d+\]/g, ' ').replace(/\b(Sources?|References?):\s*$/i, ' ').replace(/\s+/g, ' ').trim();
 // Typographic dashes/quotes and accents normalized so "Torrijos–Carter" matches "Torrijos-Carter".
 export const normText = s => s.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[\u2010-\u2015\u2212]/g, '-').replace(/[’‘]/g, "'").replace(/[“”]/g, '"').toLowerCase();
 
