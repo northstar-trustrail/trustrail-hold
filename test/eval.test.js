@@ -25,7 +25,9 @@ test('held-out set covers new topics and compliant good work without changing fr
   assert.throws(() => { VERIFIER_CONFIG.retrieval.pass = 0; }, TypeError);
   const old = JSON.parse(fs.readFileSync(new URL('../eval/cases.json', import.meta.url)));
   const data = JSON.parse(fs.readFileSync(new URL('../eval/heldout-v1.json', import.meta.url)));
-  assert.ok(data.cases.length >= 15); assert.equal(data.protocol.thresholdConfig, VERIFIER_CONFIG.version);
+  assert.ok(data.cases.length >= 15); assert.equal(data.protocol.thresholdConfig, '2026-10-16.v1');
+  // v1 is a development set since v0.3.1; its retrieval thresholds are still the ones it was frozen against.
+  assert.deepEqual({ ...VERIFIER_CONFIG.retrieval }, { pass: 0.45, fail: 0.30, echo: 0.85 });
   const oldTopics = Object.values(old.specs).map(s => s.topic);
   for (const spec of Object.values(data.specs)) { assert.equal(validateIntent(spec).ok, true); assert.equal(oldTopics.includes(spec.topic), false); }
   const kinds = new Set(data.cases.map(c => c.kind));

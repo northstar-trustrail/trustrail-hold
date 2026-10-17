@@ -1,9 +1,20 @@
 {
-  "sourceMode": "offline-authored-fixtures",
+  "set": "v1",
+  "role": "development (used to design the v2 source check)",
+  "sourceMode": "local fixture server (127.0.0.1) for www.rfc-editor.org, science.nasa.gov, aa.usno.navy.mil, www.w3.org",
   "comparisonToLexical": {
-    "falseApproval": 0.6875,
-    "goodAutoApproval": 1,
-    "escalation": -0.55
+    "falseApproval": {
+      "minilmOnly": 0.6875,
+      "minilmSourceCheck": 0
+    },
+    "goodAutoApproval": {
+      "minilmOnly": 1,
+      "minilmSourceCheck": 0
+    },
+    "escalation": {
+      "minilmOnly": -0.55,
+      "minilmSourceCheck": 0.19999999999999996
+    }
   },
   "protocol": {
     "version": "heldout-v1",
@@ -23,18 +34,20 @@
   },
   "datasetSha256": "104352abd8c610c8d2af28324389d9c5a1ae02908b2295230c800283f32b778a",
   "config": {
-    "version": "2026-10-16.v1",
+    "version": "2026-10-17.v2",
     "retrieval": {
       "pass": 0.45,
       "fail": 0.3,
       "echo": 0.85
     },
     "source": {
-      "support": 0.55,
+      "support": 0.5,
+      "numberWindow": 3,
       "timeoutMs": 5000,
       "maxBytes": 262144,
       "maxSources": 20,
-      "maxClaims": 40
+      "maxClaims": 40,
+      "maxPassages": 400
     }
   },
   "miniLM": {
@@ -75,6 +88,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -121,6 +135,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -167,6 +182,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -213,6 +229,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "3/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -259,6 +276,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -305,6 +323,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -346,6 +365,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -387,6 +407,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -428,6 +449,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -469,6 +491,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -510,6 +533,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -551,6 +575,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -592,6 +617,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -633,6 +659,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -674,6 +701,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -715,6 +743,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -761,6 +790,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -807,6 +837,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -853,6 +884,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -899,6 +931,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -975,11 +1008,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -991,55 +1025,19 @@
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1087,73 +1085,38 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper",
                 "host": "rfc-editor.org",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
+              "SRC1: citation HTTP 404",
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1201,11 +1164,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -1217,55 +1181,19 @@
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but remains valid in the cache indefinitely for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1313,11 +1241,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "3/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -1326,74 +1255,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1441,11 +1306,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -1454,74 +1320,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1569,11 +1371,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -1586,54 +1389,51 @@
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Lunar phases occur because an observer on Earth sees different fractions of the \")",
+              "S1.P1: no source passage (\"Ordinary phases are not produced by Earth casting its shadow on the Moon.\")",
+              "S1.P1: no source passage (\"The repeating interval from one new moon to the next averages about 29.5 days, l\")",
+              "S2.P1: no source passage (\"During one orbit, Earth also moves along its path around the Sun, so the Moon mu\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1676,73 +1476,71 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper",
                 "host": "science.nasa.gov",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
+              "SRC1: citation HTTP 404",
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Lunar phases occur because an observer on Earth sees different fractions of the \")",
+              "S1.P1: no source passage (\"Ordinary phases are not produced by Earth casting its shadow on the Moon.\")",
+              "S1.P1: no source passage (\"The repeating interval from one new moon to the next averages about 29.5 days, l\")",
+              "S2.P1: no source passage (\"During one orbit, Earth also moves along its path around the Sun, so the Moon mu\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1785,11 +1583,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -1802,54 +1601,51 @@
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 19.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Lunar phases occur because an observer on Earth sees different fractions of the \")",
+              "S1.P1: no source passage (\"Ordinary phases are not produced by Earth casting its shadow on the Moon.\")",
+              "S1.P1: no source passage (\"The repeating interval from one new moon to the next averages about 19.5 days, l\")",
+              "S2.P1: no source passage (\"During one orbit, Earth also moves along its path around the Sun, so the Moon mu\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -1892,11 +1688,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -1905,74 +1702,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2015,11 +1748,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -2028,74 +1762,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2138,11 +1808,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -2155,54 +1826,51 @@
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: no source passage (\"The year 2000 qualified because it was divisible by 400, whereas 1900 did not qu\")",
+              "S1.P1: no source passage (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: no source passage (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2245,73 +1913,71 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper",
                 "host": "aa.usno.navy.mil",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
+              "SRC1: citation HTTP 404",
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: no source passage (\"The year 2000 qualified because it was divisible by 400, whereas 1900 did not qu\")",
+              "S1.P1: no source passage (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: no source passage (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2354,11 +2020,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "2 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -2371,54 +2038,51 @@
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 also qualified even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: no source passage (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: no source passage (\"The year 2000 qualified because it was divisible by 400, whereas 1900 also quali\")",
+              "S1.P1: no source passage (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: no source passage (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2461,11 +2125,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -2474,74 +2139,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2584,11 +2185,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -2597,74 +2199,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2707,11 +2245,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -2720,58 +2259,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2819,73 +2310,26 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper",
                 "host": "w3.org",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "SRC1: HTTP 404",
+              "SRC1: citation HTTP 404",
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -2933,11 +2377,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: MiniLM unavailable: citation support unverified",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -2946,58 +2391,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding discards some encoded sample values to reduce image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -3045,11 +2442,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -3058,74 +2456,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -3173,11 +2507,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
             "method": "unverified (MiniLM unavailable)",
-            "threshold": 0.55,
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -3186,74 +2521,10 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
               "MiniLM unavailable: citation support unverified",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -3343,6 +2614,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3389,6 +2661,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3435,6 +2708,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3481,6 +2755,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "3/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -3527,6 +2802,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3573,6 +2849,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3614,6 +2891,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3655,6 +2933,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3696,6 +2975,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain",
           "sourceCheck": null,
           "results": [
             {
@@ -3737,6 +3017,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "partial delivery",
           "sourceCheck": null,
           "results": [
             {
@@ -3778,6 +3059,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3819,6 +3101,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3860,6 +3143,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3901,6 +3185,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -3942,6 +3227,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 6 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -3983,6 +3269,7 @@
           "kind": "good",
           "label": "capture",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -4029,6 +3316,7 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -4075,6 +3363,7 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -4121,6 +3410,7 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": null,
           "results": [
             {
@@ -4167,6 +3457,7 @@
           "kind": "padding",
           "label": "reject",
           "decision": "capture",
+          "decisionReason": "all 7 frozen criteria passed",
           "sourceCheck": null,
           "results": [
             {
@@ -4243,11 +3534,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: S1.P1: best passage similarity 0.48 < 0.5; number 3600 not in the matching source passages (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -4259,64 +3551,22 @@
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.7848366829322179,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.7375455638468736,
-                "passage": "Zero TTL does not permit reuse beyond the current transaction."
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": false,
+                "problems": [
+                  "best passage similarity 0.48 < 0.5",
+                  "number 3600 not in the matching source passages"
+                ],
                 "sourceRef": "SRC1",
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.4847957907631488,
+                "score": 0.485,
                 "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
               }
             ],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: best passage similarity 0.48 < 0.5; number 3600 not in the matching source passages (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -4364,72 +3614,37 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035/trustrail-study-2099-no-such-paper",
                 "host": "rfc-editor.org",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but is not retained in the cache for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "SRC1: citation HTTP 404",
+              "S1.P1: no source passage (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -4477,11 +3692,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: S1.P1: best passage similarity 0.48 < 0.5; number 3600 not in the matching source passages (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -4493,64 +3709,22 @@
             "claims": [
               {
                 "ref": "S1.P1",
-                "text": "DNS TTL limits the duration a resolver can reuse a cached resource record before consulting its source again.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.7848366829322179,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A record with a zero TTL is usable for the current transaction but remains valid in the cache indefinitely for later requests.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.7454946106494698,
-                "passage": "Zero TTL does not permit reuse beyond the current transaction."
-              },
-              {
-                "ref": "S1.P1",
                 "text": "For example, a positive lifetime of 3600 seconds permits reuse for up to one hour; a shorter interval makes changes visible sooner.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": false,
+                "problems": [
+                  "best passage similarity 0.48 < 0.5",
+                  "number 3600 not in the matching source passages"
+                ],
                 "sourceRef": "SRC1",
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.4847957907631488,
+                "score": 0.485,
                 "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A resolver needs to track remaining lifetime rather than assume every cached record stays valid indefinitely.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When planning a record change, the operator should consider copies that were cached under the old lifetime.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Reducing the configured lifetime does not retroactively edit those copies, so the change plan must account for existing cache contents and future queries.",
-                "cited": [],
-                "supported": false
               }
             ],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: best passage similarity 0.48 < 0.5; number 3600 not in the matching source passages (\"For example, a positive lifetime of 3600 seconds permits reuse for up to one hou\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -4598,11 +3772,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "3/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -4611,89 +3786,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.03139144840256227,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.09145764628439995,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.024166751450234863,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.14783195232289925,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -4741,11 +3836,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.rfc-editor.org/rfc/rfc1035",
@@ -4754,89 +3850,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.037016232143060254,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.011799580447511657,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.12085705295504603,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.rfc-editor.org/rfc/rfc1035",
-                "score": 0.07572921124503831,
-                "passage": "Positive DNS TTL specifies how many seconds a cached record can be reused before consulting the source again."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -4884,11 +3900,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: S1.P1: number 27.3 not in the matching source passages (\"The repeating interval from one new moon to the next averages about 29.5 days, l\")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -4901,62 +3918,52 @@
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.8097971699020385,
+                "score": 0.81,
                 "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.7306755972567808,
+                "score": 0.731,
                 "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "number 27.3 not in the matching source passages"
                 ],
-                "supported": true,
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.73072720035718,
+                "score": 0.731,
                 "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
               },
               {
                 "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": true,
+                "problems": [],
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.541,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               }
             ],
             "issues": [
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: number 27.3 not in the matching source passages (\"The repeating interval from one new moon to the next averages about 29.5 days, l\")"
             ]
           },
           "results": [
@@ -4999,72 +4006,70 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/trustrail-study-2099-no-such-paper",
                 "host": "science.nasa.gov",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 29.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "SRC1: citation HTTP 404",
+              "S1.P1: no source passage (\"Lunar phases occur because an observer on Earth sees different fractions of the \")",
+              "S1.P1: no source passage (\"Ordinary phases are not produced by Earth casting its shadow on the Moon.\")",
+              "S1.P1: no source passage (\"The repeating interval from one new moon to the next averages about 29.5 days, l\")",
+              "S2.P1: no source passage (\"During one orbit, Earth also moves along its path around the Sun, so the Moon mu\")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -5107,11 +4112,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: S1.P1: number 19.5, 27.3 not in the matching source passages (\"The repeating interval from one new moon to the next averages about 19.5 days, l\")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -5124,62 +4130,52 @@
               {
                 "ref": "S1.P1",
                 "text": "Lunar phases occur because an observer on Earth sees different fractions of the sunlit half of the Moon as it moves around our planet.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.8097971699020385,
+                "score": 0.81,
                 "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               },
               {
                 "ref": "S1.P1",
                 "text": "Ordinary phases are not produced by Earth casting its shadow on the Moon.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.7306755972567808,
+                "score": 0.731,
                 "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               },
               {
                 "ref": "S1.P1",
                 "text": "The repeating interval from one new moon to the next averages about 19.5 days, longer than the roughly 27.3 days needed to orbit relative to distant stars.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "number 19.5, 27.3 not in the matching source passages"
                 ],
-                "supported": true,
                 "sourceRef": "SRC1",
                 "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.7007506928745929,
+                "score": 0.701,
                 "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
               },
               {
                 "ref": "S2.P1",
-                "text": "A calendar for observing the Moon should distinguish the phase cycle from the orbital period measured against the stars.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
                 "text": "During one orbit, Earth also moves along its path around the Sun, so the Moon must travel farther to restore the same lighting geometry.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "An observer can use the changing illuminated fraction to describe the phase without confusing it with a lunar eclipse.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": true,
+                "problems": [],
+                "sourceRef": "SRC1",
+                "url": "https://science.nasa.gov/moon/moon-phases/",
+                "score": 0.541,
+                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
               }
             ],
             "issues": [
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: number 19.5, 27.3 not in the matching source passages (\"The repeating interval from one new moon to the next averages about 19.5 days, l\")"
             ]
           },
           "results": [
@@ -5222,11 +4218,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "1 criteria uncertain; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -5235,89 +4232,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": -0.02543915191356188,
-                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": -0.027086703724282603,
-                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.13318821392797586,
-                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.0367592698607904,
-                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -5360,11 +4277,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "partial delivery; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://science.nasa.gov/moon/moon-phases/",
@@ -5373,89 +4291,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": -0.04427483506792623,
-                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": -0.005928601834347572,
-                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.0816653528382511,
-                "passage": "Phases reflect the changing visible fraction of the sunlit Moon as it orbits Earth; Earth shadow produces lunar eclipses, not ordinary phases."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://science.nasa.gov/moon/moon-phases/",
-                "score": 0.009186104219683331,
-                "passage": "The lunar phase cycle from new moon to new moon lasts about 29.5 days."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -5498,11 +4336,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: S1.P1: entity February not found in cited sources (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -5515,63 +4354,58 @@
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "entity February not found in cited sources"
                 ],
-                "supported": true,
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.7714107397975274,
+                "score": 0.771,
                 "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.7093614452130658,
+                "score": 0.709,
                 "passage": "The year 1900 was not a leap year because it does not divide by 400."
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": false,
+                "problems": [
+                  "entity Julian not found in cited sources"
+                ],
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.5108636956143504,
+                "score": 0.511,
                 "passage": "The year 1900 was not a leap year because it does not divide by 400."
               },
               {
                 "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "best passage similarity 0.40 < 0.5"
+                ],
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.402,
+                "passage": "The year 2000 was a leap year because it divides by 400."
               }
             ],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: entity February not found in cited sources (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: entity Julian not found in cited sources (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: best passage similarity 0.40 < 0.5 (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")"
             ]
           },
           "results": [
@@ -5614,72 +4448,70 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years/trustrail-study-2099-no-such-paper",
                 "host": "aa.usno.navy.mil",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
             "claims": [
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 did not qualify even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
                 ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
+                "score": null
               },
               {
                 "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "no source passage"
+                ],
+                "score": null
               }
             ],
             "issues": [
-              "SRC1: HTTP 404",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "SRC1: citation HTTP 404",
+              "S1.P1: no source passage (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: no source passage (\"The year 2000 qualified because it was divisible by 400, whereas 1900 did not qu\")",
+              "S1.P1: no source passage (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: no source passage (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -5722,11 +4554,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: S1.P1: entity February not found in cited sources (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -5739,63 +4572,58 @@
               {
                 "ref": "S1.P1",
                 "text": "Gregorian leap year rules add a February day in years divisible by four, except century years that are not also divisible by four hundred.",
-                "cited": [
-                  "SRC1"
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "entity February not found in cited sources"
                 ],
-                "supported": true,
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.7714107397975274,
+                "score": 0.771,
                 "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
               },
               {
                 "ref": "S1.P1",
                 "text": "The year 2000 qualified because it was divisible by 400, whereas 1900 also qualified even though it was divisible by four.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": true,
+                "problems": [],
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.7111355548426892,
+                "score": 0.711,
                 "passage": "The year 2000 was a leap year because it divides by 400."
               },
               {
                 "ref": "S1.P1",
                 "text": "This century exception changes the simpler rule used by the Julian calendar and keeps the civil year closer to the seasonal year.",
-                "cited": [
-                  "SRC1"
-                ],
+                "key": true,
                 "supported": false,
+                "problems": [
+                  "entity Julian not found in cited sources"
+                ],
                 "sourceRef": "SRC1",
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.5108636956143504,
+                "score": 0.511,
                 "passage": "The year 1900 was not a leap year because it does not divide by 400."
               },
               {
                 "ref": "S2.P1",
-                "text": "Calendar software should implement the complete divisibility test rather than only checking whether a year divides by four.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A useful test suite includes an ordinary common year, an ordinary leap year, a century excluded by the exception, and a century included by the four hundred rule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
                 "text": "The examples 1900 and 2000 therefore exercise different branches and help catch a common implementation mistake.",
-                "cited": [],
-                "supported": false
+                "key": true,
+                "supported": false,
+                "problems": [
+                  "best passage similarity 0.40 < 0.5"
+                ],
+                "sourceRef": "SRC1",
+                "url": "https://aa.usno.navy.mil/faq/leap_years",
+                "score": 0.402,
+                "passage": "The year 2000 was a leap year because it divides by 400."
               }
             ],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "S1.P1: entity February not found in cited sources (\"Gregorian leap year rules add a February day in years divisible by four, except \")",
+              "S1.P1: entity Julian not found in cited sources (\"This century exception changes the simpler rule used by the Julian calendar and \")",
+              "S2.P1: best passage similarity 0.40 < 0.5 (\"The examples 1900 and 2000 therefore exercise different branches and help catch \")"
             ]
           },
           "results": [
@@ -5838,11 +4666,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/6 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -5851,89 +4680,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": -0.06399924554300018,
-                "passage": "The year 2000 was a leap year because it divides by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.014396105300783637,
-                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": -0.047851089881913715,
-                "passage": "The year 1900 was not a leap year because it does not divide by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.013177900522091876,
-                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -5976,11 +4725,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 6 frozen criteria passed; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://aa.usno.navy.mil/faq/leap_years",
@@ -5989,89 +4739,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.07310316757435002,
-                "passage": "The year 2000 was a leap year because it divides by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.022629627679011326,
-                "passage": "Gregorian years divisible by four are leap years, except centuries not divisible by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": -0.00378220018610439,
-                "passage": "The year 2000 was a leap year because it divides by 400."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://aa.usno.navy.mil/faq/leap_years",
-                "score": 0.09765034729209358,
-                "passage": "The year 2000 was a leap year because it divides by 400."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -6114,11 +4784,12 @@
           "kind": "good",
           "label": "capture",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -6127,67 +4798,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.906400918484255,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.7556361614231469,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.547835685486862,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -6235,72 +4848,25 @@
           "kind": "fabricated-citation",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: SRC1: citation HTTP 404",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/trustrail-study-2099-no-such-paper",
                 "host": "w3.org",
                 "ref": "SRC1",
                 "resolved": false,
-                "error": "HTTP 404"
+                "error": "citation HTTP 404"
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding restores the encoded sample values without discarding image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "SRC1: HTTP 404",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "SRC1: citation HTTP 404",
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -6348,11 +4914,12 @@
           "kind": "factual-error",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -6361,67 +4928,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "PNG compression is lossless: decoding discards some encoded sample values to reduce image information to obtain a smaller file.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.9020590154849273,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "PNG supports an optional alpha channel for partial pixel transparency, with values representing degrees of opacity rather than only a binary visible or invisible choice.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": true,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.7556361614231469,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This makes the format useful when crisp graphics and transparency must survive storage and decoding with predictable sample values.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.547835685486862,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A graphics pipeline should distinguish the compression method from earlier editing steps such as palette reduction or resizing.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Those editing choices can change samples before the file is written, even though the PNG compression itself is lossless.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "When exporting a translucent graphic, the author should preserve the alpha channel and check the rendered result against both light and dark backgrounds to inspect edge appearance.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -6469,11 +4978,12 @@
           "kind": "off-topic",
           "label": "reject",
           "decision": "void",
+          "decisionReason": "2/7 criteria not met (2/2 questions unanswered)",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -6482,89 +4992,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.010799551233474952,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.05378890501649266,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.17624084430646092,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.0877146966792197,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A sourdough starter contains a community of yeasts and bacteria living in flour and water.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Regular feeding changes the balance of nutrients and helps maintain a predictable fermentation schedule.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Bakers observe aroma, expansion, and bubbles to decide whether the mixture is active.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "A clean container with room for expansion makes the daily routine easier to monitor.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [
@@ -6612,11 +5042,12 @@
           "kind": "padding",
           "label": "reject",
           "decision": "escalate",
+          "decisionReason": "all 7 frozen criteria passed; source support unverified: no supported factual claim in the paragraphs that answer the questions",
           "sourceCheck": {
             "enabled": true,
             "ok": false,
-            "method": "MiniLM passage similarity",
-            "threshold": 0.55,
+            "method": "claim-level: MiniLM passage retrieval + literal number/entity cross-check",
+            "threshold": 0.5,
             "documents": [
               {
                 "url": "https://www.w3.org/TR/png-3/",
@@ -6625,89 +5056,9 @@
                 "resolved": true
               }
             ],
-            "claims": [
-              {
-                "ref": "S1.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": -0.007475341995015466,
-                "passage": "PNG is a lossless image format: compression preserves encoded sample values."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.006242258706277409,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.09433861978207646,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S1.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [
-                  "SRC1"
-                ],
-                "supported": false,
-                "sourceRef": "SRC1",
-                "url": "https://www.w3.org/TR/png-3/",
-                "score": 0.05088261974110019,
-                "passage": "An optional alpha channel represents partial pixel transparency and opacity."
-              },
-              {
-                "ref": "S2.P1",
-                "text": "The requested topic deserves careful consideration by every interested reader.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "This report presents an organized perspective with clear headings and a professional structure.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Several important aspects require additional investigation before any reliable conclusion can be drawn.",
-                "cited": [],
-                "supported": false
-              },
-              {
-                "ref": "S2.P1",
-                "text": "Further analysis may provide useful context for the discussion, while future work can fill gaps in the available material.",
-                "cited": [],
-                "supported": false
-              }
-            ],
+            "claims": [],
             "issues": [
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S1.P1: unsupported claim (no matching passage)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)",
-              "S2.P1: unsupported claim (missing local citation)"
+              "no supported factual claim in the paragraphs that answer the questions"
             ]
           },
           "results": [

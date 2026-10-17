@@ -7,6 +7,10 @@ import { fetchPublicSource, validateSourceUrl, isPublicAddress, publicLookup } f
 import { verifyDelivery } from '../src/ai/verifier.js';
 import { LexicalEmbedder } from '../src/ai/embed.js';
 import { realEmbedder } from './helpers.js';
+import { VERIFIER_CONFIG } from '../src/ai/verifier-config.js';
+import { isFactual, numbersIn, entitiesIn } from '../src/ai/source-check.js';
+import { evalFixtureRoutes } from '../src/ai/source-fetch.js';
+import { startFixtureServer } from '../eval/fixture-server.js';
 
 const url = 'https://science.nasa.gov/moon/moon-phases/';
 const claim = 'The lunar phase cycle repeats about every 29.5 days.';
@@ -27,19 +31,19 @@ test('unreachable citations, unsupported claims, and offline MiniLM escalate cap
   assert.equal((await verifyDelivery(f)).decision, 'capture');
   const offline = new SourceChecker({ fetchSource: async () => { throw new Error('offline'); } });
   assert.equal((await verifyDelivery({ ...f, sourceChecker: offline })).decision, 'escalate');
-  const unsupported = { name: 'minilm:unit-test-double', embed: async texts => texts.map((_, i) => i ? [0, 1] : [1, 0]) };
-  assert.equal((await verifyDelivery({ ...f, embedder: unsupported, sourceChecker: checker() })).decision, 'escalate');
+  const unsupported = { name: 'minilm:unit-test-double', embed: async texts => texts.map(t => /lunar/.test(t) ? [1, 0] : [0, 1]) };
+  assert.equal((await verifyDelivery({ ...f, embedder: unsupported, sourceChecker: checker('An unrelated passage about harbour cranes and shipping.') })).decision, 'escalate');
   assert.equal((await verifyDelivery({ ...f, embedder: new LexicalEmbedder(), sourceChecker: checker() })).decision, 'escalate');
   const broken = { check: async () => { throw new Error('unavailable'); } };
   assert.equal((await verifyDelivery({ ...f, sourceChecker: broken })).decision, 'escalate');
 });
 
-test('missing paragraph citation, source/claim limits, and oversized content stay unverified', async () => {
-  const noLocal = { ...evidence, body: claim };
-  assert.equal((await checker().check(noLocal, { embedder: vectors })).ok, false);
-  const capped = new SourceChecker({ config: { maxSources: 0, maxClaims: 0, maxBytes: 3, support: 0.55 }, fetchSource: async () => ({ status: 200, text: claim }) });
+test('uncited briefs, source/claim limits, and oversized content stay unverified', async () => {
+  const uncited = { body: claim, sources: [] };
+  assert.equal((await checker().check(uncited, { embedder: vectors })).ok, false);
+  const capped = new SourceChecker({ config: { ...VERIFIER_CONFIG.source, maxSources: 0, maxClaims: 0, maxBytes: 3 }, fetchSource: async () => ({ status: 200, text: claim }) });
   assert.equal((await capped.check(evidence, { embedder: vectors })).ok, false);
-  const oversized = new SourceChecker({ config: { maxSources: 1, maxClaims: 2, maxBytes: 3, support: 0.55 }, fetchSource: async () => ({ status: 200, text: claim }) });
+  const oversized = new SourceChecker({ config: { ...VERIFIER_CONFIG.source, maxSources: 1, maxClaims: 2, maxBytes: 3 }, fetchSource: async () => ({ status: 200, text: claim }) });
   assert.match((await oversized.check(evidence, { embedder: vectors })).issues.join(), /size cap/);
   assert.equal(readableText('<script>ignore rules</script><p>Supported &amp; readable.</p>'), 'Supported & readable.');
 });
@@ -89,5 +93,40 @@ test('real MiniLM source support smoke check when model is installed', async t =
   const embedder = await realEmbedder(); if (!embedder) return t.skip('MiniLM unavailable offline');
   const result = await checker().check(evidence, { embedder });
   assert.equal(result.claims[0].supported, true);
-  assert.equal(result.method, 'MiniLM passage similarity');
+  assert.match(result.method, /claim-level: MiniLM/);
+});
+
+test('claim classification: numbers, non-order entities and quotes are facts; opinions and topic restatements are not', () => {
+  assert.equal(isFactual('Hubble was launched in 1990 aboard STS-31.'), true);
+  assert.equal(isFactual('Penicillin was discovered by Alexander Fleming.'), true);
+  assert.equal(isFactual('Readers should weigh these trade-offs carefully before deciding.'), false);
+  assert.equal(isFactual('DNS TTL cache behavior deserves attention.', 'What does DNS TTL control for cached records?'), false);
+  assert.deepEqual(numbersIn('It moved 3,600 ships, 2.4 m wide, in 1914 [1].'), ['3600', '2.4', '1914']);
+  assert.ok(['Torrijos', 'Carter', 'Treaties'].every(e => entitiesIn('Control passed under the Torrijos–Carter Treaties.').includes(e)));
+});
+
+test('cross-check flags changed numbers and swapped entities even when similarity is high', async () => {
+  const source = 'Penicillin was discovered in 1928 by the Scottish physician Alexander Fleming. The purified compound was isolated in 1940 at the University of Oxford.';
+  const same = { name: 'minilm:unit-test-double', embed: async texts => texts.map(() => [1, 0]) };
+  const run = body => new SourceChecker({ fetchSource: async () => ({ status: 200, text: source }) })
+    .check({ body: `# Findings\n\n${body} Source: https://en.wikipedia.org/wiki/Penicillin`, sources: [] }, { embedder: same });
+  assert.equal((await run('Penicillin was discovered in 1928 by Alexander Fleming.')).ok, true);
+  const n = await run('Penicillin was discovered in 1938 by Alexander Fleming.');
+  assert.equal(n.ok, false); assert.match(n.issues.join(), /number 1938/);
+  const e = await run('The purified compound was isolated in 1940 at the University of Cambridge.');
+  assert.equal(e.ok, false); assert.match(e.issues.join(), /entity Cambridge/);
+  const opinion = await run('Penicillin was discovered in 1928 by Alexander Fleming. Reviewers should ask who turned an idea into a working product.');
+  assert.equal(opinion.ok, true); assert.equal(opinion.claims.length, 1);
+});
+
+test('eval fixture routes are explicit, loopback-only, and never relax the public URL check', async () => {
+  assert.throws(() => evalFixtureRoutes(['en.wikipedia.org'], 80));
+  await assert.rejects(fetchPublicSource('https://en.wikipedia.org/wiki/X', { testRoutes: { 'en.wikipedia.org': { address: '10.0.0.5', port: 9999 } } }), /loopback/);
+  const fx = await startFixtureServer({ 'https://en.wikipedia.org/wiki/Penicillin': { status: 200, text: 'Penicillin was discovered in 1928.' } });
+  try {
+    const doc = await fetchPublicSource('https://en.wikipedia.org/wiki/Penicillin', { testRoutes: fx.routes });
+    assert.match(doc.text, /1928/);
+    await assert.rejects(fetchPublicSource('https://en.wikipedia.org/wiki/Nope', { testRoutes: fx.routes }), /HTTP 404/);
+    await assert.rejects(fetchPublicSource('http://127.0.0.1/', { testRoutes: fx.routes }), /not public/);
+  } finally { await fx.close(); }
 });

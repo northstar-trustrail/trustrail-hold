@@ -31,16 +31,31 @@ export function publicLookup(host, opts, cb, lookup = dns.lookup) {
     cb(null, opts.all ? addresses : addresses[0].address, addresses[0].family);
   });
 }
-export async function fetchPublicSource(value, { timeoutMs = VERIFIER_CONFIG.source.timeoutMs, maxBytes = VERIFIER_CONFIG.source.maxBytes, requestImpl = null } = {}) {
+/**
+ * Evaluation-only routing: an explicit, frozen map of public hostnames to a LOOPBACK fixture server.
+ * Production (src/app.js) never passes it. Every URL is still validated as public HTTP(S) first;
+ * only the listed hostnames are redirected, and only to 127.0.0.1/::1, so the SSRF guard is unchanged.
+ */
+export function evalFixtureRoutes(hostnames, port) {
+  if (!Number.isInteger(port) || port < 1024) throw new Error('fixture port must be an unprivileged integer');
+  return Object.freeze(Object.fromEntries(hostnames.map(h => [h.toLowerCase(), Object.freeze({ address: '127.0.0.1', port })])));
+}
+export async function fetchPublicSource(value, { timeoutMs = VERIFIER_CONFIG.source.timeoutMs, maxBytes = VERIFIER_CONFIG.source.maxBytes, requestImpl = null, testRoutes = null } = {}) {
   const signal = AbortSignal.timeout(timeoutMs);
   async function read(value, redirects = 0) {
     const url = validateSourceUrl(value);
+    const route = testRoutes && Object.hasOwn(testRoutes, url.hostname.toLowerCase()) ? testRoutes[url.hostname.toLowerCase()] : null;
+    if (route && !['127.0.0.1', '::1'].includes(route.address)) throw new Error('eval fixture routes must point at loopback');
     return new Promise((resolve, reject) => {
-      const req = (requestImpl || (url.protocol === 'https:' ? https : http).get)(url, {
-        signal, agent: false, headers: { Accept: 'text/html,text/plain', 'Accept-Encoding': 'identity', 'User-Agent': 'Trustrail-source-check/1' },
+      const headers = { Accept: 'text/html,text/plain', 'Accept-Encoding': 'identity', 'User-Agent': 'Trustrail-source-check/1' };
+      const req = route
+        ? (requestImpl || http.get)({ host: route.address, port: route.port, path: url.pathname + url.search, signal, agent: false, headers: { ...headers, Host: url.host } }, res => onResponse(res))
+        : (requestImpl || (url.protocol === 'https:' ? https : http).get)(url, {
+        signal, agent: false, headers,
         // Pin the validated DNS result to this connection, including each redirect.
         lookup: publicLookup,
-      }, res => {
+      }, res => onResponse(res));
+      function onResponse(res) {
         if ([301, 302, 303, 307, 308].includes(res.statusCode)) {
           res.destroy();
           if (++redirects > 3 || !res.headers.location) return reject(new Error('citation redirect limit'));
@@ -54,7 +69,7 @@ export async function fetchPublicSource(value, { timeoutMs = VERIFIER_CONFIG.sou
         res.on('data', chunk => { size += chunk.length; if (size > maxBytes) { res.destroy(new Error('citation size cap')); } else chunks.push(chunk); });
         res.on('error', reject);
         res.on('end', () => resolve({ url: url.href, status: 200, text: Buffer.concat(chunks).toString('utf8') }));
-      });
+      }
       req.on('error', reject);
     });
   }
