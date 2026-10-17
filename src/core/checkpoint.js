@@ -12,6 +12,7 @@ export class Signer {
     const s = new Signer();
     if (privateJwk) { s.priv = await subtle().importKey('jwk', privateJwk, ALG, false, ['sign']); const { d, ...pub } = privateJwk; s.pubJwk = { ...pub, key_ops: ['verify'] }; }
     else { const kp = await subtle().generateKey(ALG, true, ['sign', 'verify']); s.priv = kp.privateKey; s.pubJwk = await subtle().exportKey('jwk', kp.publicKey); }
+    s.privateJwk = privateJwk || await subtle().exportKey('jwk', s.priv);
     s.keyId = (s.pubJwk.x || '').slice(0, 12); return s;
   }
   async sign(payload) { return b64(await subtle().sign(SIG, this.priv, new TextEncoder().encode(canon(payload)))); }

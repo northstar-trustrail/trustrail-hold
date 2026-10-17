@@ -16,34 +16,45 @@ export class RestPayPal {
   async call(method, path, body, requestId) {
     const headers = { Authorization: `Bearer ${await this.accessToken()}`, 'Content-Type': 'application/json', Prefer: 'return=representation' };
     if (requestId) headers['PayPal-Request-Id'] = requestId; // idempotency
-    const r = await this.fetch(`${this.base}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    const r = await this.fetch(`${this.base}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: AbortSignal.timeout(15000) });
     const text = await r.text(); const j = text ? JSON.parse(text) : {};
     if (!r.ok) { const e = new Error(`PayPal ${method} ${path} -> ${r.status} ${j.name || ''} ${(j.details || []).map(d => d.issue).join(',') || j.message || ''}`.trim()); e.status = r.status; e.debugId = j.debug_id; e.details = j.details; throw e; }
     return j;
   }
-  async createAuthorizeOrder({ holdId, amount, currency = 'USD', description, merchantId, returnUrl, cancelUrl, sandboxCard }) {
+  async createAuthorizeOrder({ holdId, amount, currency = 'USD', description, merchantId, returnUrl, cancelUrl, sandboxCard, requestId }) {
     const source = sandboxCard
       // Sandbox-only shortcut for unattended demos: a PayPal sandbox test card authorizes without a buyer login.
       ? { card: { number: sandboxCard.number, expiry: sandboxCard.expiry, security_code: sandboxCard.cvv, name: 'Sandbox Buyer' } }
       : { paypal: { experience_context: { brand_name: 'Trustrail', user_action: 'CONTINUE', shipping_preference: 'NO_SHIPPING', return_url: returnUrl, cancel_url: cancelUrl } } };
     if (sandboxCard && !this.base.includes('sandbox')) throw new Error('sandbox test cards are only allowed against the sandbox API');
+    // Single merchant: omit payee so PayPal uses the app credential owner's account.
+    // merchantId is an internal deliverer ID and is never presented as a PayPal payee.
     const o = await this.call('POST', '/v2/checkout/orders', {
       intent: 'AUTHORIZE',
       purchase_units: [{ reference_id: holdId, custom_id: holdId, description: String(description).slice(0, 127), soft_descriptor: 'TRUSTRAIL',
         amount: { currency_code: currency, value: Number(amount).toFixed(2) } }],
       payment_source: source,
-    }, `create-${holdId}-${this.nonce ||= Date.now().toString(36)}`);
+    }, requestId || `create-${holdId}-${crypto.randomUUID()}`);
     const auth = o.purchase_units?.[0]?.payments?.authorizations?.[0];
     return { id: o.id, status: o.status, approveUrl: approveLink(o), merchantId, authorization: auth ? { authorizationId: auth.id, status: auth.status, expiresAt: auth.expiration_time } : null };
   }
+  getAuthorization(id) { return this.call('GET', `/v2/payments/authorizations/${encodeURIComponent(id)}`); }
+  getCapture(id) { return this.call('GET', `/v2/payments/captures/${encodeURIComponent(id)}`); }
+  getRefund(id) { return this.call('GET', `/v2/payments/refunds/${encodeURIComponent(id)}`); }
+  async verifyWebhook(headers, event, webhookId) {
+    const fields = { auth_algo: headers['paypal-auth-algo'], cert_url: headers['paypal-cert-url'], transmission_id: headers['paypal-transmission-id'], transmission_sig: headers['paypal-transmission-sig'], transmission_time: headers['paypal-transmission-time'] };
+    if (Object.values(fields).some(v => !v)) return false;
+    const r = await this.call('POST', '/v1/notifications/verify-webhook-signature', { ...fields, webhook_id: webhookId, webhook_event: event });
+    return r.verification_status === 'SUCCESS';
+  }
   getOrder(orderId) { return this.call('GET', `/v2/checkout/orders/${orderId}`); }
-  async authorizeOrder(orderId) { return parseAuthorizeResponse(await this.call('POST', `/v2/checkout/orders/${orderId}/authorize`, {}, `auth-${orderId}`)); }
-  async captureAuthorization(authorizationId, { amount, currency = 'USD', invoiceId, note } = {}) {
+  async authorizeOrder(orderId, { requestId } = {}) { return parseAuthorizeResponse(await this.call('POST', `/v2/checkout/orders/${orderId}/authorize`, {}, requestId || `auth-${orderId}`)); }
+  async captureAuthorization(authorizationId, { amount, currency = 'USD', invoiceId, note, requestId } = {}) {
     const c = await this.call('POST', `/v2/payments/authorizations/${authorizationId}/capture`, {
       final_capture: true, invoice_id: invoiceId, note_to_payer: note?.slice(0, 255),
-      ...(amount ? { amount: { currency_code: currency, value: Number(amount).toFixed(2) } } : {}) }, `cap-${authorizationId}`);
+      ...(amount ? { amount: { currency_code: currency, value: Number(amount).toFixed(2) } } : {}) }, requestId || `cap-${authorizationId}`);
     return { captureId: c.id, status: c.status };
   }
-  async voidAuthorization(authorizationId) { await this.call('POST', `/v2/payments/authorizations/${authorizationId}/void`, null, `void-${authorizationId}`); return { status: 'VOIDED' }; }
-  async refundCapture(captureId, { note } = {}) { const r = await this.call('POST', `/v2/payments/captures/${captureId}/refund`, { note_to_payer: note?.slice(0, 255) }, `ref-${captureId}`); return { refundId: r.id, status: r.status }; }
+  async voidAuthorization(authorizationId, { requestId } = {}) { await this.call('POST', `/v2/payments/authorizations/${authorizationId}/void`, null, requestId || `void-${authorizationId}`); return { status: 'VOIDED' }; }
+  async refundCapture(captureId, { note, requestId } = {}) { const r = await this.call('POST', `/v2/payments/captures/${captureId}/refund`, { note_to_payer: note?.slice(0, 255) }, requestId || `ref-${captureId}`); return { refundId: r.id, status: r.status }; }
 }

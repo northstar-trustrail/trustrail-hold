@@ -4,7 +4,8 @@ import { scanInjection } from './guard.js';
 import { cosine } from './embed.js';
 import { sha256Hex, canon } from '../core/hash.js';
 
-export const THRESHOLDS = { pass: 0.45, fail: 0.30, echo: 0.85 }; // calibrated on eval/cases.json with MiniLM (see EVAL.md)
+import { VERIFIER_CONFIG } from './verifier-config.js';
+export const THRESHOLDS = VERIFIER_CONFIG.retrieval;
 
 // Expected answer type (classic QA heuristic): a real answer to "when / how long / how much" contains a date, duration or amount.
 const ANSWER_TYPES = [
@@ -14,7 +15,7 @@ const ANSWER_TYPES = [
 ];
 export function expectedAnswerType(q) { const t = ANSWER_TYPES.find(([qre]) => qre.test(q)); return t ? { re: t[1], label: t[2] } : null; }
 
-export async function verifyDelivery({ criteria, criteriaHash, evidence, embedder, judge = null, thresholds = THRESHOLDS }) {
+export async function verifyDelivery({ criteria, criteriaHash, evidence, embedder, judge = null, sourceChecker = null, thresholds = THRESHOLDS }) {
   const parsed = parseBrief(evidence.body);
   const injection = scanInjection(evidence.body + '\n' + (evidence.sources || []).map(s => s.title).join('\n'));
   const units = parsed.units.filter(u => !/^(sources|references|bibliography)$/i.test(u.section.trim()));
@@ -51,5 +52,11 @@ export async function verifyDelivery({ criteria, criteriaHash, evidence, embedde
   else if (pass === results.length) { decision = 'capture'; decisionReason = `all ${results.length} frozen criteria passed`; }
   else if (pass / results.length < 0.5 || semFail * 2 > semTotal) { decision = 'void'; decisionReason = `${results.length - pass}/${results.length} criteria not met${semFail * 2 > semTotal ? ` (${semFail}/${semTotal} questions unanswered)` : ''}`; }
   else { decision = 'escalate'; decisionReason = unc ? `${unc} criteria uncertain` : 'partial delivery'; }
-  return { criteriaHash, evidenceHash: await sha256Hex(canon(evidence)), results, injection, decision, decisionReason, models: { embedder: embedder.name, judge: judge?.name || null } };
+  let sourceCheck = null;
+  if (sourceChecker) {
+    try { sourceCheck = await sourceChecker.check(evidence, { embedder, keyRefs: [...new Set(results.filter(r => r.id.startsWith('Q-')).flatMap(r => r.evidenceRefs.map(e => e.ref)))] }); }
+    catch (e) { sourceCheck = { enabled: true, ok: false, issues: [`source checker unavailable: ${e.message}`] }; }
+    if (!sourceCheck.ok && decision !== 'void') { decision = 'escalate'; decisionReason += '; source support unverified: ' + sourceCheck.issues[0]; }
+  }
+  return { sourceCheck, criteriaHash, evidenceHash: await sha256Hex(canon(evidence)), results, injection, decision, decisionReason, models: { embedder: embedder.name, judge: judge?.name || null } };
 }

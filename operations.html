@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Trustrail | Operations workspace</title>
+  <link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="operations.css">
+  <script src="vendor/ag-grid-community.min.js"></script>
+</head>
+<body class="operations">
+  <header><div class="brand"><img src="logo.svg" alt=""><div><h1>Trustrail <span>Operations</span></h1><p>Review evidence, watch exposure, and resolve holds.</p></div></div>
+    <nav aria-label="Workspace navigation"><a href="index.html">Purchase demo</a><button id="themeToggle" aria-label="Switch workspace color theme">Dark theme</button></nav>
+  </header>
+  <div class="workspace-meta"><span id="connection">Connecting to hold service...</span><span>Single merchant settlement</span></div>
+  <div id="status" class="statusbar" role="status" hidden></div>
+  <section id="exposure" class="stats" aria-label="Payment exposure"></section>
+  <main class="ops-main">
+    <section class="card workflow-card" aria-labelledby="workflowTitle">
+      <div><span class="eyebrow">Read-only agent tool</span><h2 id="workflowTitle">Expiring unresolved holds</h2><p>Build a review view for holds approaching a delivery deadline, the honor-period boundary, or authorization expiry. Overdue holds stay visible.</p></div>
+      <form id="workflowForm"><label for="withinHours">Look ahead</label><select id="withinHours"><option value="6">6 hours</option><option value="24" selected>24 hours</option><option value="72">72 hours</option></select><button class="primary" type="submit">Build review view</button><button id="clearView" type="button">Show all holds</button></form>
+      <div id="workflowResult" role="status" class="workflow-result">The agent tool changes filters and sorting. Use the review controls after inspecting evidence.</div>
+    </section>
+    <section class="card wide ops-grid-card" aria-labelledby="allTitle"><div class="gridhead"><h2 id="allTitle">Holds and exposure</h2><span id="viewCount" class="sub"></span><button id="refresh">Refresh</button></div><p class="hint">Select a hold to link its criteria and delivery to the evidence inspector. The honor period has the highest likelihood of capture success; it is not a guarantee.</p><div id="operationsGrid" class="grid" aria-label="Holds and exposure grid"></div></section>
+    <section class="card ops-queue" aria-labelledby="queueTitle"><div class="gridhead"><h2 id="queueTitle">Review queue</h2><span id="queueCount" class="sub"></span></div><div id="reviewGrid" class="grid" aria-label="Review queue"></div></section>
+    <section class="card selection-card" aria-labelledby="selectionTitle"><span class="eyebrow">App review controls</span><h2 id="selectionTitle">Select a hold</h2><div id="selectionDetail" class="hint">Select a row in either grid to inspect the frozen criteria and delivery.</div><div id="reviewActions"></div></section>
+    <section class="card wide ops-criteria" aria-labelledby="criteriaTitle"><div class="gridhead"><h2 id="criteriaTitle">Frozen criteria</h2><span class="sub">Select a criterion to inspect its linked passages</span></div><div id="criteriaGrid" class="grid short" aria-label="Criteria and evidence references"></div></section>
+    <section class="card wide evidence-card" aria-labelledby="evidenceTitle"><div class="gridhead"><h2 id="evidenceTitle">Evidence inspector</h2><span id="evidenceContext" class="sub">No hold selected</span></div><div id="evidenceInspector" class="evidence-inspector"><p class="hint">A selected criterion opens its referenced delivery passages and source-check support here.</p></div></section>
+  </main>
+  <footer>Trustrail operations | AG Grid Community | <a href="index.html">Purchase demo</a><span id="agentCapability"></span></footer>
+  <script type="module" src="operations.js"></script>
+</body>
+</html>
