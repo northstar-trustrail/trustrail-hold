@@ -35,3 +35,18 @@ test('held-out set covers new topics and compliant good work without changing fr
     for (const rule of criteria.filter(r => r.kind === 'deterministic')) assert.equal(runDeterministic(rule, c.evidence, parseBrief(c.evidence.body)).verdict, 'pass', `${c.id}: ${rule.id}`);
   }
 });
+
+test('held-out v2: new topics, required kinds, compliant good work, real source snapshots', async () => {
+  const data = JSON.parse(fs.readFileSync(new URL('../eval/heldout-v2.json', import.meta.url)));
+  const earlier = [...Object.values(JSON.parse(fs.readFileSync(new URL('../eval/cases.json', import.meta.url))).specs),
+    ...Object.values(JSON.parse(fs.readFileSync(new URL('../eval/heldout-v1.json', import.meta.url))).specs)].map(s => s.topic);
+  assert.ok(data.cases.length >= 20);
+  for (const spec of Object.values(data.specs)) { assert.equal(validateIntent(spec).ok, true); assert.equal(earlier.includes(spec.topic), false); }
+  const kinds = new Set(data.cases.map(c => c.kind));
+  for (const k of ['good', 'fabricated-citation', 'wrong-number', 'wrong-entity', 'padding', 'off-topic', 'prompt-injection']) assert.ok(kinds.has(k), k);
+  for (const c of data.cases) for (const s of c.evidence.sources) assert.ok(data.sourceFixtures[s.url], `${c.id}: fixture for ${s.url}`);
+  for (const c of data.cases.filter(c => c.label === 'capture')) {
+    const { criteria } = await freezeCriteria(data.specs[c.spec]);
+    for (const rule of criteria.filter(r => r.kind === 'deterministic')) assert.equal(runDeterministic(rule, c.evidence, parseBrief(c.evidence.body)).verdict, 'pass', `${c.id}: ${rule.id}`);
+  }
+});
