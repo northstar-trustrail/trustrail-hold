@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import http from 'node:http'; import fs from 'node:fs/promises'; import path from 'node:path'; import { fileURLToPath } from 'node:url';
-import { buildService, tokensFromEnv } from './app.js';
+import { buildService, tokensFromEnv, sourceCheckMode } from './app.js';
 import { assertCan } from './core/authz.js';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const svc = await buildService(); const TOKENS = tokensFromEnv(process.env);
@@ -15,7 +15,7 @@ const actorOf = req => TOKENS[(req.headers.authorization || '').replace(/^Bearer
 const SYSTEM = { id: 'sweeper', role: 'system' };
 
 const routes = [
-  ['GET', /^\/api\/config$/, () => ({ sourceCheck: svc.sourceChecker ? 'on (live public fetch)' : 'off (TRUSTRAIL_SOURCE_CHECK=0)', paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
+  ['GET', /^\/api\/config$/, () => ({ sourceCheck: sourceCheckMode(process.env), paypal: svc.paypalMode, embedder: svc.embedder.name, judge: svc.judge?.name || null, policy: svc.policy, publicKey: svc.checkpoints.signer.pubJwk })],
   ['GET', /^\/api\/me$/, (a) => a],
   ['GET', /^\/api\/holds$/, (a) => svc.list(a)],
   ['POST', /^\/api\/holds$/, (a, m, b) => svc.propose(a, b)],

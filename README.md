@@ -64,6 +64,8 @@ Similarity retrieval alone approved every fabricated citation, changed number, s
 
 Auto-capture happens only when the cited sources verify; otherwise the hold escalates to a human. `TRUSTRAIL_SOURCE_CHECK=0` turns it off on the server, `?sourceCheck=off` in the browser demo.
 
+Replay mode: `TRUSTRAIL_SOURCE_SNAPSHOTS=web/source-snapshots.json` makes the server read saved copies of cited pages instead of fetching them (only URLs in the file resolve; anything else escalates). The UI labels this as "replayed source snapshots". It exists for machines that cannot reach citation hosts; the v4 demo video was recorded this way against the real PayPal sandbox. The live, SSRF-guarded fetcher is unchanged.
+
 - Every cited URL is fetched. A 404, timeout, non-public address or unsupported page leaves the delivery unverified.
 - Only **factual claim sentences** need support: sentences with numbers or dates, named entities the order did not already supply, or quotations. Opinion and implication sentences need no citation.
 - Each factual claim must match a passage of a cited source (MiniLM similarity >= 0.50). **Every number in the claim must appear in the best-matching source passages**, and **every named entity must appear in the cited sources**. "Launched in 1992" against a source that says 1990, or "University of Cambridge" against one that says Oxford, escalates.

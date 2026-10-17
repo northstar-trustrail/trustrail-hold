@@ -74,3 +74,13 @@ test('server build: source checking is on by default and TRUSTRAIL_SOURCE_CHECK=
   }
   fs.rmSync(dir, { recursive: true });
 });
+
+test('server replay mode: TRUSTRAIL_SOURCE_SNAPSHOTS resolves only listed URLs and is labeled', async () => {
+  const { snapshotFetchSource, sourceCheckMode } = await import('../src/app.js');
+  const f = snapshotFetchSource({ sources: { 'https://example.org/a': { status: 200, text: 'hello' } } });
+  assert.deepEqual(await f('https://example.org/a'), { status: 200, text: 'hello' });
+  await assert.rejects(f('https://example.org/missing'), /no snapshot/);
+  assert.match(sourceCheckMode({ TRUSTRAIL_SOURCE_SNAPSHOTS: 'web/source-snapshots.json' }), /^on \(replayed source snapshots, fetched \d{4}-\d\d-\d\d\)$/);
+  assert.equal(sourceCheckMode({}), 'on (live public fetch)');
+  assert.match(sourceCheckMode({ TRUSTRAIL_SOURCE_CHECK: '0' }), /^off/);
+});

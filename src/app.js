@@ -21,6 +21,14 @@ export function judgeFromEnv(env) {
   if (j === 'local') return new LocalQwenJudge();
   return null;
 }
+/** Replay mode for demos on networks that cannot reach citation hosts: TRUSTRAIL_SOURCE_SNAPSHOTS=web/source-snapshots.json.
+ *  Only URLs present in the file resolve; anything else is unresolved (and escalates). The live SSRF-guarded fetcher is not changed. */
+const snapshots = env => JSON.parse(fs.readFileSync(env.TRUSTRAIL_SOURCE_SNAPSHOTS, 'utf8'));
+export const snapshotFetchSource = file => async url => { const s = file.sources[url]; if (!s) throw new Error('no snapshot for this URL (replay mode)'); return { status: s.status, text: s.text }; };
+export function sourceCheckMode(env = process.env) {
+  if (env.TRUSTRAIL_SOURCE_CHECK === '0') return 'off (TRUSTRAIL_SOURCE_CHECK=0)';
+  return env.TRUSTRAIL_SOURCE_SNAPSHOTS ? `on (replayed source snapshots, fetched ${snapshots(env).fetchedAt})` : 'on (live public fetch)';
+}
 export async function buildService(env = process.env) {
   let embedder = env.TRUSTRAIL_EMBEDDER === 'lexical' ? new LexicalEmbedder() : new MiniLMEmbedder();
   if (embedder instanceof MiniLMEmbedder) { try { await embedder.load(); } catch (e) { console.error('MiniLM unavailable, using lexical fallback:', e.message); embedder = new LexicalEmbedder(); } }
@@ -33,7 +41,7 @@ export async function buildService(env = process.env) {
   const judge = judgeFromEnv(env);
   return HoldService.create({ paypal: paypalFromEnv(env), embedder, judge, intentLlm: judge?.complete ? judge : null, signer, checkpointSink,
     // Source checking is ON by default: auto-capture only when cited sources verify. TRUSTRAIL_SOURCE_CHECK=0 turns it off.
-    sourceChecker: env.TRUSTRAIL_SOURCE_CHECK === '0' ? null : new SourceChecker({ fetchSource: fetchPublicSource }),
+    sourceChecker: env.TRUSTRAIL_SOURCE_CHECK === '0' ? null : new SourceChecker({ fetchSource: env.TRUSTRAIL_SOURCE_SNAPSHOTS ? snapshotFetchSource(snapshots(env)) : fetchPublicSource }),
     store: new FileStore(env.TRUSTRAIL_STORE || './data/trustrail.json'),
     sandboxCard: env.TRUSTRAIL_SANDBOX_CARD ? { number: env.TRUSTRAIL_SANDBOX_CARD, expiry: env.TRUSTRAIL_SANDBOX_CARD_EXPIRY || '2030-12', cvv: '123' } : null,
     policy: env.TRUSTRAIL_POLICY ? JSON.parse(env.TRUSTRAIL_POLICY) : {}, baseUrl: env.PUBLIC_URL || `http://localhost:${env.PORT || 8787}` });

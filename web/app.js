@@ -7,7 +7,7 @@ const money = n => '$' + Number(n || 0).toFixed(2);
 const DAY = 864e5;
 let api, holds = [], current = null, grids = {};
 
-const DELIVERIES = [['DEMO-A-source-faithful', 'Complete brief (figures as in sources)', 'ok'], ['A-good-1', 'Complete brief (paraphrased figures)'], ['A-adv-empty-sections', 'Empty sections'], ['A-adv-injection', 'Prompt injection'], ['A-adv-stuffing', 'Keyword stuffing'], ['A-adv-adjacent', 'Wrong topic (GDPR)']];
+const DELIVERIES = [['DEMO-A-source-faithful', 'Complete brief (figures as in sources)', 'ok'], ['DEMO-A-wrong-figure', 'Same brief, one fine amount changed'], ['A-good-1', 'Complete brief (paraphrased figures)'], ['A-adv-empty-sections', 'Empty sections'], ['A-adv-injection', 'Prompt injection'], ['A-adv-stuffing', 'Keyword stuffing'], ['A-adv-adjacent', 'Wrong topic (GDPR)']];
 const presets = specs => ({
   'AI Act brief · $45': specs.A, 'SOC 2 brief · $60': specs.B,
   'Big order · $150 (needs human)': { ...specs.A, amount: 150 }, 'Over cap · $900': { ...specs.A, amount: 900 },
@@ -68,10 +68,11 @@ function renderHold(h) {
   const pol = h.policy?.reasons?.length ? `<div class="alert ${h.state === 'DENIED' ? 'bad' : h.policy.decision === 'allow' ? 'good' : ''}">${h.state === 'DENIED' ? 'Blocked: ' : 'Policy: '}${esc(h.policy.reasons.join('; '))}</div>` : '';
   const inj = h.verdict?.injection?.suspicious ? `<div class="alert bad">⚠ The seller's delivery tried to instruct the verifier (“${esc(h.verdict.injection.hits[0])}”). Auto-capture is disabled; a reviewer decides.</div>` : '';
   const dec = h.verdict ? `<div class="alert ${h.verdict.decision === 'capture' ? 'good' : h.verdict.decision === 'void' ? 'bad' : ''}">Verdict: <b>${h.verdict.decision}</b> · ${esc(h.verdict.decisionReason)} · models: ${esc(h.verdict.models.embedder)}${h.verdict.models.judge ? ' + ' + esc(h.verdict.models.judge) : ''}</div>` : '';
+  const sc = h.verdict?.sourceCheck; const scHtml = sc?.claims ? `<div class="srccheck"><div class="srchead">Source check: ${sc.documents.filter(d => d.resolved).length}/${sc.documents.length} cited sources read · ${sc.claims.filter(c => c.supported).length}/${sc.claims.length} factual claims supported</div>${sc.claims.map(c => `<div class="claim ${c.supported ? 'ok' : 'no'}"><b>${c.supported ? '✓' : '✕'}</b><span>${esc(c.text.length > 120 ? c.text.slice(0, 117) + '…' : c.text)}</span><small>${c.supported ? `${esc(c.sourceRef)} ${esc(c.url ? new URL(c.url).host : '')} · similarity ${c.score?.toFixed(2)}` : esc(c.problems.join('; ') || 'no matching passage')}</small></div>`).join('')}</div>` : '';
   v.innerHTML = `<div class="steps">${steps(h)}</div>
    <dl class="kv"><dt>Hold</dt><dd>${h.id} ${pill({ value: h.state })}</dd><dt>Brief</dt><dd>${esc(h.topic)}</dd><dt>Amount</dt><dd>${money(h.amount)} ${h.currency} → seller <b>${esc(h.sellerId || '—')}</b></dd>
-   <dt>PayPal order</dt><dd>${h.paypal?.orderId || '—'}</dd><dt>Authorization</dt><dd>${h.paypal?.authorizationId || '—'}${h.paypal?.authExpiresAt ? ` <small>(valid to ${h.paypal.authExpiresAt.slice(0, 10)}, honor period to ${h.paypal.honorEndsAt.slice(0, 10)})</small>` : ''}</dd>
-   <dt>Capture</dt><dd>${h.paypal?.captureId || '—'}${h.paypal?.refundId ? ` · refund ${h.paypal.refundId}` : ''}</dd></dl>${pol}${dec}${inj}<div id="actions" class="box"></div>`;
+   <dt>PayPal order</dt><dd>${h.paypal?.orderId || '—'}</dd><dt>Authorization</dt><dd>${h.paypal?.authorizationId || '—'}${h.paypal?.voidStatus ? ` <b class="st">${esc(h.paypal.voidStatus)}</b>` : ''}${h.paypal?.authExpiresAt && !h.paypal?.voidStatus && !h.paypal?.captureId ? ` <small>(valid to ${h.paypal.authExpiresAt.slice(0, 10)}, honor period to ${h.paypal.honorEndsAt.slice(0, 10)})</small>` : ''}</dd>
+   <dt>Capture</dt><dd>${h.paypal?.captureId ? `${h.paypal.captureId} <b class="st">${esc(h.paypal.captureStatus || '')}</b>` : '—'}</dd>${h.paypal?.refundId ? `<dt>Refund</dt><dd>${h.paypal.refundId} <b class="st">${esc(h.paypal.refundStatus || '')}</b></dd>` : ''}</dl>${pol}${dec}${inj}${scHtml}<div id="actions" class="box"></div>`;
   const a = $('#actions');
   if (h.state === 'AWAITING_HUMAN') a.append('Above the auto-approve threshold. Buyer: ', act('Approve order', 'ok', () => api.policyApprove(h.id, true)), act('Reject', 'bad', () => api.policyApprove(h.id, false)));
   else if (h.state === 'AWAITING_PAYER') {
