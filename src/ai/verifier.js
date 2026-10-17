@@ -54,7 +54,8 @@ export async function verifyDelivery({ criteria, criteriaHash, evidence, embedde
   else { decision = 'escalate'; decisionReason = unc ? `${unc} criteria uncertain` : 'partial delivery'; }
   let sourceCheck = null;
   if (sourceChecker) {
-    try { sourceCheck = await sourceChecker.check(evidence, { embedder, keyRefs: [...new Set(results.filter(r => r.id.startsWith('Q-')).flatMap(r => r.evidenceRefs.map(e => e.ref)))] }); }
+    try { sourceCheck = await sourceChecker.check(evidence, { embedder, keyRefs: [...new Set(results.filter(r => r.id.startsWith('Q-')).flatMap(r => r.evidenceRefs.map(e => e.ref)))],
+      orderText: criteria.map(c => [c.params?.question, ...(c.params?.anchors || [])].filter(Boolean).join(' ')).join(' ') }); }
     catch (e) { sourceCheck = { enabled: true, ok: false, issues: [`source checker unavailable: ${e.message}`] }; }
     if (!sourceCheck.ok && decision !== 'void') { decision = 'escalate'; decisionReason += '; source support unverified: ' + sourceCheck.issues[0]; }
   }

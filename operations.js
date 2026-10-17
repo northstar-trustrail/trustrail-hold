@@ -50,7 +50,7 @@ function theme() {
 }
 function visibleRows() { return plan ? rows.filter(r => matchesReviewView(r, plan)) : rows; }
 function updateRows() {
-  rows = holds.map(h => operationRow(h));
+  rows = holds.map(h => ({ ...operationRow(h), sample: !!h.sample }));
   grids.operations.setGridOption('rowData', rows);
   grids.review.setGridOption('rowData', visibleRows().filter(r => r.reviewNeeded));
   const unresolved = rows.filter(r => r.unresolved === 'yes');
@@ -140,12 +140,17 @@ function applyAgentView(input) {
   try {
     const params = new URLSearchParams(location.search);
     if (params.get('theme') === 'dark') { document.body.dataset.theme = 'dark'; $('themeToggle').textContent = 'Light theme'; }
-    api = await connect(message => notify(message));
-    $('connection').textContent = `${api.cfg.backend === 'server' ? 'Durable server' : 'Ephemeral browser demo'} | PayPal ${api.cfg.paypal} | ${api.cfg.embedder}`;
+    api = await connect(message => notify(message), { seed: params.get('samples') !== 'off' });
+    if (api.reset && api.cfg.samples) {
+      $('sampleBanner').hidden = false;
+      $('sampleText').textContent = `${api.cfg.samples} holds were generated in this browser tab through the real flow (mock PayPal, in-browser MiniLM, source check ${api.cfg.sourceCheck}). Nothing here is a real payment.`;
+      $('resetSamples').onclick = async () => { $('resetSamples').disabled = true; try { await api.reset(); selectedId = null; selectedCriterion = null; plan = null; grids.operations.setFilterModel(null); holds = []; await refresh(); if (holds[0]) selectHold(holds[0]); notify('Sample data reset.'); } catch (e) { notify(e.message, true); } finally { $('resetSamples').disabled = false; } };
+    }
+    $('connection').textContent = `${api.cfg.backend === 'server' ? 'Durable server' : 'Ephemeral browser demo'} | PayPal ${api.cfg.paypal} | ${api.cfg.embedder} | source check ${api.cfg.sourceCheck ?? 'off'}`;
     const common = { rowData: [], theme: theme(), defaultColDef: { sortable: true, resizable: true, filter: true, minWidth: 90 }, rowHeight: 47,
       getRowId: p => p.data.id, onRowClicked: e => selectHold(e.data), overlayNoRowsTemplate: '<span>No matching holds. Change the view or create holds in the purchase demo.</span>' };
     grids.operations = agGrid.createGrid($('operationsGrid'), { ...common, onFilterChanged: updateViewCount,
-      columnDefs: [{ field: 'id', headerName: 'Hold', width: 95, pinned: 'left' }, { field: 'state', headerName: 'State', width: 200, cellRenderer: state },
+      columnDefs: [{ field: 'id', headerName: 'Hold', width: 150, pinned: 'left', cellRenderer: p => p.data?.sample ? `${p.value} <span class="sample-tag">Sample</span>` : p.value }, { field: 'state', headerName: 'State', width: 200, cellRenderer: state },
         { field: 'exposure', headerName: 'Reserved', width: 145, cellRenderer: ExposureRenderer, filter: 'agNumberColumnFilter' },
         { field: 'hoursRemaining', headerName: 'Next deadline', width: 220, cellRenderer: CountdownRenderer, filter: 'agNumberColumnFilter', sort: 'asc' },
         { field: 'topic', headerName: 'Research brief', flex: 2, minWidth: 240 }, { field: 'sellerId', headerName: 'Deliverer', width: 120 },

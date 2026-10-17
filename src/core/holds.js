@@ -183,9 +183,9 @@ export class HoldService {
     }
     this.persist();
   }
-  async webhook(headers, event, webhookId) {
+  async webhook(headers, event, webhookId, rawBody = null) {
     const p = this.settlement.paypal;
-    if (!webhookId || !p.verifyWebhook || !await p.verifyWebhook(headers, event, webhookId)) throw Object.assign(new Error('invalid PayPal webhook signature'), { status: 401 });
+    if (!webhookId || !p.verifyWebhook || !await p.verifyWebhook(headers, event, webhookId, rawBody)) throw Object.assign(new Error('invalid PayPal webhook signature'), { status: 401 });
     if (!event.id || !event.resource?.id) throw Object.assign(new Error('invalid webhook event'), { status: 400 });
     if (this.webhookIds.has(event.id)) return { duplicate: true };
     const r = event.resource, related = r.supplementary_data?.related_ids || {};

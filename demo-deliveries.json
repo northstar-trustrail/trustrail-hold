@@ -1,0 +1,28 @@
+{
+ "note": "Browser-demo deliveries. Not part of any evaluation set. Written after the v2 source check was frozen, to show what a brief that states figures the way its sources do looks like.",
+ "cases": [
+  {
+   "id": "DEMO-A-source-faithful",
+   "spec": "A",
+   "kind": "demo",
+   "label": "capture",
+   "evidence": {
+    "body": "# Summary\n\nThe EU AI Act is Regulation (EU) 2024/1689, and it entered into force on 1 August 2024. A small SaaS company that only uses third-party AI APIs mostly acts as a deployer rather than a provider, so its duties are narrower than those of model vendors. The practical work is an inventory of where AI is used, a short internal policy, and a record of which provider supplies each model.\n\n# Key findings\n\n- When: the AI Act became applicable on 2 August 2026 with exceptions. Prohibited AI practices and AI literacy obligations entered into application from 2 February 2025, and the governance rules and the obligations for GPAI models became applicable on 2 August 2025.\n\n- Fines: breaking the prohibited AI practices rules is subject to administrative fines of up to EUR 35 000 000 or up to 7 % of total worldwide annual turnover, whichever is higher. Breaches of other operator obligations can reach EUR 15 000 000 or 3 %, and supplying incorrect information EUR 7 500 000 or 1 %. In the case of SMEs, including start-ups, each fine is whichever of the two amounts is lower.\n\n- Duties: deployers of AI systems must take measures to ensure a sufficient level of AI literacy of their staff. When people use an AI system such as a chatbot, they should be made aware that they are interacting with a machine, and AI-generated content must be identifiable.\n\n# Sources\n\n1. Regulation (EU) 2024/1689, Official Journal: https://eur-lex.europa.eu/eli/reg/2024/1689/oj\n2. European Commission, regulatory framework and timeline: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai\n3. AI Act Explorer, Article 99 (penalties): https://artificialintelligenceact.eu/article/99/\n",
+    "sources": [
+     {
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+      "title": "Regulation (EU) 2024/1689"
+     },
+     {
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "title": "European Commission: AI Act"
+     },
+     {
+      "url": "https://artificialintelligenceact.eu/article/99/",
+      "title": "AI Act Article 99"
+     }
+    ]
+   }
+  }
+ ]
+}
