@@ -1,4 +1,4 @@
-# Trustrail (v0.3)
+# Trustrail (v0.3.1)
 
 **Trustrail lets AI agents buy digital work within approved budgets. PayPal authorization holds and evidence-based delivery checks decide whether to capture the payment, cancel the hold, or ask a human.**
 
@@ -6,8 +6,8 @@ It does one job: **agents buying research briefs** that have required sections, 
 
 ▶ **Live demo** (runs in your browser, no install; mock PayPal plus a real MiniLM model in-browser): https://northstar-trustrail.github.io/trustrail-hold/
 ▶ **Real PayPal sandbox run:** [`docs/sandbox-run.json`](docs/sandbox-run.json). It records real sandbox order, authorization, capture and refund IDs, each re-read from the PayPal API.
-▶ **Verifier evaluation:** [`EVAL.md`](EVAL.md): false-approval, good-work approval and escalation rates on a 20-case held-out set, with and without source checking.
-▶ **Operations workspace (v0.3):** https://northstar-trustrail.github.io/trustrail-hold/operations.html (AG Grid Community review queue; `?workflow=expiring&hours=24` for the agent-planned view).
+▶ **Verifier evaluation:** [`EVAL.md`](EVAL.md): false-approval, good-work approval and escalation rates on a 32-case held-out set (v2), with and without source checking.
+▶ **Operations workspace:** https://northstar-trustrail.github.io/trustrail-hold/operations.html (AG Grid Community review queue, pre-filled with clearly labeled **sample holds** and a reset button; `?workflow=expiring&hours=24` for the agent-planned view, `?samples=off` for an empty workspace).
 
 <img src="docs/screenshot.png" alt="Trustrail dashboard">
 
@@ -32,6 +32,7 @@ seller ──deliver(markdown brief)──► evidence hash ──► verifier (
                                      • semantic: MiniLM retrieval per question + expected-answer-type + "echo" (keyword-stuffing) band
                                      • optional LLM judge (veto/downgrade only, schema-checked)
                                      • prompt-injection tripwire
+                                     • source check (on by default): factual claims vs fetched cited pages; numbers + named entities cross-checked
                                      ▼ per-criterion {verdict, evidenceRefs[S2.P1, SRC3…], rationale}
                capture (all pass) │ void (most fail) │ escalate → reviewer
                                      ▼
@@ -47,13 +48,30 @@ seller ──deliver(markdown brief)──► evidence hash ──► verifier (
 | LLM judge (optional) | Pluggable: any OpenAI-compatible endpoint (`AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY`), or local Qwen2.5-0.5B (`TRUSTRAIL_JUDGE=local`) | yours |
 | Intent parsing | Agents send **structured JSON** (MCP schema). Natural-language parsing via LLM is optional, and its output must pass the same schema. If the amount isn't stated in the request, the order is rejected (anti-hallucination). | |
 
-The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM plus deterministic checks. The old 25-case development results informed tuning and do not establish held-out performance. On the new 20-case held-out set, measured with MiniLM: **source checking off, 11/16 bad briefs were auto-approved** (fabricated citations, plausible factual errors and padding all retrieve as well as good work) and 4/4 good briefs were approved; **source checking on, 0/16 false approvals but also 0/4 good approvals** (85% escalation). The lexical baseline approved nothing (0/16, 0/4). In short: similarity retrieval is not a safe auto-capture rule by itself, and the source check is safe here only because it sends nearly everything to a human. Run the server with `TRUSTRAIL_SOURCE_CHECK=1` if you allow auto-capture. See [EVAL.md](EVAL.md) for failures and reproduction.
+The small local LLM we could run for free did **not** discriminate (see [EVAL.md](EVAL.md)), so it's off by default. We did not test a larger hosted model, and **no LLM output anywhere in this project is simulated.** The default verifier is MiniLM, deterministic checks and the claim-level source check.
 
-## Optional citation support checks
+Held-out v2 (32 cases, 4 topics never used for design, real Wikipedia source pages served locally), MiniLM:
 
-Set `TRUSTRAIL_SOURCE_CHECK=1` on the Node server to fetch cited public HTTP(S) pages and compare key claim sentences with fetched passages using MiniLM. The check records source URLs, resolution errors, supporting passages, and similarity scores in `verdict.sourceCheck`. Otherwise approvable work escalates when a URL fails, a claim lacks local citation support, the model is unavailable, or a limit is exceeded. A definite void remains a void.
+| Verifier | Bad briefs auto-approved | Good briefs auto-approved | Escalated to a human |
+|---|---|---|---|
+| Lexical baseline (not AI) | 0/24 | 0/8 | 29/32 |
+| MiniLM, source check off | **16/24** | 8/8 | 4/32 |
+| MiniLM + source check (default) | **0/24** | **5/8** | 23/32 |
 
-Each request has a 5-second timeout, a 256 KiB cap, at most three redirects, no credentials, and public-address DNS validation pinned to the connection. Only plain text and HTML are supported. The frozen config caps sources at 20 and key claims at 40. The browser-only demo leaves this server transport off. Source checking establishes retrieval support, not truth or logical entailment; contradicting passages may still have high similarity. The evaluation reports source checks with offline authored fixtures separately from live fetching.
+Similarity retrieval alone approved every fabricated citation, changed number, swapped name and padded non-answer. The source check stopped all of them in this set, while three good briefs still went to a human. The set is small and self-authored by the same team that wrote the checker; see [EVAL.md](EVAL.md) for every failure, the caveats, and the earlier v1 numbers (now a development set).
+
+## Citation source check (on by default)
+
+Auto-capture happens only when the cited sources verify; otherwise the hold escalates to a human. `TRUSTRAIL_SOURCE_CHECK=0` turns it off on the server, `?sourceCheck=off` in the browser demo.
+
+- Every cited URL is fetched. A 404, timeout, non-public address or unsupported page leaves the delivery unverified.
+- Only **factual claim sentences** need support: sentences with numbers or dates, named entities the order did not already supply, or quotations. Opinion and implication sentences need no citation.
+- Each factual claim must match a passage of a cited source (MiniLM similarity >= 0.50). **Every number in the claim must appear in the best-matching source passages**, and **every named entity must appear in the cited sources**. "Launched in 1992" against a source that says 1990, or "University of Cambridge" against one that says Oxford, escalates.
+- At least one supported factual claim must answer the ordered questions, so padding with no checkable facts does not pass.
+- Each request has a 5-second timeout, a 256 KiB cap, at most three redirects, no credentials, and public-address DNS validation pinned to the connection. Only plain text and HTML are supported.
+- In the **browser demo** the page cannot fetch arbitrary sites, so the check reads bundled snapshots of the three cited pages (`web/source-snapshots.json`, fetched 2026-10-17). Any other URL is reported as unresolved.
+
+Limits: literal number/entity checks do not catch negations, swapped relations between correct entities, or wrong facts that the source also mentions elsewhere. A brief that paraphrases figures differently from its source (for example rounding) is escalated, not approved. The demo shows both: "Complete brief (figures as in sources)" is captured; "Complete brief (paraphrased figures)" is escalated.
 
 ## Security model
 | Role | Can | Cannot |
@@ -78,7 +96,7 @@ Money-changing operations persist their intent before the PayPal request. Only c
 
 Startup and a 60-second timer reconcile operations using GET order, authorization, capture, or refund. A lost capture response is recovered by its invoice ID on the order, then GET capture. A lost create response without an order ID remains unresolved for operator investigation. A lost refund response needs a verified webhook to discover its refund ID before GET refund; GET capture alone cannot prove which refund completed. No recovery path blindly repeats a POST.
 
-Register `POST /api/paypal/webhook` with PayPal and set `PAYPAL_WEBHOOK_ID` to that registration's ID. The endpoint sends PayPal's transmission headers and complete event to `/v1/notifications/verify-webhook-signature`. It rejects failed verification, persists event deduplication, and re-reads known pending payment resources before updating state. Subscribe to capture completed, pending, denied, and refunded events, plus refund pending and failed events. Webhook payload status alone never releases money.
+Register `POST /api/paypal/webhook` with PayPal and set `PAYPAL_WEBHOOK_ID` to that registration's ID. The endpoint sends PayPal's transmission headers and the event **as the exact raw request bytes** (spliced verbatim into `webhook_event`, never re-serialized) to `/v1/notifications/verify-webhook-signature`. It rejects failed verification, persists event deduplication, and re-reads known pending payment resources before updating state. Subscribe to capture completed, pending, denied, and refunded events, plus refund pending and failed events. Webhook payload status alone never releases money.
 
 **Single-merchant model:** all PayPal payments go to the merchant that owns the configured REST app credentials. `sellerId` is the internal deliverer identity, not a PayPal merchant ID or payout destination. The adapter deliberately omits `payee`. Multi-seller payouts and marketplace onboarding are outside this prototype.
 
@@ -126,7 +144,7 @@ Requires Node 20+.
 ```bash
 npm install            # optional dep: @huggingface/transformers (MiniLM); without it the lexical fallback is used and labeled
 npm test               # unit, payment recovery, REST, and MCP tests
-npm run eval           # frozen held-out eval, metrics, baseline comparison
+npm run eval           # held-out v2 (EVAL_SET=v1 for the v1 dev set); local fixture server, baseline comparison
 npm start              # http://localhost:8787 with mock PayPal and demo tokens (demo-agent, demo-buyer, demo-seller, demo-reviewer, demo-auditor)
 ```
 To use the real sandbox, take an app's Client ID and Secret from https://developer.paypal.com/dashboard/applications/sandbox:
