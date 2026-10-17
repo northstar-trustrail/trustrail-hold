@@ -68,7 +68,8 @@ test('failed GET keeps guard and budget after restart; later reconciliation reco
   await assert.rejects(svc.resolve(who('reviewer'), h.id, { decision: 'capture' }));
   const get = pp.getOrder.bind(pp); pp.getOrder = async () => { throw new Error('offline'); };
   const recovered = await restart(); assert.ok(recovered.reservations.has(h.id));
-  await assert.rejects(recovered.resolve(who('reviewer'), h.id, { decision: 'void' }), /already settled/);
+  assert.equal(recovered.holds.get(h.id).state, 'RECONCILIATION_REQUIRED');
+  await assert.rejects(recovered.resolve(who('reviewer'), h.id, { decision: 'void' }), /expected ESCALATED/);
   pp.getOrder = get; await recovered.reconcile(); assert.equal(recovered.holds.get(h.id).state, 'RELEASED');
 });
 
@@ -144,4 +145,18 @@ test('pending authorization stays unconfirmed across restart until GET confirms 
   assert.equal(recovered.holds.get(h.id).paypal.honorEndsAt, originalHonor);
   pp.auths.get(h.paypal.authorizationId).status = 'CREATED'; await recovered.reconcile();
   assert.equal(recovered.holds.get(h.id).state, 'HELD'); assert.equal(posts, 1);
+});
+
+test('ambiguous settlement errors move to reconciliation, never back to a reviewer, and do not block the sweep', async t => {
+  let now = Date.now();
+  const { svc, pp } = await setup(t, { clock: () => now });
+  const a = await held(svc, pp), b = await held(svc, pp);
+  const voidAuth = pp.voidAuthorization.bind(pp);
+  pp.voidAuthorization = async (id, ...rest) => { if (id === a.paypal.authorizationId) throw new Error('timeout after send'); return voidAuth(id, ...rest); };
+  now += 73 * 36e5;
+  await svc.sweep({ id: 'sweeper', role: 'system' });
+  assert.equal(a.state, 'RECONCILIATION_REQUIRED');
+  assert.equal(b.state, 'VOIDED');
+  pp.voidAuthorization = voidAuth; await voidAuth(a.paypal.authorizationId);
+  await svc.reconcile(); assert.equal(a.state, 'VOIDED');
 });

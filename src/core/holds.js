@@ -119,7 +119,11 @@ export class HoldService {
     await this.log(h, 'ai.verdict', { decision: v.decision, models: v.models, criteriaHash: v.criteriaHash, evidenceHash: v.evidenceHash, results: v.results.map(r => ({ id: r.id, verdict: r.verdict, refs: r.evidenceRefs.map(x => x.ref) })) });
     if (v.decision === 'capture' || v.decision === 'void') {
       try { return await this.#settle(h, v.decision, v.decisionReason); }
-      catch (e) { h.state = 'ESCALATED'; h.escalatedAt = this.now(); await this.log(h, 'escalated', { why: `settlement failed: ${e.message}` }); return h; }
+      catch (e) {
+        // A request that may have reached PayPal stays in reconciliation; only pre-send refusals go to a reviewer.
+        if (h.state === 'RECONCILIATION_REQUIRED') return h;
+        h.state = 'ESCALATED'; h.escalatedAt = this.now(); await this.log(h, 'escalated', { why: `settlement failed: ${e.message}` }); return h;
+      }
     }
     h.state = 'ESCALATED'; h.escalatedAt = this.now(); await this.log(h, 'escalated', { why: v.decisionReason }); return h;
   }
@@ -129,7 +133,15 @@ export class HoldService {
     await this.log(h, 'reviewer.resolved', { decision, by: actor.id, note }); return this.#settle(h, decision, `reviewer ${actor.id}: ${note}`);
   }
   async #settle(h, action, why) {
-    const r = await this.settlement.settle(h, action, { reason: why });
+    let r;
+    try { r = await this.settlement.settle(h, action, { reason: why }); }
+    catch (e) {
+      // The guard is kept, so the hold can no longer be settled from HELD/ESCALATED. Surface that
+      // honestly instead of leaving a reviewer button that can only return 409.
+      const op = this.settlement.operations.get(`${h.id}:${action}`);
+      if (op && op.state === 'UNKNOWN' && op.error === e.message) { h.state = 'RECONCILIATION_REQUIRED'; await this.log(h, `paypal.${action}_unconfirmed`, { why: e.message }); }
+      throw e;
+    }
     await this.applyPayment(h, action, r, why); return h;
   }
   async applyPayment(h, kind, r, why = 'PayPal reconciliation') {
@@ -195,7 +207,11 @@ export class HoldService {
   }
   async sweep(actor) {
     assertCan(actor, 'hold.sweep'); const out = [];
-    for (const h of this.holds.values()) if (h.state === 'HELD' && this.clock() > Date.parse(h.deadline)) out.push(await this.#settle(h, 'void', 'delivery deadline passed'));
+    for (const h of this.holds.values()) {
+      if (h.state !== 'HELD' || this.clock() <= Date.parse(h.deadline)) continue;
+      // One failed void must not block the sweep of every later hold.
+      try { out.push(await this.#settle(h, 'void', 'delivery deadline passed')); } catch { out.push(h); }
+    }
     return out;
   }
   async proof(actor, id) {
